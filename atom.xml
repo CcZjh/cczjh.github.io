@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>米斯特周</title>
+  
+  <subtitle>米斯特周</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-03-19T08:25:20.607Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Zhou_jh</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java输出视频流</title>
+    <link href="http://yoursite.com/2019/03/19/Java%E8%BE%93%E5%87%BA%E8%A7%86%E9%A2%91%E6%B5%81/"/>
+    <id>http://yoursite.com/2019/03/19/Java输出视频流/</id>
+    <published>2019-03-19T08:05:16.000Z</published>
+    <updated>2019-03-19T08:25:20.607Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public byte[] file2byte(String filePath) &#123;</span><br><span class="line">byte[] buffer = null;</span><br><span class="line">try &#123;</span><br><span class="line">File file = new File(filePath);</span><br><span class="line">FileInputStream fis = new FileInputStream(file);</span><br><span class="line">ByteArrayOutputStream bos = new ByteArrayOutputStream();</span><br><span class="line">byte[] b = new byte[1024];</span><br><span class="line">int n;</span><br><span class="line">while ((n = fis.read(b)) != -1) &#123;</span><br><span class="line">bos.write(b, 0, n);</span><br><span class="line">&#125;</span><br><span class="line">fis.close();</span><br><span class="line">bos.close();</span><br><span class="line">buffer = bos.toByteArray();</span><br><span class="line">&#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125; catch (IOException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">return buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="http://yoursite.com/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/categories/%E5%90%8E%E7%AB%AF/Java/"/>
+    
+    
+      <category term="IO流" scheme="http://yoursite.com/tags/IO%E6%B5%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker(一)---入门</title>
+    <link href="http://yoursite.com/2019/03/19/Docker-%E4%B8%80-%E5%85%A5%E9%97%A8/"/>
+    <id>http://yoursite.com/2019/03/19/Docker-一-入门/</id>
+    <published>2019-03-19T07:01:37.000Z</published>
+    <updated>2019-03-19T08:25:33.263Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><p>1.Web 应用的自动化打包和发布。</p><p>2.自动化测试和持续集成、发布。</p><p>3.在服务型环境中部署和调整数据库或其他的后台应用。</p><p>4.从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。</p><h2 id="Docker-的优点"><a href="#Docker-的优点" class="headerlink" title="Docker 的优点"></a>Docker 的优点</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="http://yoursite.com/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
+    
+  </entry>
+  
+</feed>
