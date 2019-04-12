@@ -4,8 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Java输出视频流, 米斯特周">
-    <meta name="description" content="123456789101112131415161718192021public byte[] file2byte(String filePath) &amp;#123;	byte[] buffer = null;	try &amp;#123;		File ">
+    <meta name="keywords" content="axios 上传文件的坑, 米斯特周">
+    <meta name="description" content="最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过Axios发送formData参数, Java后台报错:
+于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Java输出视频流 | 米斯特周</title>
+    <title>axios 上传文件的坑 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -179,13 +180,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Java输出视频流
+                        axios 上传文件的坑
                     </div>
                 </div>
             </div>
@@ -296,12 +297,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/IO/" target="_blank">
-                                <span class="chip bg-color">IO</span>
+                            <a href="/tags/Vue/" target="_blank">
+                                <span class="chip bg-color">Vue</span>
                             </a>
                         
-                            <a href="/tags/Java/" target="_blank">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/Axios/" target="_blank">
+                                <span class="chip bg-color">Axios</span>
                             </a>
                         
                     </div>
@@ -312,8 +313,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                后端
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                前端
                             </a>
                         
                     </div>
@@ -324,14 +325,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-03-19
+                    2019-04-12
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        70
+                        372
                     </div>
                     
 
@@ -349,7 +350,38 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] file2byte(String filePath) &#123;</span><br><span class="line">	<span class="keyword">byte</span>[] buffer = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		File file = <span class="keyword">new</span> File(filePath);</span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">		ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">		<span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">int</span> n;</span><br><span class="line">		<span class="keyword">while</span> ((n = fis.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">		bos.write(b, <span class="number">0</span>, n);</span><br><span class="line">		&#125;</span><br><span class="line">		fis.close();</span><br><span class="line">		bos.close();</span><br><span class="line">		buffer = bos.toByteArray();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="https://i.imgur.com/yjPrmsq.png" alt></p>
+<p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p>
+<p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p>
+<hr>
+<pre><code>// 上传头像到服务器
+uploadHeadToServer: function (file) {
+  let formData = new FormData()
+  formData.append(&quot;file&quot;, file)
+  let headers = {headers: {&quot;Content-Type&quot;: &quot;multipart/form-data&quot;}}
+
+  const instance=this.$axios.create({
+    withCredentials: false
+  })
+
+  instance.post(&apos;/api/uploadHead&apos;, formData, headers).then(response=&gt;{
+      console.log(response.data);
+    })
+ },
+</code></pre><hr>
+<p>OK 这样一写, 后台不报原来的错的, 但是又出现了新的错误:<br><img src="https://i.imgur.com/I8Yj33G.png" alt></p>
+<p>那就顺带记录一下吧, 毕竟小白, 好记性不如记下来</p>
+<p>这是springBoot本身的问题</p>
+<p>springBoot文档说明表示，每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb。要更改这个默认值需要在配置文件（如application.properties）中加入两个配置</p>
+<hr>
+<pre><code>multipart.maxFileSize = 10Mb
+multipart.maxRequestSize=100Mb
+</code></pre><hr>
+<p>Spring Boot2.0之后的版本配置修改为:</p>
+<hr>
+<pre><code>spring.servlet.multipart.max-file-size = 10MB  
+spring.servlet.multipart.max-request-size=100MB
+</code></pre><hr>
 
             </div>
             <hr>
@@ -373,7 +405,7 @@
                     </span>
                     <a href="http://yoursite.com" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/03/19/Java输出视频流/" class="b-link-green">Java输出视频流</a>
+                    <a href="/2019/04/12/axios-上传文件的坑/" class="b-link-green">axios 上传文件的坑</a>
                 </p>
             </div>
         </div>
@@ -655,7 +687,59 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/04/12/axios-上传文件的坑/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="axios 上传文件的坑">
+                        
+                        <span class="card-title">axios 上传文件的坑</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过Axios发送formData参数, Java后台报错:
+于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
+                    </a>
+                    
+                    <a href="/tags/Axios/" target="_blank">
+                        <span class="chip bg-color">Axios</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/04/08/JS上传头像-压缩-拍照旋转/">
                     <div class="card-image">
@@ -674,9 +758,9 @@ Vue 中具体代码
     export default{
      </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -698,54 +782,6 @@ Vue 中具体代码
                     
                     <a href="/tags/HTML/" target="_blank">
                         <span class="chip bg-color">HTML</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/03/19/Docker-一-入门/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Docker(一)---入门">
-                        
-                        <span class="card-title">Docker(一)---入门</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">Docker的应用场景1.Web 应用的自动化打包和发布。
-2.自动化测试和持续集成、发布。
-3.在服务型环境中部署和调整数据库或其他的后台应用。
-4.从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的Pa</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Docker/" target="_blank">
-                        <span class="chip bg-color">Docker</span>
                     </a>
                     
                 </div>
