@@ -5,7 +5,12 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Java输出视频流, 米斯特周">
-    <meta name="description" content="123456789101112131415161718192021public byte[] file2byte(String filePath) &amp;#123;	byte[] buffer = null;	try &amp;#123;		File ">
+    <meta name="description" content="
+public byte[] file2byte(String filePath) {
+    byte[] buffer = null;
+    try {
+        File file = new File(filePath);
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -331,7 +336,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        70
+                        60
                     </div>
                     
 
@@ -349,7 +354,29 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] file2byte(String filePath) &#123;</span><br><span class="line">	<span class="keyword">byte</span>[] buffer = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		File file = <span class="keyword">new</span> File(filePath);</span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">		ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">		<span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">int</span> n;</span><br><span class="line">		<span class="keyword">while</span> ((n = fis.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">		bos.write(b, <span class="number">0</span>, n);</span><br><span class="line">		&#125;</span><br><span class="line">		fis.close();</span><br><span class="line">		bos.close();</span><br><span class="line">		buffer = bos.toByteArray();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <hr>
+<pre><code>public byte[] file2byte(String filePath) {
+    byte[] buffer = null;
+    try {
+        File file = new File(filePath);
+        FileInputStream fis = new FileInputStream(file);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] b = new byte[1024];
+        int n;
+        while ((n = fis.read(b)) != -1) {
+        bos.write(b, 0, n);
+        }
+        fis.close();
+        bos.close();
+        buffer = bos.toByteArray();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return buffer;
+}
+</code></pre><hr>
 
             </div>
             <hr>
