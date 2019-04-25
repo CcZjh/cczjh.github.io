@@ -350,7 +350,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="1.jpg" alt></p>
+                <p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="https://github.com/CcZjh/cczjh.github.io/blob/master/images/axiosaxios上传文件的坑/error01.png" alt></p>
 <p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p>
 <p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p>
 <hr>
