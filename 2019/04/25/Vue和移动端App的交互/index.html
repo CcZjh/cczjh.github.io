@@ -4,13 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Java输出视频流, 米斯特周">
-    <meta name="description" content="
-public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
-">
+    <meta name="keywords" content="Vue和移动端App的交互, 米斯特周">
+    <meta name="description" content="一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
+以下为个人所做项目中的一些简单调用方法
+
+let utils = { //注册的全局函数
+  versions: function">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@ public byte[] file2byte(String filePath) {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Java输出视频流 | 米斯特周</title>
+    <title>Vue和移动端App的交互 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -184,13 +183,13 @@ public byte[] file2byte(String filePath) {
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Java输出视频流
+                        Vue和移动端App的交互
                     </div>
                 </div>
             </div>
@@ -301,12 +300,12 @@ public byte[] file2byte(String filePath) {
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/IO/" target="_blank">
-                                <span class="chip bg-color">IO</span>
+                            <a href="/tags/Vue/" target="_blank">
+                                <span class="chip bg-color">Vue</span>
                             </a>
                         
-                            <a href="/tags/Java/" target="_blank">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/Webapp/" target="_blank">
+                                <span class="chip bg-color">Webapp</span>
                             </a>
                         
                     </div>
@@ -317,8 +316,8 @@ public byte[] file2byte(String filePath) {
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                后端
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                前端
                             </a>
                         
                     </div>
@@ -329,14 +328,14 @@ public byte[] file2byte(String filePath) {
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-03-19
+                    2019-04-25
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        60
+                        292
                     </div>
                     
 
@@ -354,27 +353,59 @@ public byte[] file2byte(String filePath) {
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<pre><code>public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
-        FileInputStream fis = new FileInputStream(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] b = new byte[1024];
-        int n;
-        while ((n = fis.read(b)) != -1) {
-        bos.write(b, 0, n);
-        }
-        fis.close();
-        bos.close();
-        buffer = bos.toByteArray();
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
+                <h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p>
+<p>以下为个人所做项目中的一些简单调用方法</p>
+<hr>
+<pre><code>let utils = { //注册的全局函数
+  versions: function () { // 判断Android 和 IOS
+    var u = navigator.userAgent, app = navigator.appVersion;
+    return {
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,
+      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,
+      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,
+    };
+  }(),
+  isMobile: function () {
+    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;
+  },
+
+  getToken: function () {
+    if (utils.versions.android) {
+      return jsObj.readFile(); // 调用Android端方法
+    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {
+      return window.prompt(); // 调用IOS端方法
     }
-    return buffer;
+    return &quot;&quot;;
+  },
+  getEmpCode: function () {
+    if (utils.versions.android) {
+      return jsObj.getEmpCode();
+    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {
+      return window.prompt(&quot;getUser&quot;);
+    }
+    return &quot;&quot;;
+  },
+}
+
+export default {
+  utils,
+}
+</code></pre><hr>
+<h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p>
+<hr>
+<pre><code>mounted: function () {
+  let _this = this
+  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {
+    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)
+    // _this.show1 = true
+    _this.recordComplete(time, fileId)
+  }
+},
+methods: {
+    recordComplete: function() {
+        ...
+    }
 }
 </code></pre><hr>
 
@@ -400,7 +431,7 @@ public byte[] file2byte(String filePath) {
                     </span>
                     <a href="http://yoursite.com" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/03/19/Java输出视频流/" class="b-link-green">Java输出视频流</a>
+                    <a href="/2019/04/25/Vue和移动端App的交互/" class="b-link-green">Vue和移动端App的交互</a>
                 </p>
             </div>
         </div>
@@ -682,29 +713,79 @@ public byte[] file2byte(String filePath) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/04/08/JS上传头像-压缩-拍照旋转/">
+                <a href="/2019/04/25/Vue和移动端App的交互/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="JS上传头像,压缩,拍照旋转">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue和移动端App的交互">
                         
-                        <span class="card-title">JS上传头像,压缩,拍照旋转</span>
+                        <span class="card-title">Vue和移动端App的交互</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">EXIF 组件安装
-npm install exif-js –save
+                    <div class="summary">一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
+以下为个人所做项目中的一些简单调用方法
 
-Vue 中具体代码
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;input type=&quot;file&quot; </div>
+let utils = { //注册的全局函数
+  versions: function</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-08
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                    前端
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
+                    </a>
+                    
+                    <a href="/tags/Webapp/" target="_blank">
+                        <span class="chip bg-color">Webapp</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/12/axios-上传文件的坑/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="axios 上传文件的坑">
+                        
+                        <span class="card-title">axios 上传文件的坑</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过Axios发送formData参数, Java后台报错:
+于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -720,60 +801,12 @@ Vue 中具体代码
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JavaScript/" target="_blank">
-                        <span class="chip bg-color">JavaScript</span>
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
                     </a>
                     
-                    <a href="/tags/HTML/" target="_blank">
-                        <span class="chip bg-color">HTML</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/03/19/Docker-一-入门/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Docker(一)---入门">
-                        
-                        <span class="card-title">Docker(一)---入门</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">Docker的应用场景1.Web 应用的自动化打包和发布。
-2.自动化测试和持续集成、发布。
-3.在服务型环境中部署和调整数据库或其他的后台应用。
-4.从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的Pa</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Docker/" target="_blank">
-                        <span class="chip bg-color">Docker</span>
+                    <a href="/tags/Axios/" target="_blank">
+                        <span class="chip bg-color">Axios</span>
                     </a>
                     
                 </div>

@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Vue和移动端App的交互</title>
+      <link href="/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
+      <url>/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p><p>以下为个人所做项目中的一些简单调用方法</p><hr><pre><code>let utils = { //注册的全局函数  versions: function () { // 判断Android 和 IOS    var u = navigator.userAgent, app = navigator.appVersion;    return {      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,    };  }(),  isMobile: function () {    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;  },  getToken: function () {    if (utils.versions.android) {      return jsObj.readFile(); // 调用Android端方法    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(); // 调用IOS端方法    }    return &quot;&quot;;  },  getEmpCode: function () {    if (utils.versions.android) {      return jsObj.getEmpCode();    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(&quot;getUser&quot;);    }    return &quot;&quot;;  },}export default {  utils,}</code></pre><hr><h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p><hr><pre><code>mounted: function () {  let _this = this  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)    // _this.show1 = true    _this.recordComplete(time, fileId)  }},methods: {    recordComplete: function() {        ...    }}</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vue </tag>
+            
+            <tag> Webapp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>axios 上传文件的坑</title>
       <link href="/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/"/>
       <url>/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/</url>
