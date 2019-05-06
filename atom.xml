@@ -5,9 +5,9 @@
   <subtitle>米斯特周</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2019-04-25T08:29:03.159Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="https://cczjh.github.io/"/>
+  <updated>2019-05-06T02:33:56.461Z</updated>
+  <id>https://cczjh.github.io/</id>
   
   <author>
     <name>Zhou_jh</name>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>Vue和移动端App的交互</title>
-    <link href="http://yoursite.com/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
-    <id>http://yoursite.com/2019/04/25/Vue和移动端App的交互/</id>
+    <link href="https://cczjh.github.io/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
+    <id>https://cczjh.github.io/2019/04/25/Vue和移动端App的交互/</id>
     <published>2019-04-25T08:28:35.000Z</published>
-    <updated>2019-04-25T08:29:03.159Z</updated>
+    <updated>2019-05-06T02:33:56.461Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p><p>以下为个人所做项目中的一些简单调用方法</p><hr><pre><code>let utils = { //注册的全局函数  versions: function () { // 判断Android 和 IOS    var u = navigator.userAgent, app = navigator.appVersion;    return {      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,    };  }(),  isMobile: function () {    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;  },  getToken: function () {    if (utils.versions.android) {      return jsObj.readFile(); // 调用Android端方法    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(); // 调用IOS端方法    }    return &quot;&quot;;  },  getEmpCode: function () {    if (utils.versions.android) {      return jsObj.getEmpCode();    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(&quot;getUser&quot;);    }    return &quot;&quot;;  },}export default {  utils,}</code></pre><hr><h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p><hr><pre><code>mounted: function () {  let _this = this  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)    // _this.show1 = true    _this.recordComplete(time, fileId)  }},methods: {    recordComplete: function() {        ...    }}</code></pre><hr>]]></content>
     
@@ -34,23 +34,23 @@
     
     </summary>
     
-      <category term="前端" scheme="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="https://cczjh.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+      <category term="Vue" scheme="https://cczjh.github.io/tags/Vue/"/>
     
-      <category term="Webapp" scheme="http://yoursite.com/tags/Webapp/"/>
+      <category term="Webapp" scheme="https://cczjh.github.io/tags/Webapp/"/>
     
   </entry>
   
   <entry>
     <title>axios 上传文件的坑</title>
-    <link href="http://yoursite.com/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/"/>
-    <id>http://yoursite.com/2019/04/12/axios-上传文件的坑/</id>
+    <link href="https://cczjh.github.io/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/"/>
+    <id>https://cczjh.github.io/2019/04/12/axios-上传文件的坑/</id>
     <published>2019-04-12T06:38:27.000Z</published>
-    <updated>2019-04-25T09:33:08.980Z</updated>
+    <updated>2019-05-06T02:31:28.819Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="https://github.com/CcZjh/cczjh.github.io/blob/master/images/axiosaxios上传文件的坑/error01.png" alt></p><p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p><p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p><hr><pre><code>// 上传头像到服务器uploadHeadToServer: function (file) {  let formData = new FormData()  formData.append(&quot;file&quot;, file)  let headers = {headers: {&quot;Content-Type&quot;: &quot;multipart/form-data&quot;}}  const instance=this.$axios.create({    withCredentials: false  })  instance.post(&apos;/api/uploadHead&apos;, formData, headers).then(response=&gt;{      console.log(response.data);    }) },</code></pre><hr><p>OK 这样一写, 后台不报原来的错的, 但是又出现了新的错误:<br><img src="https://i.imgur.com/yX2XonN.png" alt></p><p>那就顺带记录一下吧, 毕竟小白, 好记性不如记下来</p><p>这是springBoot本身的问题</p><p>springBoot文档说明表示，每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb。要更改这个默认值需要在配置文件（如application.properties）中加入两个配置</p><hr><pre><code>multipart.maxFileSize = 10Mbmultipart.maxRequestSize=100Mb</code></pre><hr><p>Spring Boot2.0之后的版本配置修改为:</p><hr><pre><code>spring.servlet.multipart.max-file-size = 10MB  spring.servlet.multipart.max-request-size=100MB</code></pre><hr>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="/2019/04/12/axios-上传文件的坑/error01.png" alt></p><p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p><p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p><hr><pre><code>// 上传头像到服务器uploadHeadToServer: function (file) {  let formData = new FormData()  formData.append(&quot;file&quot;, file)  let headers = {headers: {&quot;Content-Type&quot;: &quot;multipart/form-data&quot;}}  const instance=this.$axios.create({    withCredentials: false  })  instance.post(&apos;/api/uploadHead&apos;, formData, headers).then(response=&gt;{      console.log(response.data);    }) },</code></pre><hr><p>OK 这样一写, 后台不报原来的错的, 但是又出现了新的错误:<br><img src="/2019/04/12/axios-上传文件的坑/error02.png" alt></p><p>那就顺带记录一下吧, 毕竟小白, 好记性不如记下来</p><p>这是springBoot本身的问题</p><p>springBoot文档说明表示，每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb。要更改这个默认值需要在配置文件（如application.properties）中加入两个配置</p><hr><pre><code>multipart.maxFileSize = 10Mbmultipart.maxRequestSize=100Mb</code></pre><hr><p>Spring Boot2.0之后的版本配置修改为:</p><hr><pre><code>spring.servlet.multipart.max-file-size = 10MB  spring.servlet.multipart.max-request-size=100MB</code></pre><hr>]]></content>
     
     <summary type="html">
     
@@ -61,21 +61,21 @@
     
     </summary>
     
-      <category term="前端" scheme="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="https://cczjh.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+      <category term="Vue" scheme="https://cczjh.github.io/tags/Vue/"/>
     
-      <category term="Axios" scheme="http://yoursite.com/tags/Axios/"/>
+      <category term="Axios" scheme="https://cczjh.github.io/tags/Axios/"/>
     
   </entry>
   
   <entry>
     <title>JS上传头像,压缩,拍照旋转</title>
-    <link href="http://yoursite.com/2019/04/08/JS%E4%B8%8A%E4%BC%A0%E5%A4%B4%E5%83%8F-%E5%8E%8B%E7%BC%A9-%E6%8B%8D%E7%85%A7%E6%97%8B%E8%BD%AC/"/>
-    <id>http://yoursite.com/2019/04/08/JS上传头像-压缩-拍照旋转/</id>
+    <link href="https://cczjh.github.io/2019/04/08/JS%E4%B8%8A%E4%BC%A0%E5%A4%B4%E5%83%8F-%E5%8E%8B%E7%BC%A9-%E6%8B%8D%E7%85%A7%E6%97%8B%E8%BD%AC/"/>
+    <id>https://cczjh.github.io/2019/04/08/JS上传头像-压缩-拍照旋转/</id>
     <published>2019-04-08T01:18:53.000Z</published>
-    <updated>2019-04-18T06:03:23.664Z</updated>
+    <updated>2019-05-06T02:33:31.966Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="EXIF-组件安装"><a href="#EXIF-组件安装" class="headerlink" title="EXIF 组件安装"></a>EXIF 组件安装</h2><hr><p>npm install exif-js –save</p><hr><h2 id="Vue-中具体代码"><a href="#Vue-中具体代码" class="headerlink" title="Vue 中具体代码"></a>Vue 中具体代码</h2><hr><pre><code>&lt;template&gt;    &lt;div&gt;        &lt;input type=&quot;file&quot; style=&quot;display: none;&quot; id=&quot;img-upload&quot; multiple accept=&quot;image/*&quot; @change=&quot;uploadImg($event)&quot;/&gt;    &lt;/div&gt;&lt;/template&gt;&lt;script&gt;import EXIF from &apos;exif-js&apos;export default{    name:&quot;image-html5-upload&quot;,    props:{        imgArr:{            type:Array,            twoWay: true,            default:Array        },        imgNumLimit:{//一次最多可以上传多少张照片            type:Number,            default:4        }    },    methods:{        uploadImg: function(e){            let tag = e.target;            let fileList = tag.files;            let imgNum = fileList.length;            let _this = this;            _this.imgArr = [];//图片数据清零            if(this.imgArr.length + imgNum &gt; this.imgNumLimit){                alert(&apos;一次最多上传&apos;+this.imgNumLimit+&apos;张图片！&apos;);                return;            }            var Orientation;            for(let i=0;i&lt;imgNum;i++){                EXIF.getData(fileList[i], function(){                    Orientation = EXIF.getTag(fileList[i], &apos;Orientation&apos;);                });                let reader = new FileReader();                reader.readAsDataURL(fileList[i]);                reader.onload = function(){                    var oReader = new FileReader();                    oReader.onload = function(e) {                        var image = new Image();                        image.src = e.target.result;                        image.onload = function() {                            var expectWidth = this.naturalWidth;                            var expectHeight = this.naturalHeight;                            if (this.naturalWidth &gt; this.naturalHeight &amp;&amp; this.naturalWidth &gt; 800) {                                expectWidth = 800;                                expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;                            } else if (this.naturalHeight &gt; this.naturalWidth &amp;&amp; this.naturalHeight &gt; 1200) {                                expectHeight = 1200;                                expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;                            }                            var canvas = document.createElement(&quot;canvas&quot;);                            var ctx = canvas.getContext(&quot;2d&quot;);                            canvas.width = expectWidth;                            canvas.height = expectHeight;                            ctx.drawImage(this, 0, 0, expectWidth, expectHeight);                            var base64 = null;                            //修复ios上传图片的时候 被旋转的问题                            if(Orientation != &quot;&quot; &amp;&amp; Orientation != 1){                                switch(Orientation){                                    case 6://需要顺时针（向左）90度旋转                                        _this.rotateImg(this,&apos;left&apos;,canvas);                                        break;                                    case 8://需要逆时针（向右）90度旋转                                        _this.rotateImg(this,&apos;right&apos;,canvas);                                        break;                                    case 3://需要180度旋转                                        _this.rotateImg(this,&apos;right&apos;,canvas);//转两次                                        _this.rotateImg(this,&apos;right&apos;,canvas);                                        break;                                }                            }                            base64 = canvas.toDataURL(&quot;image/jpeg&quot;, 0.8);                            if(fileList[i].size / 1024000 &gt; 1){                                _this.imgScale(base64, 4)                            }else{                                _this.imgArr.push({&quot;src&quot;: base64});                            }                            console.log(JSON.stringify(_this.imgArr));                        };                    };                    oReader.readAsDataURL(fileList[i]);                }            }        },        imgScale: function(imgUrl,quality){            let img = new Image();            let _this = this;            let canvas = document.createElement(&apos;canvas&apos;);            let cxt = canvas.getContext(&apos;2d&apos;);            img.src = imgUrl;            img.onload = function(){                //缩放后图片的宽高                let width = img.naturalWidth/quality;                let height = img.naturalHeight/quality;                canvas.width = width;                canvas.height = height;                cxt.drawImage(this, 0, 0, width, height);                _this.imgArr.push({&quot;src&quot;: canvas.toDataURL(&apos;image/jpeg&apos;)});            }        },        rotateImg:function (img, direction,canvas) {//图片旋转            var min_step = 0;            var max_step = 3;            if (img == null)return;            var height = img.height;            var width = img.width;            var step = 2;            if (step == null) {                step = min_step;            }            if (direction == &apos;right&apos;) {                step++;                step &gt; max_step &amp;&amp; (step = min_step);            } else {                step--;                step &lt; min_step &amp;&amp; (step = max_step);            }            var degree = step * 90 * Math.PI / 180;            var ctx = canvas.getContext(&apos;2d&apos;);            switch (step) {                case 0:                    canvas.width = width;                    canvas.height = height;                    ctx.drawImage(img, 0, 0);                    break;                case 1:                    canvas.width = height;                    canvas.height = width;                    ctx.rotate(degree);                    ctx.drawImage(img, 0, -height);                    break;                case 2:                    canvas.width = width;                    canvas.height = height;                    ctx.rotate(degree);                    ctx.drawImage(img, -width, -height);                    break;                case 3:                    canvas.width = height;                    canvas.height = width;                    ctx.rotate(degree);                    ctx.drawImage(img, -width, 0);                    break;            }        }    }}&lt;/script&gt;</code></pre><hr><p>转自: <a href="https://blog.csdn.net/xwqqq/article/details/53958601" target="_blank" rel="noopener">https://blog.csdn.net/xwqqq/article/details/53958601</a></p>]]></content>
     
@@ -88,21 +88,21 @@
     
     </summary>
     
-      <category term="前端" scheme="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="https://cczjh.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://cczjh.github.io/tags/JavaScript/"/>
     
-      <category term="HTML" scheme="http://yoursite.com/tags/HTML/"/>
+      <category term="HTML" scheme="https://cczjh.github.io/tags/HTML/"/>
     
   </entry>
   
   <entry>
     <title>Java输出视频流</title>
-    <link href="http://yoursite.com/2019/03/19/Java%E8%BE%93%E5%87%BA%E8%A7%86%E9%A2%91%E6%B5%81/"/>
-    <id>http://yoursite.com/2019/03/19/Java输出视频流/</id>
+    <link href="https://cczjh.github.io/2019/03/19/Java%E8%BE%93%E5%87%BA%E8%A7%86%E9%A2%91%E6%B5%81/"/>
+    <id>https://cczjh.github.io/2019/03/19/Java输出视频流/</id>
     <published>2019-03-19T08:05:16.000Z</published>
-    <updated>2019-04-18T06:07:34.047Z</updated>
+    <updated>2019-05-06T02:33:01.079Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr><pre><code>public byte[] file2byte(String filePath) {    byte[] buffer = null;    try {        File file = new File(filePath);        FileInputStream fis = new FileInputStream(file);        ByteArrayOutputStream bos = new ByteArrayOutputStream();        byte[] b = new byte[1024];        int n;        while ((n = fis.read(b)) != -1) {        bos.write(b, 0, n);        }        fis.close();        bos.close();        buffer = bos.toByteArray();    } catch (FileNotFoundException e) {        e.printStackTrace();    } catch (IOException e) {        e.printStackTrace();    }    return buffer;}</code></pre><hr>]]></content>
     
@@ -115,37 +115,12 @@
     
     </summary>
     
-      <category term="后端" scheme="http://yoursite.com/categories/%E5%90%8E%E7%AB%AF/"/>
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
     
     
-      <category term="IO" scheme="http://yoursite.com/tags/IO/"/>
+      <category term="IO" scheme="https://cczjh.github.io/tags/IO/"/>
     
-      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker(一)---入门</title>
-    <link href="http://yoursite.com/2019/03/19/Docker-%E4%B8%80-%E5%85%A5%E9%97%A8/"/>
-    <id>http://yoursite.com/2019/03/19/Docker-一-入门/</id>
-    <published>2019-03-19T07:01:37.000Z</published>
-    <updated>2019-03-19T08:25:33.263Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><p>1.Web 应用的自动化打包和发布。</p><p>2.自动化测试和持续集成、发布。</p><p>3.在服务型环境中部署和调整数据库或其他的后台应用。</p><p>4.从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。</p><h2 id="Docker-的优点"><a href="#Docker-的优点" class="headerlink" title="Docker 的优点"></a>Docker 的优点</h2>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-      <category term="后端" scheme="http://yoursite.com/categories/%E5%90%8E%E7%AB%AF/"/>
-    
-    
-      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
+      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
     
   </entry>
   
