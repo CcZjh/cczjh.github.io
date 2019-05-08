@@ -4,12 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Java输出视频流, 米斯特周">
-    <meta name="description" content="
-public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
+    <meta name="keywords" content="Hexo上传的图片在网页上无法显示的解决办法, 米斯特周">
+    <meta name="description" content="转: https://blog.csdn.net/qq_38148394/article/details/79997971
 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +14,7 @@ public byte[] file2byte(String filePath) {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Java输出视频流 | 米斯特周</title>
+    <title>Hexo上传的图片在网页上无法显示的解决办法 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -197,13 +193,13 @@ public byte[] file2byte(String filePath) {
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Java输出视频流
+                        Hexo上传的图片在网页上无法显示的解决办法
                     </div>
                 </div>
             </div>
@@ -314,12 +310,8 @@ public byte[] file2byte(String filePath) {
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/IO/" target="_blank">
-                                <span class="chip bg-color">IO</span>
-                            </a>
-                        
-                            <a href="/tags/Java/" target="_blank">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/Hexo/" target="_blank">
+                                <span class="chip bg-color">Hexo</span>
                             </a>
                         
                     </div>
@@ -330,8 +322,8 @@ public byte[] file2byte(String filePath) {
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                后端
+                            <a href="/categories/个人/" class="post-category" target="_blank">
+                                个人
                             </a>
                         
                     </div>
@@ -342,14 +334,14 @@ public byte[] file2byte(String filePath) {
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-03-19
+                    2019-05-06
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        60
+                        9
                     </div>
                     
 
@@ -367,29 +359,7 @@ public byte[] file2byte(String filePath) {
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<pre><code>public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
-        FileInputStream fis = new FileInputStream(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] b = new byte[1024];
-        int n;
-        while ((n = fis.read(b)) != -1) {
-        bos.write(b, 0, n);
-        }
-        fis.close();
-        bos.close();
-        buffer = bos.toByteArray();
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return buffer;
-}
-</code></pre><hr>
+                <p>转: <a href="https://blog.csdn.net/qq_38148394/article/details/79997971" target="_blank" rel="noopener">https://blog.csdn.net/qq_38148394/article/details/79997971</a></p>
 
             </div>
             <hr>
@@ -413,7 +383,7 @@ public byte[] file2byte(String filePath) {
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/03/19/Java输出视频流/" class="b-link-green">Java输出视频流</a>
+                    <a href="/2019/05/06/Hexo上传的图片在网页上无法显示的解决办法/" class="b-link-green">Hexo上传的图片在网页上无法显示的解决办法</a>
                 </p>
             </div>
         </div>
@@ -697,27 +667,83 @@ public byte[] file2byte(String filePath) {
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/08/JS上传头像-压缩-拍照旋转/">
+                <a href="/2019/05/08/Springboot配置日志输出/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="JS上传头像,压缩,拍照旋转">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Springboot配置日志输出">
                         
-                        <span class="card-title">JS上传头像,压缩,拍照旋转</span>
+                        <span class="card-title">Springboot配置日志输出</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">EXIF 组件安装
-npm install exif-js –save
+                    <div class="summary">###一. Springboot配置日志输出
+####LockBack的使用编写LockBack配置文件, 配置文件需要在application.yml(.properties)中配置
 
-Vue 中具体代码
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;input type=&quot;file&quot; </div>
+# 配置日志输出
+logging:
+  config</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-08
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-08
                         </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/" target="_blank">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/Springboot/" target="_blank">
+                        <span class="chip bg-color">Springboot</span>
+                    </a>
+                    
+                    <a href="/tags/slf4j/" target="_blank">
+                        <span class="chip bg-color">slf4j</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/25/Vue和移动端App的交互/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue和移动端App的交互">
+                        
+                        <span class="card-title">Vue和移动端App的交互</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
+以下为个人所做项目中的一些简单调用方法
+
+let utils = { //注册的全局函数
+  versions: function</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-25
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -733,67 +759,12 @@ Vue 中具体代码
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JavaScript/" target="_blank">
-                        <span class="chip bg-color">JavaScript</span>
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
                     </a>
                     
-                    <a href="/tags/HTML/" target="_blank">
-                        <span class="chip bg-color">HTML</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/03/19/Java输出视频流/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Java输出视频流">
-                        
-                        <span class="card-title">Java输出视频流</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">
-public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
-</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/IO/" target="_blank">
-                        <span class="chip bg-color">IO</span>
-                    </a>
-                    
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/Webapp/" target="_blank">
+                        <span class="chip bg-color">Webapp</span>
                     </a>
                     
                 </div>

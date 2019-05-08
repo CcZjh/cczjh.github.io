@@ -180,6 +180,19 @@ let utils = { //注册的全局函数
 </header>
 
 
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
 
 
 
@@ -713,50 +726,41 @@ methods: {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/25/Vue和移动端App的交互/">
+                <a href="/2019/05/06/Hexo上传的图片在网页上无法显示的解决办法/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue和移动端App的交互">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Hexo上传的图片在网页上无法显示的解决办法">
                         
-                        <span class="card-title">Vue和移动端App的交互</span>
+                        <span class="card-title">Hexo上传的图片在网页上无法显示的解决办法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
-以下为个人所做项目中的一些简单调用方法
-
-let utils = { //注册的全局函数
-  versions: function</div>
+                    <div class="summary">转: https://blog.csdn.net/qq_38148394/article/details/79997971
+</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                    前端
+                            <a href="/categories/个人/" class="post-category" target="_blank">
+                                    个人
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Vue/" target="_blank">
-                        <span class="chip bg-color">Vue</span>
-                    </a>
-                    
-                    <a href="/tags/Webapp/" target="_blank">
-                        <span class="chip bg-color">Webapp</span>
+                    <a href="/tags/Hexo/" target="_blank">
+                        <span class="chip bg-color">Hexo</span>
                     </a>
                     
                 </div>
@@ -926,7 +930,7 @@ let utils = { //注册的全局函数
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">1.4k</span>
+                <span class="white-color">3.7k</span>
             
 
             
