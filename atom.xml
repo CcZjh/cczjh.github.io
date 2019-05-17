@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2019-05-08T08:17:56.415Z</updated>
+  <updated>2019-05-17T02:22:42.726Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Springboot配置过滤器Filter</title>
+    <link href="https://cczjh.github.io/2019/05/17/Springboot%E9%85%8D%E7%BD%AE%E8%BF%87%E6%BB%A4%E5%99%A8Filter/"/>
+    <id>https://cczjh.github.io/2019/05/17/Springboot配置过滤器Filter/</id>
+    <published>2019-05-17T01:57:57.000Z</published>
+    <updated>2019-05-17T02:22:42.726Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot-配置-Filter过滤器"><a href="#Springboot-配置-Filter过滤器" class="headerlink" title="Springboot 配置 Filter过滤器"></a>Springboot 配置 Filter过滤器</h3><p>上代码:</p><h4 id="1-首先自定义MyFilter-继承类-Filter"><a href="#1-首先自定义MyFilter-继承类-Filter" class="headerlink" title="1. 首先自定义MyFilter 继承类 Filter"></a>1. 首先自定义MyFilter 继承类 Filter</h4><p>我们需要实现做的就是编写doFIlter类实现过滤逻辑</p><hr><pre><code>@Component@WebFilter(urlPatterns = &quot;/*&quot;, filterName = &quot;myFilter&quot;) // 这种是注解配置  下面有配置文件配置public class MyFilter implements Filter {    private static Logger log = LoggerFactory.getLogger(MyFilter.class);    @Override    public void init(FilterConfig filterConfig) throws ServletException {        log.info(&quot;MyFilter参数初始化: &quot;+filterConfig);    }    @Override    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {        filterChain.doFilter(servletRequest, servletResponse);    }    @Override    public void destroy() {        log.info(&quot;MyFilter开始销毁...&quot;);    }}</code></pre><hr><h4 id="2-在Springboot-启动类中添加过滤器"><a href="#2-在Springboot-启动类中添加过滤器" class="headerlink" title="2. 在Springboot 启动类中添加过滤器"></a>2. 在Springboot 启动类中添加过滤器</h4><hr><pre><code>// 配置文件配置@Beanpublic FilterRegistrationBean testFilterRegistration() {    FilterRegistrationBean registration = new FilterRegistrationBean(new MyFilter());    registration.addUrlPatterns(&quot;/*&quot;);    registration.addInitParameter(&quot;paramName&quot;, &quot;paramValue&quot;);    registration.setName(&quot;myFilter&quot;);    registration.setOrder(1); // 多个过滤器可控制执行顺序 数字越小优先级越高    return registration;}</code></pre><hr>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
+    
+      <category term="Filter" scheme="https://cczjh.github.io/tags/Filter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql主从复制</title>
+    <link href="https://cczjh.github.io/2019/05/14/Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/"/>
+    <id>https://cczjh.github.io/2019/05/14/Mysql主从复制/</id>
+    <published>2019-05-14T06:07:53.000Z</published>
+    <updated>2019-05-14T06:07:53.586Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Springboot配置日志输出</title>
