@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2019-05-17T02:22:42.726Z</updated>
+  <updated>2019-06-27T02:52:11.381Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Springboot自定义连接池并开启定时任务</title>
+    <link href="https://cczjh.github.io/2019/06/26/Springboot%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E6%8E%A5%E6%B1%A0%E5%B9%B6%E5%BC%80%E5%90%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+    <id>https://cczjh.github.io/2019/06/26/Springboot自定义连接池并开启定时任务/</id>
+    <published>2019-06-26T09:16:12.000Z</published>
+    <updated>2019-06-27T02:52:11.381Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot自定义线程池"><a href="#Springboot自定义线程池" class="headerlink" title="Springboot自定义线程池"></a>Springboot自定义线程池</h3><h4 id="线程池参数配置"><a href="#线程池参数配置" class="headerlink" title="线程池参数配置"></a>线程池参数配置</h4><hr><pre><code>## 连接池threadPool:  corePoolSize: 20  maxPoolSize: 40  queueCapacity: 1000  # 线程前缀名  threadNamePrefix: &apos;Async-Service-&apos;  allowCoreThreadTimeout: false  keepAliveSeconds: 300</code></pre><hr><h4 id="线程池配置类"><a href="#线程池配置类" class="headerlink" title="线程池配置类"></a>线程池配置类</h4><p>创建一个配置类ExecutorConfig, 用来自定义如何创建一个ThreadPoolTaskExecutor, 在类上添加@Configuration和@EnableAsync注解, 表示是配置类.</p><hr><pre><code>@Configuration@EnableAsyncpublic class ExecutorConfig implements AsyncConfigurer {    private static Logger log = LoggerFactory.getLogger(ExecutorConfig.class);    @Value(&quot;${threadPool.corePoolSize}&quot;)    int corePoolSize;    @Value(&quot;${threadPool.maxPoolSize}&quot;)    int maxPoolSize;    @Value(&quot;${threadPool.queueCapacity}&quot;)    int queueCapacity;    @Value(&quot;${threadPool.threadNamePrefix}&quot;)    String threadNamePrefix;    @Value(&quot;${threadPool.keepAliveSeconds}&quot;)    int keepAliveSeconds;    @Bean(&quot;asyncExecutor&quot;)    public Executor asyncExecutor() {        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();        executor.setCorePoolSize(corePoolSize);        executor.setMaxPoolSize(maxPoolSize);        executor.setQueueCapacity(queueCapacity);        executor.setKeepAliveSeconds(keepAliveSeconds);        executor.setThreadNamePrefix(threadNamePrefix);        // 线程池对拒绝任务的处理策略        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        executor.initialize();        return executor;    }    @Override    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {        return new AsyncUncaughtExceptionHandler() {            @Override            public void handleUncaughtException(Throwable ex, Method method, Object... params) {                log.error(&quot;==========================&quot; + ex.getMessage() + &quot;=======================&quot;, ex);                log.error(&quot;exception method:&quot; + method.getName());            }        };    }}</code></pre><hr><h3 id="Springboot开启多线程定时任务"><a href="#Springboot开启多线程定时任务" class="headerlink" title="Springboot开启多线程定时任务"></a>Springboot开启多线程定时任务</h3><p>以下为定时任务类, 定时任务由此定义开启</p><hr><pre><code>@Componentpublic class ComputersTask {    private static Logger log = LoggerFactory.getLogger(ComputersTask.class);    @Autowired    private IemComputerService iemComputerService;    // asyncExecutor 为自定义的线程池    @Async(&quot;asyncExecutor&quot;)    @Scheduled(fixedDelay = 1000 * 60)    public void startListen() throws InterruptedException {        System.out.println(&quot;线程--&quot;+Thread.currentThread().getName()+&quot;--开始!&quot;);        Thread.sleep(1000*10);        System.out.println(&quot;线程--&quot;+Thread.currentThread().getName()+&quot;--结束!&quot;);    }}</code></pre><hr><p>一般情况下, 定时任务默认只使用单线程跑任务, 但在实际开发过程中, 单线程肯定不满足我们的需求, 所以我们需要开启定时任务多线程,<br>因为我们之前有自定义线程池, 所以我们直接在之前的线程池配置类中实现SchedulingConfigurer接口.</p><hr><pre><code>@Configuration@EnableAsync@EnableSchedulingpublic class ExecutorConfig implements AsyncConfigurer, SchedulingConfigurer {    private static Logger log = LoggerFactory.getLogger(ExecutorConfig.class);    @Value(&quot;${threadPool.corePoolSize}&quot;)    int corePoolSize;    @Value(&quot;${threadPool.maxPoolSize}&quot;)    int maxPoolSize;    @Value(&quot;${threadPool.queueCapacity}&quot;)    int queueCapacity;    @Value(&quot;${threadPool.threadNamePrefix}&quot;)    String threadNamePrefix;    @Value(&quot;${threadPool.keepAliveSeconds}&quot;)    int keepAliveSeconds;    @Bean(&quot;asyncExecutor&quot;)    public Executor asyncExecutor() {        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();        executor.setCorePoolSize(corePoolSize);        executor.setMaxPoolSize(maxPoolSize);        executor.setQueueCapacity(queueCapacity);        executor.setKeepAliveSeconds(keepAliveSeconds);        executor.setThreadNamePrefix(threadNamePrefix);        // 线程池对拒绝任务的处理策略        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        executor.initialize();        return executor;    }    @Override    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {        return new AsyncUncaughtExceptionHandler() {            @Override            public void handleUncaughtException(Throwable ex, Method method, Object... params) {                log.error(&quot;==========================&quot; + ex.getMessage() + &quot;=======================&quot;, ex);                log.error(&quot;exception method:&quot; + method.getName());            }        };    }        public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {        TaskScheduler taskScheduler = taskScheduler();        scheduledTaskRegistrar.setTaskScheduler(taskScheduler);    }    @Bean(destroyMethod = &quot;shutdown&quot;)    public ThreadPoolTaskScheduler taskScheduler() {        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();        scheduler.setThreadNamePrefix(threadNamePrefix);        scheduler.setPoolSize(corePoolSize);        scheduler.setAwaitTerminationSeconds(60);        scheduler.setWaitForTasksToCompleteOnShutdown(true);        // 线程池对拒绝任务的处理策略        scheduler.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        scheduler.initialize();        return scheduler;    }}</code></pre><hr><p>这样我们的定时任务启动之后就可以多线程运行了.<br><img src="/2019/06/26/Springboot自定义连接池并开启定时任务/p1.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后台" scheme="https://cczjh.github.io/categories/%E5%90%8E%E5%8F%B0/"/>
+    
+    
+      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
+    
+  </entry>
   
   <entry>
     <title>Springboot配置过滤器Filter</title>
@@ -222,9 +249,9 @@
       <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
     
     
-      <category term="IO" scheme="https://cczjh.github.io/tags/IO/"/>
-    
       <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="IO" scheme="https://cczjh.github.io/tags/IO/"/>
     
   </entry>
   
