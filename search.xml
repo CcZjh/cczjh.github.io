@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Linux iptables防火墙开放端口不生效</title>
+      <link href="/2020/01/10/Linux-iptables%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3%E4%B8%8D%E7%94%9F%E6%95%88/"/>
+      <url>/2020/01/10/Linux-iptables%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3%E4%B8%8D%E7%94%9F%E6%95%88/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><pre><code>service iptables start // 开启iptablesservice iptables stop // 关闭iptablesservice iptables restart // 重启service iptables status // iptables状态service iptables save // 保存iptables配置文件/etc/sysconfig/iptables // iptables规则存放文件</code></pre><h3 id="iptables开放端口"><a href="#iptables开放端口" class="headerlink" title="iptables开放端口"></a>iptables开放端口</h3><h4 id="一"><a href="#一" class="headerlink" title="一."></a>一.</h4><pre><code>// 先使用此命令将需要开放的端口添加进规则内iptables -A INPUT -p tcp --dport 8080 -j ACCEPTiptables -A OUTPUT -p tcp --sport 8080 -j ACCEPT// 保存规则service iptables save// 重启service iptables restart</code></pre><h4 id="二"><a href="#二" class="headerlink" title="二."></a>二.</h4><pre><code>// 编辑iptables规则文件vim /etc/sysconfig/iptables// 添加如下-A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT// 重启service iptables restart</code></pre><h3 id="注"><a href="#注" class="headerlink" title="注:"></a>注:</h3><p>有时候当进行如上操作时会发现接口任不可访问, 是因为用以上的方式添加接口规则时, 接口默认排在最后, 此时接口规则并不生效, 所以我们应该用iptables -I进行添加, 这样就会将8080接口规则放在首位</p><pre><code>iptables -I INPUT -p tcp --dport 8080 -j ACCEPT</code></pre><p><img src="https://i.imgur.com/e8yG5hJ.png" alt></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>HttpClient模拟form表单上传文件</title>
       <link href="/2019/09/25/HttpClient%E6%A8%A1%E6%8B%9Fform%E8%A1%A8%E5%8D%95%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/"/>
       <url>/2019/09/25/HttpClient%E6%A8%A1%E6%8B%9Fform%E8%A1%A8%E5%8D%95%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
