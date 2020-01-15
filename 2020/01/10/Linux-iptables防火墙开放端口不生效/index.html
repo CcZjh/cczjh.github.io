@@ -5,10 +5,11 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Linux iptables防火墙开放端口不生效, 米斯特周">
-    <meta name="description" content="iptables常用命令service iptables start // 开启iptables
+    <meta name="description" content="iptables常用命令
+service iptables start // 开启iptables
 service iptables stop // 关闭iptables
 service iptables restart // 重启
-serv">
+ser">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -343,7 +344,7 @@ serv">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        230
+                        231
                     </div>
                     
 
@@ -361,14 +362,16 @@ serv">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><pre><code>service iptables start // 开启iptables
+                <h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><hr>
+<pre><code>service iptables start // 开启iptables
 service iptables stop // 关闭iptables
 service iptables restart // 重启
 service iptables status // iptables状态
 service iptables save // 保存iptables配置文件
 
 /etc/sysconfig/iptables // iptables规则存放文件
-</code></pre><h3 id="iptables开放端口"><a href="#iptables开放端口" class="headerlink" title="iptables开放端口"></a>iptables开放端口</h3><h4 id="一"><a href="#一" class="headerlink" title="一."></a>一.</h4><pre><code>// 先使用此命令将需要开放的端口添加进规则内
+</code></pre><h3 id="iptables开放端口"><a href="#iptables开放端口" class="headerlink" title="iptables开放端口"></a>iptables开放端口</h3><h4 id="一"><a href="#一" class="headerlink" title="一."></a>一.</h4><hr>
+<pre><code>// 先使用此命令将需要开放的端口添加进规则内
 iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
 iptables -A OUTPUT -p tcp --sport 8080 -j ACCEPT
 
@@ -377,7 +380,8 @@ service iptables save
 
 // 重启
 service iptables restart
-</code></pre><h4 id="二"><a href="#二" class="headerlink" title="二."></a>二.</h4><pre><code>// 编辑iptables规则文件
+</code></pre><h4 id="二"><a href="#二" class="headerlink" title="二."></a>二.</h4><hr>
+<pre><code>// 编辑iptables规则文件
 vim /etc/sysconfig/iptables
 
 // 添加如下
