@@ -312,8 +312,8 @@ serv">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/后端/" target="_blank">
-                                <span class="chip bg-color">后端</span>
+                            <a href="/tags/Linux/" target="_blank">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
                     </div>
@@ -324,8 +324,8 @@ serv">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                Linux
+                            <a href="/categories/运维/" class="post-category" target="_blank">
+                                运维
                             </a>
                         
                     </div>
@@ -387,7 +387,7 @@ vim /etc/sysconfig/iptables
 service iptables restart
 </code></pre><h3 id="注"><a href="#注" class="headerlink" title="注:"></a>注:</h3><p>有时候当进行如上操作时会发现接口任不可访问, 是因为用以上的方式添加接口规则时, 接口默认排在最后, 此时接口规则并不生效, 所以我们应该用iptables -I进行添加, 这样就会将8080接口规则放在首位</p>
 <pre><code>iptables -I INPUT -p tcp --dport 8080 -j ACCEPT
-</code></pre><p><img src="https://i.imgur.com/e8yG5hJ.png" alt></p>
+</code></pre><p><img src="/2020/01/10/Linux-iptables防火墙开放端口不生效/1.png" alt></p>
 
             </div>
             <hr>
