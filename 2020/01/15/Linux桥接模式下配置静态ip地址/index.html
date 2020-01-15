@@ -4,14 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="JS上传头像,压缩,拍照旋转, 米斯特周">
-    <meta name="description" content="EXIF 组件安装
-npm install exif-js –save
+    <meta name="keywords" content="Linux桥接模式下配置静态ip地址, 米斯特周">
+    <meta name="description" content="桥接模式下配置静态ip一、涉及三个文件的配置：
+/etc/sysconfig/network 
+/etc/sysconfig/network-scripts/ifcfg-eth0 
+/etc/resolv.conf
 
-Vue 中具体代码
-&amp;lt;template&amp;gt;
-    &amp;lt;div&amp;gt;
-        &amp;lt;input type=&amp;quot;file&amp;quot; ">
+二、具体配置过程
+ip">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +19,7 @@ Vue 中具体代码
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>JS上传头像,压缩,拍照旋转 | 米斯特周</title>
+    <title>Linux桥接模式下配置静态ip地址 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -198,13 +198,13 @@ Vue 中具体代码
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        JS上传头像,压缩,拍照旋转
+                        Linux桥接模式下配置静态ip地址
                     </div>
                 </div>
             </div>
@@ -315,12 +315,8 @@ Vue 中具体代码
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/JavaScript/" target="_blank">
-                                <span class="chip bg-color">JavaScript</span>
-                            </a>
-                        
-                            <a href="/tags/HTML/" target="_blank">
-                                <span class="chip bg-color">HTML</span>
+                            <a href="/tags/Linux/" target="_blank">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
                     </div>
@@ -331,8 +327,12 @@ Vue 中具体代码
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                前端
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                后端
+                            </a>
+                        
+                            <a href="/categories/后端/运维/" class="post-category" target="_blank">
+                                运维
                             </a>
                         
                     </div>
@@ -343,21 +343,21 @@ Vue 中具体代码
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-08
+                    2020-01-15
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        641
+                        412
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        1 分
                     </div>
                     
                 
@@ -368,163 +368,69 @@ Vue 中具体代码
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="EXIF-组件安装"><a href="#EXIF-组件安装" class="headerlink" title="EXIF 组件安装"></a>EXIF 组件安装</h2><hr>
-<p>npm install exif-js –save</p>
-<hr>
-<h2 id="Vue-中具体代码"><a href="#Vue-中具体代码" class="headerlink" title="Vue 中具体代码"></a>Vue 中具体代码</h2><hr>
-<pre><code>&lt;template&gt;
-    &lt;div&gt;
-        &lt;input type=&quot;file&quot; style=&quot;display: none;&quot; id=&quot;img-upload&quot; multiple accept=&quot;image/*&quot; @change=&quot;uploadImg($event)&quot;/&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-import EXIF from &apos;exif-js&apos;
-export default{
-    name:&quot;image-html5-upload&quot;,
-    props:{
-        imgArr:{
-            type:Array,
-            twoWay: true,
-            default:Array
-        },
-        imgNumLimit:{//一次最多可以上传多少张照片
-            type:Number,
-            default:4
-        }
-    },
-    methods:{
-        uploadImg: function(e){
-            let tag = e.target;
-            let fileList = tag.files;
-            let imgNum = fileList.length;
-            let _this = this;
-            _this.imgArr = [];//图片数据清零
-            if(this.imgArr.length + imgNum &gt; this.imgNumLimit){
-                alert(&apos;一次最多上传&apos;+this.imgNumLimit+&apos;张图片！&apos;);
-                return;
-            }
-            var Orientation;
-            for(let i=0;i&lt;imgNum;i++){
-                EXIF.getData(fileList[i], function(){
-                    Orientation = EXIF.getTag(fileList[i], &apos;Orientation&apos;);
-                });
-                let reader = new FileReader();
-                reader.readAsDataURL(fileList[i]);
-                reader.onload = function(){
-                    var oReader = new FileReader();
-                    oReader.onload = function(e) {
-                        var image = new Image();
-                        image.src = e.target.result;
-                        image.onload = function() {
-                            var expectWidth = this.naturalWidth;
-                            var expectHeight = this.naturalHeight;
-                            if (this.naturalWidth &gt; this.naturalHeight &amp;&amp; this.naturalWidth &gt; 800) {
-                                expectWidth = 800;
-                                expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;
-                            } else if (this.naturalHeight &gt; this.naturalWidth &amp;&amp; this.naturalHeight &gt; 1200) {
-                                expectHeight = 1200;
-                                expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;
-                            }
-                            var canvas = document.createElement(&quot;canvas&quot;);
-                            var ctx = canvas.getContext(&quot;2d&quot;);
-                            canvas.width = expectWidth;
-                            canvas.height = expectHeight;
-                            ctx.drawImage(this, 0, 0, expectWidth, expectHeight);
-                            var base64 = null;
-                            //修复ios上传图片的时候 被旋转的问题
-                            if(Orientation != &quot;&quot; &amp;&amp; Orientation != 1){
-                                switch(Orientation){
-                                    case 6://需要顺时针（向左）90度旋转
-                                        _this.rotateImg(this,&apos;left&apos;,canvas);
-                                        break;
-                                    case 8://需要逆时针（向右）90度旋转
-                                        _this.rotateImg(this,&apos;right&apos;,canvas);
-                                        break;
-                                    case 3://需要180度旋转
-                                        _this.rotateImg(this,&apos;right&apos;,canvas);//转两次
-                                        _this.rotateImg(this,&apos;right&apos;,canvas);
-                                        break;
-                                }
-                            }
-                            base64 = canvas.toDataURL(&quot;image/jpeg&quot;, 0.8);
-                            if(fileList[i].size / 1024000 &gt; 1){
-                                _this.imgScale(base64, 4)
-                            }else{
-                                _this.imgArr.push({&quot;src&quot;: base64});
-                            }
-                            console.log(JSON.stringify(_this.imgArr));
-                        };
-                    };
-                    oReader.readAsDataURL(fileList[i]);
-                }
-            }
-        },
-        imgScale: function(imgUrl,quality){
-            let img = new Image();
-            let _this = this;
-            let canvas = document.createElement(&apos;canvas&apos;);
-            let cxt = canvas.getContext(&apos;2d&apos;);
-            img.src = imgUrl;
-            img.onload = function(){
-                //缩放后图片的宽高
-                let width = img.naturalWidth/quality;
-                let height = img.naturalHeight/quality;
-                canvas.width = width;
-                canvas.height = height;
-                cxt.drawImage(this, 0, 0, width, height);
-                _this.imgArr.push({&quot;src&quot;: canvas.toDataURL(&apos;image/jpeg&apos;)});
-            }
-        },
-        rotateImg:function (img, direction,canvas) {//图片旋转
-            var min_step = 0;
-            var max_step = 3;
-            if (img == null)return;
-            var height = img.height;
-            var width = img.width;
-            var step = 2;
-            if (step == null) {
-                step = min_step;
-            }
-            if (direction == &apos;right&apos;) {
-                step++;
-                step &gt; max_step &amp;&amp; (step = min_step);
-            } else {
-                step--;
-                step &lt; min_step &amp;&amp; (step = max_step);
-            }
-            var degree = step * 90 * Math.PI / 180;
-            var ctx = canvas.getContext(&apos;2d&apos;);
-            switch (step) {
-                case 0:
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0);
-                    break;
-                case 1:
-                    canvas.width = height;
-                    canvas.height = width;
-                    ctx.rotate(degree);
-                    ctx.drawImage(img, 0, -height);
-                    break;
-                case 2:
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.rotate(degree);
-                    ctx.drawImage(img, -width, -height);
-                    break;
-                case 3:
-                    canvas.width = height;
-                    canvas.height = width;
-                    ctx.rotate(degree);
-                    ctx.drawImage(img, -width, 0);
-                    break;
-            }
-        }
-    }
-}
-&lt;/script&gt;
-</code></pre><hr>
-<p>转自: <a href="https://blog.csdn.net/xwqqq/article/details/53958601" target="_blank" rel="noopener">https://blog.csdn.net/xwqqq/article/details/53958601</a></p>
+                <h3 id="桥接模式下配置静态ip"><a href="#桥接模式下配置静态ip" class="headerlink" title="桥接模式下配置静态ip"></a>桥接模式下配置静态ip</h3><h4 id="一、涉及三个文件的配置："><a href="#一、涉及三个文件的配置：" class="headerlink" title="一、涉及三个文件的配置："></a>一、涉及三个文件的配置：</h4><ol>
+<li>/etc/sysconfig/network </li>
+<li>/etc/sysconfig/network-scripts/ifcfg-eth0 </li>
+<li>/etc/resolv.conf</li>
+</ol>
+<h4 id="二、具体配置过程"><a href="#二、具体配置过程" class="headerlink" title="二、具体配置过程"></a>二、具体配置过程</h4><ol>
+<li>ipconfig查看本机ip地址 </li>
+</ol>
+<p><img src="https://i.imgur.com/XhcYwbU.png" alt></p>
+<blockquote>
+</blockquote>
+<pre><code>即本机ip地址为：192.168.1.100
+网关为：192.168.1.1 
+子网掩码为：255.255.255.0
+</code></pre><ol start="2">
+<li>根据本机ip地址配置linux的静态ip，如下：<blockquote>
+</blockquote>
+ // 进入配置<br> vim /etc/sysconfig/network-scripts/ifcfg-eth0</li>
+</ol>
+<blockquote>
+<pre><code>DEVICE=eth0        #虚拟机网卡名称。
+TYPE=Ethernet
+ONBOOT=yes　　      #开机启用网络配置。
+NM_CONTROLLED=yes
+BOOTPROTO=static      #static，静态ip，而不是dhcp，自动获取ip地址。
+IPADDR=192.168.1.101　　#设置我想用的静态ip地址，要和物理主机在同一网段，但又不能相同。
+NETMASK=255.255.255.0  #子网掩码，和物理主机一样就可以了。
+GETWAY=192.168.1.1     #和本机一样
+DNS1=8.8.8.8　　　　　　#DNS，写谷歌的地址(免费)。
+HWADDR=00:oc:29:A5:0D:38
+IPV6INIT=no
+USERCTL=no
+</code></pre></blockquote>
+<ol start="3">
+<li><p>在网络配置文件 /etc/sysconfig/network 中添加网关地址</p>
+<blockquote>
+</blockquote>
+<p> NETWORKING=yes<br> HOSTNAME=localhost.localdemain<br> GATEWAY=192.168.1.1   #网关地址，同物理主机的网关地址</p>
+</li>
+<li><p>配置 /etc/resolv.conf</p>
+<blockquote>
+</blockquote>
+<p> nameserver 8.8.8.8</p>
+</li>
+<li><p>重启网卡 </p>
+<blockquote>
+</blockquote>
+<p> service network restart </p>
+</li>
+</ol>
+<h4 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h4><ol>
+<li>测试与本机互ping</li>
+</ol>
+<p>虚拟机ping主机，</p>
+<blockquote>
+<p>ping 192.168.100<br><img src="https://i.imgur.com/yduLsmD.png" alt></p>
+</blockquote>
+<p>主机ping虚拟机<br><img src="https://i.imgur.com/6K2dGgc.png" alt></p>
+<p>虚拟机ping外网<br><img src="https://i.imgur.com/hUJpTVb.png" alt></p>
+<h4 id="四、遇到的问题"><a href="#四、遇到的问题" class="headerlink" title="四、遇到的问题"></a>四、遇到的问题</h4><ol>
+<li>按照上述步骤可实现ping通外网和主机ping同虚拟机，但存在虚拟机ping不通主机，主要问题是物理本机的防火墙没有关闭，关闭即可。</li>
+<li>自己配置遇到问题的参考博客： vmware下centOs设置静态IP和无法本地ping通centOs的ip解决方法(<a href="http://blog.csdn.net/shaonaozu/article/details/12869185" target="_blank" rel="noopener">http://blog.csdn.net/shaonaozu/article/details/12869185</a>)</li>
+</ol>
 
             </div>
             <hr>
@@ -548,7 +454,7 @@ export default{
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/08/JS上传头像-压缩-拍照旋转/" class="b-link-green">JS上传头像,压缩,拍照旋转</a>
+                    <a href="/2020/01/15/Linux桥接模式下配置静态ip地址/" class="b-link-green">Linux桥接模式下配置静态ip地址</a>
                 </p>
             </div>
         </div>
@@ -830,45 +736,52 @@ export default{
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/04/12/axios-上传文件的坑/">
+                <a href="/2020/01/15/Linux桥接模式下配置静态ip地址/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="axios 上传文件的坑">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Linux桥接模式下配置静态ip地址">
                         
-                        <span class="card-title">axios 上传文件的坑</span>
+                        <span class="card-title">Linux桥接模式下配置静态ip地址</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过Axios发送formData参数, Java后台报错:
-于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后</div>
+                    <div class="summary">桥接模式下配置静态ip一、涉及三个文件的配置：
+/etc/sysconfig/network 
+/etc/sysconfig/network-scripts/ifcfg-eth0 
+/etc/resolv.conf
+
+二、具体配置过程
+ip</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                    前端
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
+                                </a>
+                            
+                            <a href="/categories/后端/运维/" class="post-category" target="_blank">
+                                    运维
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Vue/" target="_blank">
-                        <span class="chip bg-color">Vue</span>
-                    </a>
-                    
-                    <a href="/tags/Axios/" target="_blank">
-                        <span class="chip bg-color">Axios</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -882,32 +795,30 @@ export default{
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/03/19/Java输出视频流/">
+                <a href="/2020/01/10/Linux-iptables防火墙开放端口不生效/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Java输出视频流">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Linux iptables防火墙开放端口不生效">
                         
-                        <span class="card-title">Java输出视频流</span>
+                        <span class="card-title">Linux iptables防火墙开放端口不生效</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">
-public byte[] file2byte(String filePath) {
-    byte[] buffer = null;
-    try {
-        File file = new File(filePath);
-</div>
+                    <div class="summary">iptables常用命令service iptables start // 开启iptables
+service iptables stop // 关闭iptables
+service iptables restart // 重启
+serv</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-19
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -917,12 +828,8 @@ public byte[] file2byte(String filePath) {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/IO/" target="_blank">
-                        <span class="chip bg-color">IO</span>
+                    <a href="/tags/后端/" target="_blank">
+                        <span class="chip bg-color">后端</span>
                     </a>
                     
                 </div>
