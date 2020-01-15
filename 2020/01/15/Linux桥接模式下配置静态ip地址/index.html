@@ -376,7 +376,7 @@ ip">
 <h4 id="二、具体配置过程"><a href="#二、具体配置过程" class="headerlink" title="二、具体配置过程"></a>二、具体配置过程</h4><ol>
 <li>ipconfig查看本机ip地址 </li>
 </ol>
-<p><img src="https://i.imgur.com/XhcYwbU.png" alt></p>
+<p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/1.png" alt></p>
 <blockquote>
 </blockquote>
 <pre><code>即本机ip地址为：192.168.1.100
@@ -430,11 +430,11 @@ GATEWAY=192.168.1.1   #网关地址，同物理主机的网关地址
 <blockquote>
 </blockquote>
 <pre><code>ping 192.168.100
-</code></pre><p><img src="https://i.imgur.com/yduLsmD.png" alt></p>
+</code></pre><p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/2.png" alt></p>
 <p>主机ping虚拟机 </p>
-<p><img src="https://i.imgur.com/6K2dGgc.png" alt></p>
+<p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/3.png" alt></p>
 <p>虚拟机ping外网 </p>
-<p><img src="https://i.imgur.com/hUJpTVb.png" alt></p>
+<p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/4.png" alt></p>
 <h4 id="四、遇到的问题"><a href="#四、遇到的问题" class="headerlink" title="四、遇到的问题"></a>四、遇到的问题</h4><ol>
 <li>按照上述步骤可实现ping通外网和主机ping同虚拟机，但存在虚拟机ping不通主机，主要问题是物理本机的防火墙没有关闭，关闭即可。</li>
 <li>自己配置遇到问题的参考博客： vmware下centOs设置静态IP和无法本地ping通centOs的ip解决方法(<a href="http://blog.csdn.net/shaonaozu/article/details/12869185" target="_blank" rel="noopener">http://blog.csdn.net/shaonaozu/article/details/12869185</a>)</li>
