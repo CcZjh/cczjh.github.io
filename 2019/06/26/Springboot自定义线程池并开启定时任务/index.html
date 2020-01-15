@@ -383,8 +383,7 @@ threadPool:
   threadNamePrefix: &apos;Async-Service-&apos;
   allowCoreThreadTimeout: false
   keepAliveSeconds: 300
-</code></pre><hr>
-<h4 id="线程池配置类"><a href="#线程池配置类" class="headerlink" title="线程池配置类"></a>线程池配置类</h4><p>创建一个配置类ExecutorConfig, 用来自定义如何创建一个ThreadPoolTaskExecutor, 在类上添加@Configuration和@EnableAsync注解, 表示是配置类.</p>
+</code></pre><h4 id="线程池配置类"><a href="#线程池配置类" class="headerlink" title="线程池配置类"></a>线程池配置类</h4><p>创建一个配置类ExecutorConfig, 用来自定义如何创建一个ThreadPoolTaskExecutor, 在类上添加@Configuration和@EnableAsync注解, 表示是配置类.</p>
 <hr>
 <pre><code>@Configuration
 @EnableAsync
@@ -430,8 +429,7 @@ public class ExecutorConfig implements AsyncConfigurer {
         };
     }
 }
-</code></pre><hr>
-<h3 id="Springboot开启多线程定时任务"><a href="#Springboot开启多线程定时任务" class="headerlink" title="Springboot开启多线程定时任务"></a>Springboot开启多线程定时任务</h3><p>以下为定时任务类, 定时任务由此定义开启</p>
+</code></pre><h3 id="Springboot开启多线程定时任务"><a href="#Springboot开启多线程定时任务" class="headerlink" title="Springboot开启多线程定时任务"></a>Springboot开启多线程定时任务</h3><p>以下为定时任务类, 定时任务由此定义开启</p>
 <hr>
 <pre><code>@Component
 public class ComputersTask {
@@ -450,8 +448,7 @@ public class ComputersTask {
         System.out.println(&quot;线程--&quot;+Thread.currentThread().getName()+&quot;--结束!&quot;);
     }
 }
-</code></pre><hr>
-<p>一般情况下, 定时任务默认只使用单线程跑任务, 但在实际开发过程中, 单线程肯定不满足我们的需求, 所以我们需要开启定时任务多线程,<br>因为我们之前有自定义线程池, 所以我们直接在之前的线程池配置类中实现SchedulingConfigurer接口.</p>
+</code></pre><p>一般情况下, 定时任务默认只使用单线程跑任务, 但在实际开发过程中, 单线程肯定不满足我们的需求, 所以我们需要开启定时任务多线程,<br>因为我们之前有自定义线程池, 所以我们直接在之前的线程池配置类中实现SchedulingConfigurer接口.</p>
 <hr>
 <pre><code>@Configuration
 @EnableAsync
@@ -520,8 +517,7 @@ public class ExecutorConfig implements AsyncConfigurer, SchedulingConfigurer {
 
 
 }
-</code></pre><hr>
-<p>这样我们的定时任务启动之后就可以多线程运行了.<br><img src="/2019/06/26/Springboot自定义线程池并开启定时任务/p1.png" alt></p>
+</code></pre><p>这样我们的定时任务启动之后就可以多线程运行了.<br><img src="/2019/06/26/Springboot自定义线程池并开启定时任务/p1.png" alt></p>
 
             </div>
             <hr>
