@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Hexo多电脑编写以及相关Git命令</title>
+      <link href="/2020/01/20/Hexo%E5%A4%9A%E7%94%B5%E8%84%91%E7%BC%96%E5%86%99%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3Git%E5%91%BD%E4%BB%A4/"/>
+      <url>/2020/01/20/Hexo%E5%A4%9A%E7%94%B5%E8%84%91%E7%BC%96%E5%86%99%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3Git%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>现实情况下我们会存在在公司一台电脑, 在家一台电脑的情况. 使用Hexo编写文章, 并将编译过后的页面放在Github库中可以直接访问很方便, 但是由于Hexo的配置等源文件都在电脑本地存放, 所以当想在另一台电脑进行编写文章就无法实现, 在网上查询了一些资料, 挑选了将Hexo源文件也提交到Github库的方法, 并借此学习了一波Git的操作.</p><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>Git: <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p><p>Node: <a href="http://nodejs.cn/download/" target="_blank" rel="noopener">http://nodejs.cn/download/</a></p><h3 id="Github仓库准备"><a href="#Github仓库准备" class="headerlink" title="Github仓库准备"></a>Github仓库准备</h3><ul><li>创建分支</li></ul><p>正常情况下, <strong>Github</strong> 库有默认的分支 <strong>master</strong> 这个分支是用来存放 <strong>hexo</strong> 编写文章编译成的页面的. 我们要将 <strong>hexo</strong> 的源文件上传到同一个库中, 所以要先创建一个分支, 此分支用 <strong>source</strong> 命名, 如图, 我之前已经创建过 <strong>scource</strong> 分支</p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/1.png" alt></p><ul><li>默认分支</li></ul><p><strong>master</strong> 分支是仓库默认分支, 我们要操作的是源文件, 所以需要将默认分支修改为 <strong>source</strong></p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/2.png" alt></p><h3 id="准备带有Hexo环境的电脑"><a href="#准备带有Hexo环境的电脑" class="headerlink" title="准备带有Hexo环境的电脑"></a>准备带有Hexo环境的电脑</h3><ul><li>将source分支克隆到本地</li></ul><p>首先复制 <strong>Github</strong> 库项目路径</p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/3.png" alt></p><p>然后在本地创建一个合适文件夹作为存放源文件的路径, 在此文件夹下右键点击 <strong>Git base here</strong> 打开 <strong>Git</strong> 命令行</p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/4.png" alt></p><p>复制好需要克隆的项目地址, 用如下命令克隆到本地</p><pre><code>git clone https://github.com/xxx // 将项目路径改为你的项目路径</code></pre><ul><li>复制源文件到分支文件夹下</li></ul><p>将 <strong>source</strong> 分支的本地文件夹下的所有文件删除只保留 <strong>.Git</strong> 然后将你平时用以写文章的源文件除了 <strong>.Git</strong> 都复制到 <strong>source</strong> 分支下</p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/5.png" alt></p><font style="color: red;">注: 如果你的 themes 主题使用的 Github 上的, 文件夹内的 .Git需要删除, git提交不能覆盖提交</font><ul><li>分支提交</li></ul><p>复制好之后, 将分支进行提交</p><pre><code>git add . // 将整个文件夹下代码加入缓冲区git commit -m &quot;注释&quot; // 代码添加注释git push // 项目提交</code></pre><p>查看 <strong>Github</strong> 仓库代码是否已提交完成</p><p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/6.png" alt></p><p>到此, 此电脑操作完毕</p><h3 id="新电脑拉取分支"><a href="#新电脑拉取分支" class="headerlink" title="新电脑拉取分支"></a>新电脑拉取分支</h3><ul><li>将source分支克隆到本地</li></ul><p>此处操作和上面一样</p><ul><li>安装依赖 运行测试</li></ul><p>将项目克隆下来之后需要安装依赖, 并运行代码进行测试, 看是否存在问题</p><pre><code>npm install // 安装依赖包</code></pre><p>安装依赖包可能会存在报错, 我这可能是因为之前编译的npm版本不一样, 所以使用上面命令执行结束后让我使用命令 <code>npm audit fix</code>, 执行完就可以了</p><pre><code>// 运行hexo代码hexo cleanhexo ghexo s // 本地运行</code></pre><p>没有报错并且浏览器访问正常, 测试完成.</p><h3 id="修改提交代码"><a href="#修改提交代码" class="headerlink" title="修改提交代码"></a>修改提交代码</h3><p>修改提交代码与第一次提交项目大致命令相同, 但是有一点需要注意, 如果你只提交部分代码 <code>git add .</code> 需要改为 <code>git add *</code>, 不然无法提交</p><h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><pre><code>git init // 初始化本地项目git clone xxx // xxx为项目地址  此操作将库中项目克隆到本地git add . git commit -m &quot;注释&quot;git push // 提交代码到仓库git pull // 更新代码到本地git branch -a  // 显示仓库所有分支git checkout 分支名 // 在本地切换当前分支git status // 查看当前项目代码状态git add * // 添加当前路径代码</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux桥接模式下配置静态ip地址</title>
+      <link href="/2020/01/15/Linux%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E4%B8%8B%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%9C%B0%E5%9D%80/"/>
+      <url>/2020/01/15/Linux%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E4%B8%8B%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%9C%B0%E5%9D%80/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="桥接模式下配置静态ip"><a href="#桥接模式下配置静态ip" class="headerlink" title="桥接模式下配置静态ip"></a>桥接模式下配置静态ip</h3><h4 id="一、涉及三个文件的配置："><a href="#一、涉及三个文件的配置：" class="headerlink" title="一、涉及三个文件的配置："></a>一、涉及三个文件的配置：</h4><ol><li>/etc/sysconfig/network </li><li>/etc/sysconfig/network-scripts/ifcfg-eth0 </li><li>/etc/resolv.conf</li></ol><h4 id="二、具体配置过程"><a href="#二、具体配置过程" class="headerlink" title="二、具体配置过程"></a>二、具体配置过程</h4><ol><li>ipconfig查看本机ip地址 </li></ol><p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/1.png" alt></p><hr><pre><code>即本机ip地址为：192.168.1.100网关为：192.168.1.1 子网掩码为：255.255.255.0</code></pre><ol start="2"><li>根据本机ip地址配置linux的静态ip，如下：</li></ol><hr><pre><code>// 进入配置vim /etc/sysconfig/network-scripts/ifcfg-eth0DEVICE=eth0        #虚拟机网卡名称。TYPE=EthernetONBOOT=yes　　      #开机启用网络配置。NM_CONTROLLED=yesBOOTPROTO=static      #static，静态ip，而不是dhcp，自动获取ip地址。IPADDR=192.168.1.101　　#设置我想用的静态ip地址，要和物理主机在同一网段，但又不能相同。NETMASK=255.255.255.0  #子网掩码，和物理主机一样就可以了。GETWAY=192.168.1.1     #和本机一样DNS1=8.8.8.8　　　　　　#DNS，写谷歌的地址(免费)。HWADDR=00:oc:29:A5:0D:38IPV6INIT=noUSERCTL=no</code></pre><ol start="3"><li>在网络配置文件 /etc/sysconfig/network 中添加网关地址</li></ol><hr><pre><code>NETWORKING=yesHOSTNAME=localhost.localdemainGATEWAY=192.168.1.1   #网关地址，同物理主机的网关地址</code></pre><ol start="4"><li>配置 /etc/resolv.conf</li></ol><hr><pre><code>nameserver 8.8.8.8</code></pre><ol start="5"><li>重启网卡 </li></ol><hr><pre><code>service network restart </code></pre><h4 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h4><ol><li>测试与本机互ping</li></ol><p>虚拟机ping主机，</p><hr><pre><code>ping 192.168.100</code></pre><p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/2.png" alt></p><p>主机ping虚拟机 </p><p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/3.png" alt></p><p>虚拟机ping外网 </p><p><img src="/2020/01/15/Linux桥接模式下配置静态ip地址/4.png" alt></p><h4 id="四、遇到的问题"><a href="#四、遇到的问题" class="headerlink" title="四、遇到的问题"></a>四、遇到的问题</h4><ol><li>按照上述步骤可实现ping通外网和主机ping同虚拟机，但存在虚拟机ping不通主机，主要问题是物理本机的防火墙没有关闭，关闭即可。</li><li>自己配置遇到问题的参考博客： vmware下centOs设置静态IP和无法本地ping通centOs的ip解决方法(<a href="http://blog.csdn.net/shaonaozu/article/details/12869185" target="_blank" rel="noopener">http://blog.csdn.net/shaonaozu/article/details/12869185</a>)</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux iptables防火墙开放端口不生效</title>
+      <link href="/2020/01/10/Linux-iptables%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3%E4%B8%8D%E7%94%9F%E6%95%88/"/>
+      <url>/2020/01/10/Linux-iptables%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3%E4%B8%8D%E7%94%9F%E6%95%88/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><hr><pre><code>service iptables start // 开启iptablesservice iptables stop // 关闭iptablesservice iptables restart // 重启service iptables status // iptables状态service iptables save // 保存iptables配置文件/etc/sysconfig/iptables // iptables规则存放文件</code></pre><h3 id="iptables开放端口"><a href="#iptables开放端口" class="headerlink" title="iptables开放端口"></a>iptables开放端口</h3><h4 id="一"><a href="#一" class="headerlink" title="一."></a>一.</h4><hr><pre><code>// 先使用此命令将需要开放的端口添加进规则内iptables -A INPUT -p tcp --dport 8080 -j ACCEPTiptables -A OUTPUT -p tcp --sport 8080 -j ACCEPT// 保存规则service iptables save// 重启service iptables restart</code></pre><h4 id="二"><a href="#二" class="headerlink" title="二."></a>二.</h4><hr><pre><code>// 编辑iptables规则文件vim /etc/sysconfig/iptables// 添加如下-A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT// 重启service iptables restart</code></pre><h3 id="注"><a href="#注" class="headerlink" title="注:"></a>注:</h3><p>有时候当进行如上操作时会发现接口任不可访问, 是因为用以上的方式添加接口规则时, 接口默认排在最后, 此时接口规则并不生效, 所以我们应该用iptables -I进行添加, 这样就会将8080接口规则放在首位</p><pre><code>iptables -I INPUT -p tcp --dport 8080 -j ACCEPT</code></pre><p><img src="/2020/01/10/Linux-iptables防火墙开放端口不生效/1.png" alt></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>HttpClient模拟form表单上传文件</title>
+      <link href="/2019/09/25/HttpClient%E6%A8%A1%E6%8B%9Fform%E8%A1%A8%E5%8D%95%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/"/>
+      <url>/2019/09/25/HttpClient%E6%A8%A1%E6%8B%9Fform%E8%A1%A8%E5%8D%95%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>转: <a href="https://www.cnblogs.com/zdz8207/p/java-httpclient-file.html" title="java模拟表单上传文件，java通过模拟post方式提交表单实现图片上传功能实例" target="_blank" rel="noopener">https://www.cnblogs.com/zdz8207/p/java-httpclient-file.html</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> HttpClient </tag>
+            
+            <tag> form表单 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java 使用 JNA 调用dll/so动态库</title>
+      <link href="/2019/09/18/Java-%E4%BD%BF%E7%94%A8-JNA-%E8%B0%83%E7%94%A8dll-so%E5%8A%A8%E6%80%81%E5%BA%93/"/>
+      <url>/2019/09/18/Java-%E4%BD%BF%E7%94%A8-JNA-%E8%B0%83%E7%94%A8dll-so%E5%8A%A8%E6%80%81%E5%BA%93/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>转: <a href="https://www.jianshu.com/p/272a1efbe027" title="java使用jna调用dll/so动态库" target="_blank" rel="noopener">https://www.jianshu.com/p/272a1efbe027</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> JNA </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java线程池的技术及优化</title>
+      <link href="/2019/09/04/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8F%8A%E4%BC%98%E5%8C%96/"/>
+      <url>/2019/09/04/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%8A%80%E6%9C%AF%E5%8F%8A%E4%BC%98%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="创建线程池的demo"><a href="#创建线程池的demo" class="headerlink" title="创建线程池的demo"></a>创建线程池的demo</h3><pre><code>private static final int POOL_CORE_SIZE = 10; //核心线程数private static final int POOL_MAX_SIZE = 20; //最大线程数private static final int KEEP_ALIVE_TIME = 2000; // 单个线程保活时间(毫秒)private static final int QUEUE_SIZE = 20; //等待队列大小// 创建有界队列BlockingQueue&lt;Runnable&gt; workQueue = new SynchronousQueue&lt;Runnable&gt;(QUEUE_SIZE);// 线程的创建工厂ThreadFactory threadFactory = new ThreadFactory() {    private final AtomicInteger mCount = new AtomicInteger(1);    public Thread newThread(Runnable r) {        return new Thread(r, &quot;AdvacnedAsyncTask #&quot; + mCount.getAndIncrement());    }};// 线程池任务满载后采取的任务拒绝策略RejectedExecutionHandler rejectHandler = new ThreadPoolExecutor.DiscardOldestPolicy();// 线程池对象, 创建线程ThreadPoolExecutor mExecute = new ThreadPoolExecutor(    POOL_CORE_SIZE,    POOL_MAX_SIZE,    KEEP_ALIVE_TIME,    TimeUnit.MILLISECONDS,    workQueue,    threadFactory,    rejectHandler);</code></pre><h3 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h3><ul><li>corePoolSize：核心线程数，会一直存活，即使没有任务，线程池也会维护线程的最少数量</li><li>maximumPoolSize：线程池维护线程的最大数量</li><li>keepAliveTime：指的是空闲线程结束的超时时间（当一个线程不工作时，过keepAliveTime 长时间将停止该线程）</li><li>allowCoreThreadTimeout：设置为true，则所有线程均会退出直到线程数量为0</li><li>unit：线程池维护线程所允许的空闲时间的单位、可选参数值为：TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS</li><li>workQueue：线程池所使用的缓冲队列，常用的是：java.util.concurrent.ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue</li><li>threadFactory：执行程序创建新线程时使用的工厂</li><li>handler：线程池中的数量大于maximumPoolSize，对拒绝任务的处理策略，默认值ThreadPoolExecutor.AbortPolicy()</li></ul><h3 id="参数之间关系如下："><a href="#参数之间关系如下：" class="headerlink" title="参数之间关系如下："></a>参数之间关系如下：</h3><h4 id="第一类："><a href="#第一类：" class="headerlink" title="第一类："></a>第一类：</h4><p>控制被处理线程：corePoolSize，maximumPoolSize，workQueue会决定你的线程处理顺序，首先进来线程会将该线程池的实际线程数变为corePoolSize，达到corePoolsize后，再进来的线程就会进入workQueue来排队；如果workQueue满了，再进来的线程就会继续创建线程，直到实际个数达到maximumPoolSize；</p><p>而关于workQueue有下面三种方式：</p><p>1、直接提交。工作队列的默认选项是 SynchronousQueue，它将任务直接提交给线程而不保持它们。在此，如果不存在可用于立即运行任务的线程，则试图把任务加入队列将失败，因此会构造一个新的线程。此策略可以避免在处理可能具有内部依赖性的请求集时出现锁。直接提交通常要求无界 maximumPoolSizes， 以避免拒绝新提交的任务。当命令以超过队列所能处理的平均数连续到达时，此策略允许无界线程具有增长的可能性。</p><p>2、无界队列。使用无界队列（例如，不具有预定义容量的 LinkedBlockingQueue）将导致在所有 corePoolSize 线程都忙时新任务在队列中等待。这样，创建的线程就不会超过 corePoolSize。（因此，maximumPoolSize的值也就无效了。）当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列；例如，在 Web页服务器中。这种排队可用于处理瞬态突发请求，当命令以超过队列所能处理的平均数连续到达时，此策略允许无界线程具有增长的可能性。</p><p>3、有界队列。当使用有限的 maximumPoolSizes时，有界队列（如 ArrayBlockingQueue）有助于防止资源耗尽，但是可能较难调整和控制。队列大小和最大池大小可能需要相互折中：使用大型队列和小型池可以最大限度地降低 CPU 使用率、操作系统资源和上下文切换开销，但是可能导致人工降低吞吐量。如果任务频繁阻塞（例如，如果它们是 I/O边界），则系统可能为超过您许可的更多线程安排时间。使用小型队列通常要求较大的池大小，CPU使用率较高，但是可能遇到不可接受的调度开销，这样也会降低吞吐量。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 线程池 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis-持久化数据</title>
+      <link href="/2019/08/13/Redis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE/"/>
+      <url>/2019/08/13/Redis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><h3 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h3><p>Redis 提供了多种不同级别的持久化方式：</p><ul><li>RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照（point-in-time snapshot）。</li><li>AOF 持久化记录服务器执行的所有写操作命令，并在服务器启动时，通过重新执行这些命令来还原数据集。 AOF 文件中的命令全部以 Redis 协议的格式来保存，新命令会被追加到文件的末尾。 Redis 还可以在后台对 AOF 文件进行重写（rewrite），使得 AOF 文件的体积不会超出保存数据集状态所需的实际大小。</li><li>Redis 还可以同时使用 AOF 持久化和 RDB 持久化。 在这种情况下， 当 Redis 重启时， 它会优先使用 AOF 文件来还原数据集， 因为 AOF 文件保存的数据集通常比 RDB 文件所保存的数据集更完整。</li><li>你甚至可以关闭持久化功能，让数据只在服务器运行时存在。</li></ul><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul><li>RDB 是一个非常紧凑（compact）的文件，它保存了 Redis 在某个时间点上的数据集。 这种文件非常适合用于进行备份： 比如说，你可以在最近的 24 小时内，每小时备份一次 RDB 文件，并且在每个月的每一天，也备份一个 RDB 文件。 这样的话，即使遇上问题，也可以随时将数据集还原到不同的版本。</li><li>RDB 非常适用于灾难恢复（disaster recovery）：它只有一个文件，并且内容都非常紧凑，可以（在加密后）将它传送到别的数据中心，或者亚马逊 S3 中。</li><li>RDB 可以最大化 Redis 的性能：父进程在保存 RDB 文件时唯一要做的就是 fork 出一个子进程，然后这个子进程就会处理接下来的所有保存工作，父进程无须执行任何磁盘 I/O 操作。</li><li>RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</li></ul><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点:"></a>缺点:</h4><ul><li>如果你需要尽量避免在服务器故障时丢失数据，那么 RDB 不适合你。 虽然 Redis 允许你设置不同的保存点（save point）来控制保存 RDB 文件的频率， 但是， 因为RDB 文件需要保存整个数据集的状态， 所以它并不是一个轻松的操作。 因此你可能会至少 5 分钟才保存一次 RDB 文件。 在这种情况下， 一旦发生故障停机， 你就可能会丢失好几分钟的数据。</li><li>每次保存 RDB 的时候，Redis 都要 fork() 出一个子进程，并由子进程来进行实际的持久化工作。 在数据集比较庞大时， fork() 可能会非常耗时，造成服务器在某某毫秒内停止处理客户端； 如果数据集非常巨大，并且 CPU 时间非常紧张的话，那么这种停止时间甚至可能会长达整整一秒。 虽然 AOF 重写也需要进行 fork() ，但无论 AOF 重写的执行间隔有多长，数据的耐久性都不会有任何损失。</li></ul><h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点:"></a>优点:</h4><ul><li>使用 AOF 持久化会让 Redis 变得非常耐久（much more durable）：你可以设置不同的 fsync 策略，比如无 fsync ，每秒钟一次 fsync ，或者每次执行写入命令时 fsync 。 AOF 的默认策略为每秒钟 fsync 一次，在这种配置下，Redis 仍然可以保持良好的性能，并且就算发生故障停机，也最多只会丢失一秒钟的数据（ fsync 会在后台线程执行，所以主线程可以继续努力地处理命令请求）。</li><li>AOF 文件是一个只进行追加操作的日志文件（append only log）， 因此对 AOF 文件的写入不需要进行 seek ， 即使日志因为某些原因而包含了未写入完整的命令（比如写入时磁盘已满，写入中途停机，等等）， redis-check-aof 工具也可以轻易地修复这种问题。</li><li>Redis 可以在 AOF 文件体积变得过大时，自动地在后台对 AOF 进行重写： 重写后的新 AOF 文件包含了恢复当前数据集所需的最小命令集合。 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。</li><li>AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。 导出（export） AOF 文件也非常简单： 举个例子， 如果你不小心执行了 FLUSHALL 命令， 但只要 AOF 文件未被重写， 那么只要停止服务器， 移除 AOF 文件末尾的 FLUSHALL 命令， 并重启 Redis ， 就可以将数据集恢复到 FLUSHALL 执行之前的状态。</li></ul><h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点:"></a>缺点:</h4><ul><li>对于相同的数据集来说，AOF 文件的体积通常要大于 RDB 文件的体积。</li><li>根据所使用的 fsync 策略，AOF 的速度可能会慢于 RDB 。 在一般情况下， 每秒 fsync 的性能依然非常高， 而关闭 fsync 可以让 AOF 的速度和 RDB 一样快， 即使在高负荷之下也是如此。 不过在处理巨大的写入载入时，RDB 可以提供更有保证的最大延迟时间（latency）。</li><li>AOF 在过去曾经发生过这样的 bug ： 因为个别命令的原因，导致 AOF 文件在重新载入时，无法将数据集恢复成保存时的原样。 （举个例子，阻塞命令 BRPOPLPUSH source destination timeout 就曾经引起过这样的 bug 。） 测试套件里为这种情况添加了测试： 它们会自动生成随机的、复杂的数据集， 并通过重新载入这些数据来确保一切正常。 虽然这种 bug 在 AOF 文件中并不常见， 但是对比来说， RDB 几乎是不可能出现这种 bug 的。</li></ul><h3 id="RDB-和-AOF-我应该用哪一个"><a href="#RDB-和-AOF-我应该用哪一个" class="headerlink" title="RDB 和 AOF, 我应该用哪一个?"></a>RDB 和 AOF, 我应该用哪一个?</h3><p>一般来说， 如果想达到足以媲美 PostgreSQL 的数据安全性， 你应该同时使用两种持久化功能。</p><p>如果你非常关心你的数据， 但仍然可以承受数分钟以内的数据丢失， 那么你可以只使用 RDB 持久化。</p><p>有很多用户都只使用 AOF 持久化， 但我们并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快， 除此之外， 使用 RDB 还可以避免之前提到的 AOF 程序的 bug 。</p><h3 id="RDB-快照"><a href="#RDB-快照" class="headerlink" title="RDB 快照"></a>RDB 快照</h3><p>在默认情况下， Redis 将数据库快照保存在名字为 dump.rdb 的二进制文件中。</p><p>你可以对 Redis 进行设置， 让它在“ N 秒内数据集至少有 M 个改动”这一条件被满足时， 自动保存一次数据集。</p><p>你也可以通过调用 SAVE 或者 BGSAVE ， 手动让 Redis 进行数据集保存操作。</p><p>比如说， 以下设置会让 Redis 在满足“ 60 秒内有至少有 1000 个键被改动”这一条件时， 自动保存一次数据集：</p><pre><code>save 60 1000</code></pre><p>这种持久化方式被称为快照（snapshot）。</p><h3 id="快照的运作方式"><a href="#快照的运作方式" class="headerlink" title="快照的运作方式"></a>快照的运作方式</h3><p>当 Redis 需要保存 dump.rdb 文件时， 服务器执行以下操作：</p><ol><li>Redis 调用 fork() ，同时拥有父进程和子进程。</li><li>子进程将数据集写入到一个临时 RDB 文件中。</li><li>当子进程完成对新 RDB 文件的写入时，Redis 用新 RDB 文件替换原来的 RDB 文件，并删除旧的 RDB 文件。</li></ol><p>这种工作方式使得 Redis 可以从写时复制（copy-on-write）机制中获益。</p><h3 id="只进行追加操作的文件（append-only-file，AOF）"><a href="#只进行追加操作的文件（append-only-file，AOF）" class="headerlink" title="只进行追加操作的文件（append-only file，AOF）"></a>只进行追加操作的文件（append-only file，AOF）</h3><p>快照功能并不是非常耐久（durable）： 如果 Redis 因为某些原因而造成故障停机， 那么服务器将丢失最近写入、且仍未保存到快照中的那些数据。</p><p>尽管对于某些程序来说， 数据的耐久性并不是最重要的考虑因素， 但是对于那些追求完全耐久能力（full durability）的程序来说， 快照功能就不太适用了。</p><p>从 1.1 版本开始， Redis 增加了一种完全耐久的持久化方式： AOF 持久化。</p><p>你可以通过修改配置文件来打开 AOF 功能：</p><pre><code>appendonly yes</code></pre><p>从现在开始， 每当 Redis 执行一个改变数据集的命令时（比如 SET key value [EX seconds] [PX milliseconds] [NX|XX]）， 这个命令就会被追加到 AOF 文件的末尾。</p><p>这样的话， 当 Redis 重新启时， 程序就可以通过重新执行 AOF 文件中的命令来达到重建数据集的目的。</p><h3 id="AOF-重写"><a href="#AOF-重写" class="headerlink" title="AOF 重写"></a>AOF 重写</h3><p>因为 AOF 的运作方式是不断地将命令追加到文件的末尾， 所以随着写入命令的不断增加， AOF 文件的体积也会变得越来越大。</p><p>举个例子， 如果你对一个计数器调用了 100 次 INCR key ， 那么仅仅是为了保存这个计数器的当前值， AOF 文件就需要使用 100 条记录（entry）。</p><p>然而在实际上， 只使用一条 SET key value [EX seconds] [PX milliseconds] [NX|XX] 命令已经足以保存计数器的当前值了， 其余 99 条记录实际上都是多余的。</p><p>为了处理这种情况， Redis 支持一种有趣的特性： 可以在不打断服务客户端的情况下， 对 AOF 文件进行重建（rebuild）。</p><p>执行 BGREWRITEAOF 命令， Redis 将生成一个新的 AOF 文件， 这个文件包含重建当前数据集所需的最少命令。</p><p>Redis 2.2 需要自己手动执行 BGREWRITEAOF 命令； Redis 2.4 则可以自动触发 AOF 重写， 具体信息请查看 2.4 的示例配置文件。</p><h3 id="AOF-的耐久性如何？"><a href="#AOF-的耐久性如何？" class="headerlink" title="AOF 的耐久性如何？"></a>AOF 的耐久性如何？</h3><p>你可以配置 Redis 多久才将数据 fsync 到磁盘一次。</p><p>有三个选项：</p><ul><li>每次有新命令追加到 AOF 文件时就执行一次 fsync ：非常慢，也非常安全。</li></ul><ul><li>每秒 fsync 一次：足够快（和使用 RDB 持久化差不多），并且在故障时只会丢失 1 秒钟的数据。</li></ul><ul><li>从不 fsync ：将数据交给操作系统来处理。更快，也更不安全的选择。</li></ul><p>推荐（并且也是默认）的措施为每秒 fsync 一次， 这种 fsync 策略可以兼顾速度和安全性。</p><p>总是 fsync 的策略在实际使用中非常慢， 即使在 Redis 2.0 对相关的程序进行了改进之后仍是如此 —— 频繁调用 fsync 注定了这种策略不可能快得起来。</p><h3 id="如果-AOF-文件出错了，怎么办？"><a href="#如果-AOF-文件出错了，怎么办？" class="headerlink" title="如果 AOF 文件出错了，怎么办？"></a>如果 AOF 文件出错了，怎么办？</h3><p>服务器可能在程序正在对 AOF 文件进行写入时停机， 如果停机造成了 AOF 文件出错（corrupt）， 那么 Redis 在重启时会拒绝载入这个 AOF 文件， 从而确保数据的一致性不会被破坏。</p><p>当发生这种情况时， 可以用以下方法来修复出错的 AOF 文件：</p><ol><li>为现有的 AOF 文件创建一个备份。</li><li>使用 Redis 附带的 redis-check-aof 程序，对原来的 AOF 文件进行修复。</li></ol><blockquote><p>$ redis-check-aof –fix</p></blockquote><ol start="3"><li>（可选）使用 diff -u 对比修复后的 AOF 文件和原始 AOF 文件的备份，查看两个文件之间的不同之处。</li><li>重启 Redis 服务器，等待服务器载入修复后的 AOF 文件，并进行数据恢复。</li></ol><h3 id="AOF-的运作方式"><a href="#AOF-的运作方式" class="headerlink" title="AOF 的运作方式"></a>AOF 的运作方式</h3><p>AOF 重写和 RDB 创建快照一样，都巧妙地利用了写时复制机制。</p><p>以下是 AOF 重写的执行步骤：</p><ol><li>Redis 执行 fork() ，现在同时拥有父进程和子进程。</li><li>子进程开始将新 AOF 文件的内容写入到临时文件。</li><li>对于所有新执行的写入命令，父进程一边将它们累积到一个内存缓存中，一边将这些改动追加到现有 AOF 文件的末尾： 这样即使在重写的中途发生停机，现有的 AOF 文件也还是安全的。</li><li>当子进程完成重写工作时，它给父进程发送一个信号，父进程在接收到信号之后，将内存缓存中的所有数据追加到新 AOF 文件的末尾。</li><li>搞定！现在 Redis 原子地用新文件替换旧文件，之后所有命令都会直接追加到新 AOF 文件的末尾。</li></ol><h3 id="怎么从-RDB-持久化切换到-AOF-持久化"><a href="#怎么从-RDB-持久化切换到-AOF-持久化" class="headerlink" title="怎么从 RDB 持久化切换到 AOF 持久化"></a>怎么从 RDB 持久化切换到 AOF 持久化</h3><p>在 Redis 2.2 或以上版本，可以在不重启的情况下，从 RDB 切换到 AOF ：</p><ol><li>为最新的 dump.rdb 文件创建一个备份。</li><li>将备份放到一个安全的地方。</li><li>执行以下两条命令：</li></ol><blockquote><p>redis-cli&gt; CONFIG SET appendonly yes</p></blockquote><blockquote><p>redis-cli&gt; CONFIG SET save “”</p></blockquote><ol start="4"><li>确保命令执行之后，数据库的键的数量没有改变。</li><li>确保写命令会被正确地追加到 AOF 文件的末尾。</li></ol><p>步骤 3 执行的第一条命令开启了 AOF 功能： Redis 会阻塞直到初始 AOF 文件创建完成为止， 之后 Redis 会继续处理命令请求， 并开始将写入命令追加到 AOF 文件末尾。</p><p>步骤 3 执行的第二条命令用于关闭 RDB 功能。 这一步是可选的， 如果你愿意的话， 也可以同时使用 RDB 和 AOF 这两种持久化功能。</p><h3 id="RDB-和-AOF-之间的相互作用"><a href="#RDB-和-AOF-之间的相互作用" class="headerlink" title="RDB 和 AOF 之间的相互作用"></a>RDB 和 AOF 之间的相互作用</h3><p>在版本号大于等于 2.4 的 Redis 中， BGSAVE 执行的过程中， 不可以执行 BGREWRITEAOF 。 反过来说， 在 BGREWRITEAOF 执行的过程中， 也不可以执行 BGSAVE 。</p><p>这可以防止两个 Redis 后台进程同时对磁盘进行大量的 I/O 操作。</p><p>如果 BGSAVE 正在执行， 并且用户显示地调用 BGREWRITEAOF 命令， 那么服务器将向用户回复一个 OK 状态， 并告知用户， BGREWRITEAOF 已经被预定执行： 一旦 BGSAVE 执行完毕， BGREWRITEAOF 就会正式开始。</p><p>当 Redis 启动时， 如果 RDB 持久化和 AOF 持久化都被打开了， 那么程序会优先使用 AOF 文件来恢复数据集， 因为 AOF 文件所保存的数据通常是最完整的。</p><h3 id="备份-Redis-数据"><a href="#备份-Redis-数据" class="headerlink" title="备份 Redis 数据"></a>备份 Redis 数据</h3><p>在阅读这个小节前， 先将下面这句话铭记于心： 一定要备份你的数据库！</p><p>磁盘故障， 节点失效， 诸如此类的问题都可能让你的数据消失不见， 不进行备份是非常危险的。</p><p>Redis 对于数据备份是非常友好的， 因为你可以在服务器运行的时候对 RDB 文件进行复制： RDB 文件一旦被创建， 就不会进行任何修改。 当服务器要创建一个新的 RDB 文件时， 它先将文件的内容保存在一个临时文件里面， 当临时文件写入完毕时， 程序才使用 rename(2) 原子地用临时文件替换原来的 RDB 文件。</p><p>这也就是说， 无论何时， 复制 RDB 文件都是绝对安全的。</p><p>以下是我们的建议：</p><ul><li>创建一个定期任务（cron job）， 每小时将一个 RDB 文件备份到一个文件夹， 并且每天将一个 RDB 文件备份到另一个文件夹。</li><li>确保快照的备份都带有相应的日期和时间信息， 每次执行定期任务脚本时， 使用 find 命令来删除过期的快照： 比如说， 你可以保留最近 48 小时内的每小时快照， 还可以保留最近一两个月的每日快照。</li><li>至少每天一次， 将 RDB 备份到你的数据中心之外， 或者至少是备份到你运行 Redis 服务器的物理机器之外。</li></ul><h3 id="容灾备份"><a href="#容灾备份" class="headerlink" title="容灾备份"></a>容灾备份</h3><p>Redis 的容灾备份基本上就是对数据进行备份， 并将这些备份传送到多个不同的外部数据中心。</p><p>容灾备份可以在 Redis 运行并产生快照的主数据中心发生严重的问题时， 仍然让数据处于安全状态。</p><p>因为很多 Redis 用户都是创业者， 他们没有大把大把的钱可以浪费， 所以下面介绍的都是一些实用又便宜的容灾备份方法：</p><ul><li>Amazon S3 ，以及其他类似 S3 的服务，是一个构建灾难备份系统的好地方。 最简单的方法就是将你的每小时或者每日 RDB 备份加密并传送到 S3 。 对数据的加密可以通过 gpg -c 命令来完成（对称加密模式）。 记得把你的密码放到几个不同的、安全的地方去（比如你可以把密码复制给你组织里最重要的人物）。 同时使用多个储存服务来保存数据文件，可以提升数据的安全性。</li><li>传送快照可以使用 SCP 来完成（SSH 的组件）。 以下是简单并且安全的传送方法： 买一个离你的数据中心非常远的 VPS ， 装上 SSH ， 创建一个无口令的 SSH 客户端 key ， 并将这个 key 添加到 VPS 的 authorized_keys 文件中， 这样就可以向这个 VPS 传送快照备份文件了。 为了达到最好的数据安全性，至少要从两个不同的提供商那里各购买一个 VPS 来进行数据容灾备份。</li></ul><p>需要注意的是， 这类容灾系统如果没有小心地进行处理的话， 是很容易失效的。</p><p>最低限度下， 你应该在文件传送完毕之后， 检查所传送备份文件的体积和原始快照文件的体积是否相同。 如果你使用的是 VPS ， 那么还可以通过比对文件的 SHA1 校验和来确认文件是否传送完整。</p><p>另外， 你还需要一个独立的警报系统， 让它在负责传送备份文件的传送器（transfer）失灵时通知你。</p><p>转: <a href="http://redisdoc.com/topic/persistence.html" target="_blank" rel="noopener">http://redisdoc.com/topic/persistence.html</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+            <tag> 数据库 </tag>
+            
+            <tag> 缓存 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Springboot自定义连接池并开启定时任务</title>
+      <link href="/2019/06/26/Springboot%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B9%B6%E5%BC%80%E5%90%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+      <url>/2019/06/26/Springboot%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B9%B6%E5%BC%80%E5%90%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot自定义线程池"><a href="#Springboot自定义线程池" class="headerlink" title="Springboot自定义线程池"></a>Springboot自定义线程池</h3><h4 id="线程池参数配置"><a href="#线程池参数配置" class="headerlink" title="线程池参数配置"></a>线程池参数配置</h4><hr><pre><code>## 连接池threadPool:  corePoolSize: 20  maxPoolSize: 40  queueCapacity: 1000  # 线程前缀名  threadNamePrefix: &apos;Async-Service-&apos;  allowCoreThreadTimeout: false  keepAliveSeconds: 300</code></pre><h4 id="线程池配置类"><a href="#线程池配置类" class="headerlink" title="线程池配置类"></a>线程池配置类</h4><p>创建一个配置类ExecutorConfig, 用来自定义如何创建一个ThreadPoolTaskExecutor, 在类上添加@Configuration和@EnableAsync注解, 表示是配置类.</p><hr><pre><code>@Configuration@EnableAsyncpublic class ExecutorConfig implements AsyncConfigurer {    private static Logger log = LoggerFactory.getLogger(ExecutorConfig.class);    @Value(&quot;${threadPool.corePoolSize}&quot;)    int corePoolSize;    @Value(&quot;${threadPool.maxPoolSize}&quot;)    int maxPoolSize;    @Value(&quot;${threadPool.queueCapacity}&quot;)    int queueCapacity;    @Value(&quot;${threadPool.threadNamePrefix}&quot;)    String threadNamePrefix;    @Value(&quot;${threadPool.keepAliveSeconds}&quot;)    int keepAliveSeconds;    @Bean(&quot;asyncExecutor&quot;)    public Executor asyncExecutor() {        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();        executor.setCorePoolSize(corePoolSize);        executor.setMaxPoolSize(maxPoolSize);        executor.setQueueCapacity(queueCapacity);        executor.setKeepAliveSeconds(keepAliveSeconds);        executor.setThreadNamePrefix(threadNamePrefix);        // 线程池对拒绝任务的处理策略        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        executor.initialize();        return executor;    }    @Override    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {        return new AsyncUncaughtExceptionHandler() {            @Override            public void handleUncaughtException(Throwable ex, Method method, Object... params) {                log.error(&quot;==========================&quot; + ex.getMessage() + &quot;=======================&quot;, ex);                log.error(&quot;exception method:&quot; + method.getName());            }        };    }}</code></pre><h3 id="Springboot开启多线程定时任务"><a href="#Springboot开启多线程定时任务" class="headerlink" title="Springboot开启多线程定时任务"></a>Springboot开启多线程定时任务</h3><p>以下为定时任务类, 定时任务由此定义开启</p><hr><pre><code>@Componentpublic class ComputersTask {    private static Logger log = LoggerFactory.getLogger(ComputersTask.class);    @Autowired    private IemComputerService iemComputerService;    // asyncExecutor 为自定义的线程池    @Async(&quot;asyncExecutor&quot;)    @Scheduled(fixedDelay = 1000 * 60)    public void startListen() throws InterruptedException {        System.out.println(&quot;线程--&quot;+Thread.currentThread().getName()+&quot;--开始!&quot;);        Thread.sleep(1000*10);        System.out.println(&quot;线程--&quot;+Thread.currentThread().getName()+&quot;--结束!&quot;);    }}</code></pre><p>一般情况下, 定时任务默认只使用单线程跑任务, 但在实际开发过程中, 单线程肯定不满足我们的需求, 所以我们需要开启定时任务多线程,<br>因为我们之前有自定义线程池, 所以我们直接在之前的线程池配置类中实现SchedulingConfigurer接口.</p><hr><pre><code>@Configuration@EnableAsync@EnableSchedulingpublic class ExecutorConfig implements AsyncConfigurer, SchedulingConfigurer {    private static Logger log = LoggerFactory.getLogger(ExecutorConfig.class);    @Value(&quot;${threadPool.corePoolSize}&quot;)    int corePoolSize;    @Value(&quot;${threadPool.maxPoolSize}&quot;)    int maxPoolSize;    @Value(&quot;${threadPool.queueCapacity}&quot;)    int queueCapacity;    @Value(&quot;${threadPool.threadNamePrefix}&quot;)    String threadNamePrefix;    @Value(&quot;${threadPool.keepAliveSeconds}&quot;)    int keepAliveSeconds;    @Bean(&quot;asyncExecutor&quot;)    public Executor asyncExecutor() {        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();        executor.setCorePoolSize(corePoolSize);        executor.setMaxPoolSize(maxPoolSize);        executor.setQueueCapacity(queueCapacity);        executor.setKeepAliveSeconds(keepAliveSeconds);        executor.setThreadNamePrefix(threadNamePrefix);        // 线程池对拒绝任务的处理策略        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        executor.initialize();        return executor;    }    @Override    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {        return new AsyncUncaughtExceptionHandler() {            @Override            public void handleUncaughtException(Throwable ex, Method method, Object... params) {                log.error(&quot;==========================&quot; + ex.getMessage() + &quot;=======================&quot;, ex);                log.error(&quot;exception method:&quot; + method.getName());            }        };    }        public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {        TaskScheduler taskScheduler = taskScheduler();        scheduledTaskRegistrar.setTaskScheduler(taskScheduler);    }    @Bean(destroyMethod = &quot;shutdown&quot;)    public ThreadPoolTaskScheduler taskScheduler() {        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();        scheduler.setThreadNamePrefix(threadNamePrefix);        scheduler.setPoolSize(corePoolSize);        scheduler.setAwaitTerminationSeconds(60);        scheduler.setWaitForTasksToCompleteOnShutdown(true);        // 线程池对拒绝任务的处理策略        scheduler.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());        // 初始化        scheduler.initialize();        return scheduler;    }}</code></pre><p>这样我们的定时任务启动之后就可以多线程运行了.<br><img src="/2019/06/26/Springboot自定义线程池并开启定时任务/p1.png" alt></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 线程池 </tag>
+            
+            <tag> Springboot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Springboot配置过滤器Filter</title>
+      <link href="/2019/05/17/Springboot%E9%85%8D%E7%BD%AE%E8%BF%87%E6%BB%A4%E5%99%A8Filter/"/>
+      <url>/2019/05/17/Springboot%E9%85%8D%E7%BD%AE%E8%BF%87%E6%BB%A4%E5%99%A8Filter/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot-配置-Filter过滤器"><a href="#Springboot-配置-Filter过滤器" class="headerlink" title="Springboot 配置 Filter过滤器"></a>Springboot 配置 Filter过滤器</h3><p>上代码:</p><h4 id="1-首先自定义MyFilter-继承类-Filter"><a href="#1-首先自定义MyFilter-继承类-Filter" class="headerlink" title="1. 首先自定义MyFilter 继承类 Filter"></a>1. 首先自定义MyFilter 继承类 Filter</h4><p>我们需要实现做的就是编写doFIlter类实现过滤逻辑</p><hr><pre><code>@Component@WebFilter(urlPatterns = &quot;/*&quot;, filterName = &quot;myFilter&quot;) // 这种是注解配置  下面有配置文件配置public class MyFilter implements Filter {    private static Logger log = LoggerFactory.getLogger(MyFilter.class);    @Override    public void init(FilterConfig filterConfig) throws ServletException {        log.info(&quot;MyFilter参数初始化: &quot;+filterConfig);    }    @Override    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {        filterChain.doFilter(servletRequest, servletResponse);    }    @Override    public void destroy() {        log.info(&quot;MyFilter开始销毁...&quot;);    }}</code></pre><hr><h4 id="2-在Springboot-启动类中添加过滤器"><a href="#2-在Springboot-启动类中添加过滤器" class="headerlink" title="2. 在Springboot 启动类中添加过滤器"></a>2. 在Springboot 启动类中添加过滤器</h4><hr><pre><code>// 配置文件配置@Beanpublic FilterRegistrationBean testFilterRegistration() {    FilterRegistrationBean registration = new FilterRegistrationBean(new MyFilter());    registration.addUrlPatterns(&quot;/*&quot;);    registration.addInitParameter(&quot;paramName&quot;, &quot;paramValue&quot;);    registration.setName(&quot;myFilter&quot;);    registration.setOrder(1); // 多个过滤器可控制执行顺序 数字越小优先级越高    return registration;}</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Springboot </tag>
+            
+            <tag> Filter </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mysql主从复制</title>
+      <link href="/2019/05/14/Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/"/>
+      <url>/2019/05/14/Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Springboot配置日志输出</title>
+      <link href="/2019/05/08/Springboot%E9%85%8D%E7%BD%AE%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/"/>
+      <url>/2019/05/08/Springboot%E9%85%8D%E7%BD%AE%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一-Springboot配置日志输出"><a href="#一-Springboot配置日志输出" class="headerlink" title="一. Springboot配置日志输出"></a>一. Springboot配置日志输出</h3><h4 id="LockBack的使用"><a href="#LockBack的使用" class="headerlink" title="LockBack的使用"></a>LockBack的使用</h4><p>编写LockBack配置文件, 配置文件需要在application.yml(.properties)中配置</p><hr><pre><code># 配置日志输出logging:  config: classpath:logback-spring.xml  level:    dao: debug    org:      mybatis: debug</code></pre><hr><p>我们所需的是 <strong>logback-spring.xml</strong> 配置文件</p><p>该文件在项目结构所在位置如下图:<br><img src="/2019/05/08/Springboot配置日志输出/logback-spring.png" alt></p><p><strong>lobback-spring.xml</strong>配置文件内容如下:</p><hr><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!-- 日志级别从低到高分为TRACE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL，如果设置为WARN，则低于WARN的信息都不会输出 --&gt;&lt;!-- scan:当此属性设置为true时，配置文档如果发生改变，将会被重新加载，默认值为true --&gt;&lt;!-- scanPeriod:设置监测配置文档是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。                 当scan为true时，此属性生效。默认的时间间隔为1分钟。 --&gt;&lt;!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 --&gt;&lt;configuration  scan=&quot;true&quot; scanPeriod=&quot;10 seconds&quot;&gt;    &lt;contextName&gt;logback&lt;/contextName&gt;    &lt;!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 --&gt;    &lt;property name=&quot;log.path&quot; value=&quot;E:/ideaWorkSpace/Demo/log&quot; /&gt;    &lt;!--0. 日志格式和颜色渲染 --&gt;    &lt;!-- 彩色日志依赖的渲染类 --&gt;    &lt;conversionRule conversionWord=&quot;clr&quot; converterClass=&quot;org.springframework.boot.logging.logback.ColorConverter&quot; /&gt;    &lt;conversionRule conversionWord=&quot;wex&quot; converterClass=&quot;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&quot; /&gt;    &lt;conversionRule conversionWord=&quot;wEx&quot; converterClass=&quot;org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter&quot; /&gt;    &lt;!-- 彩色日志格式 --&gt;    &lt;property name=&quot;CONSOLE_LOG_PATTERN&quot; value=&quot;${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}&quot;/&gt;    &lt;!--&lt;property name=&quot;CONSOLE_LOG_PATTERN&quot; value=&quot;%date{yyyy-MM-dd HH:mm:ss} | %highlight(%-5level) | %boldYellow(%thread) | %boldGreen(%logger) | %msg%n&quot;/&gt;--&gt;    &lt;!--1. 输出到控制台--&gt;    &lt;appender name=&quot;CONSOLE&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;        &lt;!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息--&gt;        &lt;filter class=&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;&gt;            &lt;level&gt;debug&lt;/level&gt;        &lt;/filter&gt;        &lt;encoder&gt;            &lt;Pattern&gt;${CONSOLE_LOG_PATTERN}&lt;/Pattern&gt;            &lt;!-- 设置字符集 --&gt;            &lt;charset&gt;UTF-8&lt;/charset&gt;        &lt;/encoder&gt;    &lt;/appender&gt;    &lt;!--2. 输出到文档--&gt;    &lt;!-- 2.1 level为 DEBUG 日志，时间滚动输出  --&gt;    &lt;appender name=&quot;DEBUG_FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;        &lt;!-- 正在记录的日志文档的路径及文档名 --&gt;        &lt;file&gt;${log.path}/web_debug.log&lt;/file&gt;        &lt;!--日志文档输出格式--&gt;        &lt;encoder&gt;            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;            &lt;charset&gt;UTF-8&lt;/charset&gt; &lt;!-- 设置字符集 --&gt;        &lt;/encoder&gt;        &lt;!-- 日志记录器的滚动策略，按日期，按大小记录 --&gt;        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;            &lt;!-- 日志归档 --&gt;            &lt;fileNamePattern&gt;${log.path}/web-debug-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern&gt;            &lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;                &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;            &lt;!--日志文档保留天数--&gt;            &lt;maxHistory&gt;15&lt;/maxHistory&gt;        &lt;/rollingPolicy&gt;        &lt;!-- 此日志文档只记录debug级别的 --&gt;        &lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;            &lt;level&gt;debug&lt;/level&gt;            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;        &lt;/filter&gt;    &lt;/appender&gt;    &lt;!-- 2.2 level为 INFO 日志，时间滚动输出  --&gt;    &lt;appender name=&quot;INFO_FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;        &lt;!-- 正在记录的日志文档的路径及文档名 --&gt;        &lt;file&gt;${log.path}/web_info.log&lt;/file&gt;        &lt;!--日志文档输出格式--&gt;        &lt;encoder&gt;            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;            &lt;charset&gt;UTF-8&lt;/charset&gt;        &lt;/encoder&gt;        &lt;!-- 日志记录器的滚动策略，按日期，按大小记录 --&gt;        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;            &lt;!-- 每天日志归档路径以及格式 --&gt;            &lt;fileNamePattern&gt;${log.path}/web-info-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern&gt;            &lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;                &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;            &lt;!--日志文档保留天数--&gt;            &lt;maxHistory&gt;15&lt;/maxHistory&gt;        &lt;/rollingPolicy&gt;        &lt;!-- 此日志文档只记录info级别的 --&gt;        &lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;            &lt;level&gt;info&lt;/level&gt;            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;        &lt;/filter&gt;    &lt;/appender&gt;    &lt;!-- 2.3 level为 WARN 日志，时间滚动输出  --&gt;    &lt;appender name=&quot;WARN_FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;        &lt;!-- 正在记录的日志文档的路径及文档名 --&gt;        &lt;file&gt;${log.path}/web_warn.log&lt;/file&gt;        &lt;!--日志文档输出格式--&gt;        &lt;encoder&gt;            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;            &lt;charset&gt;UTF-8&lt;/charset&gt; &lt;!-- 此处设置字符集 --&gt;        &lt;/encoder&gt;        &lt;!-- 日志记录器的滚动策略，按日期，按大小记录 --&gt;        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;            &lt;fileNamePattern&gt;${log.path}/web-warn-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern&gt;            &lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;                &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;            &lt;!--日志文档保留天数--&gt;            &lt;maxHistory&gt;15&lt;/maxHistory&gt;        &lt;/rollingPolicy&gt;        &lt;!-- 此日志文档只记录warn级别的 --&gt;        &lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;            &lt;level&gt;warn&lt;/level&gt;            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;        &lt;/filter&gt;    &lt;/appender&gt;    &lt;!-- 2.4 level为 ERROR 日志，时间滚动输出  --&gt;    &lt;appender name=&quot;ERROR_FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;        &lt;!-- 正在记录的日志文档的路径及文档名 --&gt;        &lt;file&gt;${log.path}/web_error.log&lt;/file&gt;        &lt;!--日志文档输出格式--&gt;        &lt;encoder&gt;            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;            &lt;charset&gt;UTF-8&lt;/charset&gt; &lt;!-- 此处设置字符集 --&gt;        &lt;/encoder&gt;        &lt;!-- 日志记录器的滚动策略，按日期，按大小记录 --&gt;        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;            &lt;fileNamePattern&gt;${log.path}/web-error-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern&gt;            &lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;                &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;            &lt;!--日志文档保留天数--&gt;            &lt;maxHistory&gt;15&lt;/maxHistory&gt;        &lt;/rollingPolicy&gt;        &lt;!-- 此日志文档只记录ERROR级别的 --&gt;        &lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;            &lt;level&gt;ERROR&lt;/level&gt;            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;        &lt;/filter&gt;    &lt;/appender&gt;    &lt;!--        &lt;logger&gt;用来设置某一个包或者具体的某一个类的日志打印级别、        以及指定&lt;appender&gt;。&lt;logger&gt;仅有一个name属性，        一个可选的level和一个可选的addtivity属性。        name:用来指定受此logger约束的某一个包或者具体的某一个类。        level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，              还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。              如果未设置此属性，那么当前logger将会继承上级的级别。        addtivity:是否向上级logger传递打印信息。默认是true。        &lt;logger name=&quot;org.springframework.web&quot; level=&quot;info&quot;/&gt;        &lt;logger name=&quot;org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor&quot; level=&quot;INFO&quot;/&gt;    --&gt;    &lt;!--        使用mybatis的时候，sql语句是debug下才会打印，而这里我们只配置了info，所以想要查看sql语句的话，有以下两种操作：        第一种把&lt;root level=&quot;info&quot;&gt;改成&lt;root level=&quot;DEBUG&quot;&gt;这样就会打印sql，不过这样日志那边会出现很多其他消息        第二种就是单独给dao下目录配置debug模式，代码如下，这样配置sql语句会打印，其他还是正常info级别：        【logging.level.org.mybatis=debug logging.level.dao=debug】     --&gt;    &lt;!--        root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性        level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，        不能设置为INHERITED或者同义词NULL。默认是DEBUG        可以包含零个或多个元素，标识这个appender将会添加到这个logger。    --&gt;    &lt;!-- 4. 最终的策略 --&gt;    &lt;!-- 4.1 开发环境:打印控制台--&gt;    &lt;springProfile name=&quot;dev&quot;&gt;        &lt;logger name=&quot;com.demo&quot; level=&quot;debug&quot;/&gt;    &lt;/springProfile&gt;    &lt;root level=&quot;info&quot;&gt;        &lt;appender-ref ref=&quot;CONSOLE&quot; /&gt;        &lt;appender-ref ref=&quot;DEBUG_FILE&quot; /&gt;        &lt;appender-ref ref=&quot;INFO_FILE&quot; /&gt;        &lt;appender-ref ref=&quot;WARN_FILE&quot; /&gt;        &lt;appender-ref ref=&quot;ERROR_FILE&quot; /&gt;    &lt;/root&gt;     &lt;!--4.2 生产环境:输出到文档--&gt;    &lt;!--&lt;springProfile name=&quot;pro&quot;&gt;        &lt;root level=&quot;info&quot;&gt;            &lt;appender-ref ref=&quot;CONSOLE&quot; /&gt;            &lt;appender-ref ref=&quot;DEBUG_FILE&quot; /&gt;            &lt;appender-ref ref=&quot;INFO_FILE&quot; /&gt;            &lt;appender-ref ref=&quot;ERROR_FILE&quot; /&gt;            &lt;appender-ref ref=&quot;WARN_FILE&quot; /&gt;        &lt;/root&gt;    &lt;/springProfile&gt;--&gt;&lt;/configuration&gt;</code></pre><hr><p>这些配置好之后呢, 就可以在java代码中使用日志了!</p><hr><pre><code>private static Logger log = LoggerFactory.getLogger(FreeMarkerController.class);log.info(内容);</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Springboot </tag>
+            
+            <tag> slf4j </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hexo上传的图片在网页上无法显示的解决办法</title>
+      <link href="/2019/05/06/Hexo%E4%B8%8A%E4%BC%A0%E7%9A%84%E5%9B%BE%E7%89%87%E5%9C%A8%E7%BD%91%E9%A1%B5%E4%B8%8A%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+      <url>/2019/05/06/Hexo%E4%B8%8A%E4%BC%A0%E7%9A%84%E5%9B%BE%E7%89%87%E5%9C%A8%E7%BD%91%E9%A1%B5%E4%B8%8A%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>转: <a href="https://blog.csdn.net/qq_38148394/article/details/79997971" target="_blank" rel="noopener">https://blog.csdn.net/qq_38148394/article/details/79997971</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Vue和移动端App的交互</title>
+      <link href="/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
+      <url>/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p><p>以下为个人所做项目中的一些简单调用方法</p><hr><pre><code>let utils = { //注册的全局函数  versions: function () { // 判断Android 和 IOS    var u = navigator.userAgent, app = navigator.appVersion;    return {      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,    };  }(),  isMobile: function () {    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;  },  getToken: function () {    if (utils.versions.android) {      return jsObj.readFile(); // 调用Android端方法    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(); // 调用IOS端方法    }    return &quot;&quot;;  },  getEmpCode: function () {    if (utils.versions.android) {      return jsObj.getEmpCode();    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(&quot;getUser&quot;);    }    return &quot;&quot;;  },}export default {  utils,}</code></pre><hr><h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p><hr><pre><code>mounted: function () {  let _this = this  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)    // _this.show1 = true    _this.recordComplete(time, fileId)  }},methods: {    recordComplete: function() {        ...    }}</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vue </tag>
+            
+            <tag> Webapp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>axios 上传文件的坑</title>
+      <link href="/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/"/>
+      <url>/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="/2019/04/12/axios-上传文件的坑/error01.png" alt></p><p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p><p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p><hr><pre><code>// 上传头像到服务器uploadHeadToServer: function (file) {  let formData = new FormData()  formData.append(&quot;file&quot;, file)  let headers = {headers: {&quot;Content-Type&quot;: &quot;multipart/form-data&quot;}}  const instance=this.$axios.create({    withCredentials: false  })  instance.post(&apos;/api/uploadHead&apos;, formData, headers).then(response=&gt;{      console.log(response.data);    }) },</code></pre><hr><p>OK 这样一写, 后台不报原来的错的, 但是又出现了新的错误:<br><img src="/2019/04/12/axios-上传文件的坑/error02.png" alt></p><p>那就顺带记录一下吧, 毕竟小白, 好记性不如记下来</p><p>这是springBoot本身的问题</p><p>springBoot文档说明表示，每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb。要更改这个默认值需要在配置文件（如application.properties）中加入两个配置</p><hr><pre><code>multipart.maxFileSize = 10Mbmultipart.maxRequestSize=100Mb</code></pre><hr><p>Spring Boot2.0之后的版本配置修改为:</p><hr><pre><code>spring.servlet.multipart.max-file-size = 10MB  spring.servlet.multipart.max-request-size=100MB</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vue </tag>
+            
+            <tag> Axios </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS上传头像,压缩,拍照旋转</title>
+      <link href="/2019/04/08/JS%E4%B8%8A%E4%BC%A0%E5%A4%B4%E5%83%8F-%E5%8E%8B%E7%BC%A9-%E6%8B%8D%E7%85%A7%E6%97%8B%E8%BD%AC/"/>
+      <url>/2019/04/08/JS%E4%B8%8A%E4%BC%A0%E5%A4%B4%E5%83%8F-%E5%8E%8B%E7%BC%A9-%E6%8B%8D%E7%85%A7%E6%97%8B%E8%BD%AC/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="EXIF-组件安装"><a href="#EXIF-组件安装" class="headerlink" title="EXIF 组件安装"></a>EXIF 组件安装</h2><hr><p>npm install exif-js –save</p><hr><h2 id="Vue-中具体代码"><a href="#Vue-中具体代码" class="headerlink" title="Vue 中具体代码"></a>Vue 中具体代码</h2><hr><pre><code>&lt;template&gt;    &lt;div&gt;        &lt;input type=&quot;file&quot; style=&quot;display: none;&quot; id=&quot;img-upload&quot; multiple accept=&quot;image/*&quot; @change=&quot;uploadImg($event)&quot;/&gt;    &lt;/div&gt;&lt;/template&gt;&lt;script&gt;import EXIF from &apos;exif-js&apos;export default{    name:&quot;image-html5-upload&quot;,    props:{        imgArr:{            type:Array,            twoWay: true,            default:Array        },        imgNumLimit:{//一次最多可以上传多少张照片            type:Number,            default:4        }    },    methods:{        uploadImg: function(e){            let tag = e.target;            let fileList = tag.files;            let imgNum = fileList.length;            let _this = this;            _this.imgArr = [];//图片数据清零            if(this.imgArr.length + imgNum &gt; this.imgNumLimit){                alert(&apos;一次最多上传&apos;+this.imgNumLimit+&apos;张图片！&apos;);                return;            }            var Orientation;            for(let i=0;i&lt;imgNum;i++){                EXIF.getData(fileList[i], function(){                    Orientation = EXIF.getTag(fileList[i], &apos;Orientation&apos;);                });                let reader = new FileReader();                reader.readAsDataURL(fileList[i]);                reader.onload = function(){                    var oReader = new FileReader();                    oReader.onload = function(e) {                        var image = new Image();                        image.src = e.target.result;                        image.onload = function() {                            var expectWidth = this.naturalWidth;                            var expectHeight = this.naturalHeight;                            if (this.naturalWidth &gt; this.naturalHeight &amp;&amp; this.naturalWidth &gt; 800) {                                expectWidth = 800;                                expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;                            } else if (this.naturalHeight &gt; this.naturalWidth &amp;&amp; this.naturalHeight &gt; 1200) {                                expectHeight = 1200;                                expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;                            }                            var canvas = document.createElement(&quot;canvas&quot;);                            var ctx = canvas.getContext(&quot;2d&quot;);                            canvas.width = expectWidth;                            canvas.height = expectHeight;                            ctx.drawImage(this, 0, 0, expectWidth, expectHeight);                            var base64 = null;                            //修复ios上传图片的时候 被旋转的问题                            if(Orientation != &quot;&quot; &amp;&amp; Orientation != 1){                                switch(Orientation){                                    case 6://需要顺时针（向左）90度旋转                                        _this.rotateImg(this,&apos;left&apos;,canvas);                                        break;                                    case 8://需要逆时针（向右）90度旋转                                        _this.rotateImg(this,&apos;right&apos;,canvas);                                        break;                                    case 3://需要180度旋转                                        _this.rotateImg(this,&apos;right&apos;,canvas);//转两次                                        _this.rotateImg(this,&apos;right&apos;,canvas);                                        break;                                }                            }                            base64 = canvas.toDataURL(&quot;image/jpeg&quot;, 0.8);                            if(fileList[i].size / 1024000 &gt; 1){                                _this.imgScale(base64, 4)                            }else{                                _this.imgArr.push({&quot;src&quot;: base64});                            }                            console.log(JSON.stringify(_this.imgArr));                        };                    };                    oReader.readAsDataURL(fileList[i]);                }            }        },        imgScale: function(imgUrl,quality){            let img = new Image();            let _this = this;            let canvas = document.createElement(&apos;canvas&apos;);            let cxt = canvas.getContext(&apos;2d&apos;);            img.src = imgUrl;            img.onload = function(){                //缩放后图片的宽高                let width = img.naturalWidth/quality;                let height = img.naturalHeight/quality;                canvas.width = width;                canvas.height = height;                cxt.drawImage(this, 0, 0, width, height);                _this.imgArr.push({&quot;src&quot;: canvas.toDataURL(&apos;image/jpeg&apos;)});            }        },        rotateImg:function (img, direction,canvas) {//图片旋转            var min_step = 0;            var max_step = 3;            if (img == null)return;            var height = img.height;            var width = img.width;            var step = 2;            if (step == null) {                step = min_step;            }            if (direction == &apos;right&apos;) {                step++;                step &gt; max_step &amp;&amp; (step = min_step);            } else {                step--;                step &lt; min_step &amp;&amp; (step = max_step);            }            var degree = step * 90 * Math.PI / 180;            var ctx = canvas.getContext(&apos;2d&apos;);            switch (step) {                case 0:                    canvas.width = width;                    canvas.height = height;                    ctx.drawImage(img, 0, 0);                    break;                case 1:                    canvas.width = height;                    canvas.height = width;                    ctx.rotate(degree);                    ctx.drawImage(img, 0, -height);                    break;                case 2:                    canvas.width = width;                    canvas.height = height;                    ctx.rotate(degree);                    ctx.drawImage(img, -width, -height);                    break;                case 3:                    canvas.width = height;                    canvas.height = width;                    ctx.rotate(degree);                    ctx.drawImage(img, -width, 0);                    break;            }        }    }}&lt;/script&gt;</code></pre><hr><p>转自: <a href="https://blog.csdn.net/xwqqq/article/details/53958601" target="_blank" rel="noopener">https://blog.csdn.net/xwqqq/article/details/53958601</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+            <tag> HTML </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java输出视频流</title>
+      <link href="/2019/03/19/Java%E8%BE%93%E5%87%BA%E8%A7%86%E9%A2%91%E6%B5%81/"/>
+      <url>/2019/03/19/Java%E8%BE%93%E5%87%BA%E8%A7%86%E9%A2%91%E6%B5%81/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr><pre><code>public byte[] file2byte(String filePath) {    byte[] buffer = null;    try {        File file = new File(filePath);        FileInputStream fis = new FileInputStream(file);        ByteArrayOutputStream bos = new ByteArrayOutputStream();        byte[] b = new byte[1024];        int n;        while ((n = fis.read(b)) != -1) {        bos.write(b, 0, n);        }        fis.close();        bos.close();        buffer = bos.toByteArray();    } catch (FileNotFoundException e) {        e.printStackTrace();    } catch (IOException e) {        e.printStackTrace();    }    return buffer;}</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> IO </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
