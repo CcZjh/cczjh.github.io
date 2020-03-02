@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Springboot关闭SpringSecurity扫描</title>
+      <link href="/2020/03/02/Springboot%E5%85%B3%E9%97%ADSpringSecurity%E6%89%AB%E6%8F%8F/"/>
+      <url>/2020/03/02/Springboot%E5%85%B3%E9%97%ADSpringSecurity%E6%89%AB%E6%8F%8F/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在springboot启动类中添加：</p><pre><code>@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Spring </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hexo多电脑编写以及相关Git命令</title>
       <link href="/2020/01/20/Hexo%E5%A4%9A%E7%94%B5%E8%84%91%E7%BC%96%E5%86%99%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3Git%E5%91%BD%E4%BB%A4/"/>
       <url>/2020/01/20/Hexo%E5%A4%9A%E7%94%B5%E8%84%91%E7%BC%96%E5%86%99%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3Git%E5%91%BD%E4%BB%A4/</url>
