@@ -4,6 +4,62 @@
   
     
     <entry>
+      <title>浏览器下载文件到本地</title>
+      <link href="/2020/05/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%AC%E5%9C%B0/"/>
+      <url>/2020/05/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%AC%E5%9C%B0/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>项目中使用到的文件下载方法, 简单记录</p><h4 id="后端主要方法"><a href="#后端主要方法" class="headerlink" title="后端主要方法"></a>后端主要方法</h4><pre><code>@Overridepublic void downloadFile(UploadFile file) { // UploadFile为软件的实体类    HttpServletResponse response = RequestHolder.getResponse();    response.setContentType(&quot;application/x-msdownload&quot;);    response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment;fileName=&quot;+file.getFileName());    File fileDownloadPath = new File(file.getFilePath());    if (fileDownloadPath.exists()) {        byte[] buffer = new byte[1024];        FileInputStream fis = null; //文件输入流        BufferedInputStream bis = null;        OutputStream os = null; //输出流        try {            os = response.getOutputStream();            fis = new FileInputStream(fileDownloadPath);            bis = new BufferedInputStream(fis);            int i;            while ((i=bis.read(buffer, 0 , buffer.length)) != -1) {                os.write(buffer, 0, i);                os.flush();            }        } catch (IOException e) {            e.printStackTrace();        } finally {            try {                bis.close();                fis.close();            } catch (IOException e) {                e.printStackTrace();            }        }    }}</code></pre><h4 id="前端主要方法"><a href="#前端主要方法" class="headerlink" title="前端主要方法"></a>前端主要方法</h4><pre><code>// a标签作为点击对象&lt;a class=&quot;downloadA&quot; style=&quot;display: none;&quot;&gt;&lt;/a&gt;// 点击事件downloadFile() {    api.downloadFileRequest(&quot;/file/downloadFile&quot;, {id: this.softwareInfo.uploadFile.id}).then(response =&gt; {      let aUrl = $(&quot;.downloadA&quot;)[0];      let blob = new Blob([response.data]);      // 是否在ie浏览器下载      if (&quot;download&quot; in aUrl) {        aUrl.href = URL.createObjectURL(blob);        aUrl.download = this.softwareInfo.uploadFile.fileName;        aUrl.style.display = &quot;none&quot;;        aUrl.click();        URL.revokeObjectURL(aUrl.href);      } else {        navigator.msSaveBlob(blob, fileName);      }    })  },</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> IO </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Springboot使用junit测试</title>
+      <link href="/2020/04/28/Springboot%E4%BD%BF%E7%94%A8junit%E6%B5%8B%E8%AF%95/"/>
+      <url>/2020/04/28/Springboot%E4%BD%BF%E7%94%A8junit%E6%B5%8B%E8%AF%95/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot使用junit测试"><a href="#Springboot使用junit测试" class="headerlink" title="Springboot使用junit测试"></a>Springboot使用junit测试</h3><p>闲话少说, 之前刚用Springboot进行junit测试的时候发现注入的测试类中的 bean 无法被找到, 网上查询了一些资料, 发现是少配置了个注解</p><pre><code>// App 为主启动类@RunWith(SpringRunner.class)@SpringBootTest(classes = App.class)public class Test() {}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Springboot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Springboot关闭SpringSecurity扫描</title>
       <link href="/2020/03/02/Springboot%E5%85%B3%E9%97%ADSpringSecurity%E6%89%AB%E6%8F%8F/"/>
       <url>/2020/03/02/Springboot%E5%85%B3%E9%97%ADSpringSecurity%E6%89%AB%E6%8F%8F/</url>
@@ -22,7 +78,7 @@
             
             <tag> Java </tag>
             
-            <tag> Spring </tag>
+            <tag> Springboot </tag>
             
         </tags>
       
@@ -66,8 +122,6 @@
       
       
       <categories>
-          
-          <category> 后端 </category>
           
           <category> 运维 </category>
           
