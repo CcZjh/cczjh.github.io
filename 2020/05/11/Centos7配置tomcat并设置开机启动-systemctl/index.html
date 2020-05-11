@@ -4,8 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo多电脑编写以及相关Git命令, 米斯特周">
-    <meta name="description" content="场景现实情况下我们会存在在公司一台电脑, 在家一台电脑的情况. 使用Hexo编写文章, 并将编译过后的页面放在Github库中可以直接访问很方便, 但是由于Hexo的配置等源文件都在电脑本地存放, 所以当想在另一台电脑进行编写文章就无法实现">
+    <meta name="keywords" content="Centos7配置tomcat并设置开机启动(systemctl), 米斯特周">
+    <meta name="description" content="一. 配置tomcat从官网下载压缩包:
+https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
+解压: 
+tar -">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hexo多电脑编写以及相关Git命令 | 米斯特周</title>
+    <title>Centos7配置tomcat并设置开机启动(systemctl) | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -198,7 +201,7 @@
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hexo多电脑编写以及相关Git命令
+                        Centos7配置tomcat并设置开机启动(systemctl)
                     </div>
                 </div>
             </div>
@@ -309,12 +312,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Hexo/" target="_blank">
-                                <span class="chip bg-color">Hexo</span>
+                            <a href="/tags/Linux/" target="_blank">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
-                            <a href="/tags/Git/" target="_blank">
-                                <span class="chip bg-color">Git</span>
+                            <a href="/tags/systemctl/" target="_blank">
+                                <span class="chip bg-color">systemctl</span>
                             </a>
                         
                     </div>
@@ -325,8 +328,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/个人/" class="post-category" target="_blank">
-                                个人
+                            <a href="/categories/运维/" class="post-category" target="_blank">
+                                运维
                             </a>
                         
                     </div>
@@ -337,21 +340,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-01-20
+                    2020-05-11
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        891
+                        384
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        1 分
                     </div>
                     
                 
@@ -362,74 +365,56 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>现实情况下我们会存在在公司一台电脑, 在家一台电脑的情况. 使用Hexo编写文章, 并将编译过后的页面放在Github库中可以直接访问很方便, 但是由于Hexo的配置等源文件都在电脑本地存放, 所以当想在另一台电脑进行编写文章就无法实现, 在网上查询了一些资料, 挑选了将Hexo源文件也提交到Github库的方法, 并借此学习了一波Git的操作.</p>
-<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>Git: <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p>
-<p>Node: <a href="http://nodejs.cn/download/" target="_blank" rel="noopener">http://nodejs.cn/download/</a></p>
-<h3 id="Github仓库准备"><a href="#Github仓库准备" class="headerlink" title="Github仓库准备"></a>Github仓库准备</h3><ul>
-<li>创建分支</li>
-</ul>
-<p>正常情况下, <strong>Github</strong> 库有默认的分支 <strong>master</strong> 这个分支是用来存放 <strong>hexo</strong> 编写文章编译成的页面的. 我们要将 <strong>hexo</strong> 的源文件上传到同一个库中, 所以要先创建一个分支, 此分支用 <strong>source</strong> 命名, 如图, 我之前已经创建过 <strong>scource</strong> 分支</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/1.png" alt></p>
-<ul>
-<li>默认分支</li>
-</ul>
-<p><strong>master</strong> 分支是仓库默认分支, 我们要操作的是源文件, 所以需要将默认分支修改为 <strong>source</strong></p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/2.png" alt></p>
-<h3 id="准备带有Hexo环境的电脑"><a href="#准备带有Hexo环境的电脑" class="headerlink" title="准备带有Hexo环境的电脑"></a>准备带有Hexo环境的电脑</h3><ul>
-<li>将source分支克隆到本地</li>
-</ul>
-<p>首先复制 <strong>Github</strong> 库项目路径</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/3.png" alt></p>
-<p>然后在本地创建一个合适文件夹作为存放源文件的路径, 在此文件夹下右键点击 <strong>Git base here</strong> 打开 <strong>Git</strong> 命令行</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/4.png" alt></p>
-<p>复制好需要克隆的项目地址, 用如下命令克隆到本地</p>
-<pre><code>git clone https://github.com/xxx // 将项目路径改为你的项目路径
-</code></pre><ul>
-<li>复制源文件到分支文件夹下</li>
-</ul>
-<p>将 <strong>source</strong> 分支的本地文件夹下的所有文件删除只保留 <strong>.Git</strong> 然后将你平时用以写文章的源文件除了 <strong>.Git</strong> 都复制到 <strong>source</strong> 分支下</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/5.png" alt></p>
-<font style="color: red;">注: 如果你的 themes 主题使用的 Github 上的, 文件夹内的 .Git需要删除, git提交不能覆盖提交</font>
+                <h3 id="一-配置tomcat"><a href="#一-配置tomcat" class="headerlink" title="一. 配置tomcat"></a>一. 配置tomcat</h3><p>从官网下载压缩包:</p>
+<p><a href="https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz" title="tomcat9" target="_blank" rel="noopener">https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz</a></p>
+<p>解压: </p>
+<pre><code>tar -zxvf apache-tomcat-xxxx.tar.gz 
+</code></pre><p>此处tomcat默认依赖服务器系统配置jdk环境, 不进行配置</p>
+<h3 id="二-配置tomcat自启动"><a href="#二-配置tomcat自启动" class="headerlink" title="二. 配置tomcat自启动"></a>二. 配置tomcat自启动</h3><p>Centos 7 默认使用的是systemctl, 将tomcat配置到systemctl中</p>
+<ol>
+<li><p>在tomcat目录下新建tomcat.pid</p>
+<pre><code>touch tomcat.pid
+</code></pre></li>
+<li><p>在tomcat/bin目录下新建setenv.sh(catalina.sh调用)</p>
+<pre><code># $CATALINA_BASE为tomcat安装的目录路径,将tomcat.pid指给了CATALINA_PID
+CATALINA_PID=&quot;$CATALINA_BASE/tomcat.pid&quot;
+</code></pre></li>
+<li><p>增加systemctl的tomcat自定义服务, 该目录是systemctl的服务配置目录</p>
+<pre><code>cd /usr/lib/systemd/system
+</code></pre><p> 新增tomcat服务，写入如下内容:</p>
+<pre><code>vim /touch tomcat.service
 
-<ul>
-<li>分支提交</li>
-</ul>
-<p>复制好之后, 将分支进行提交</p>
-<pre><code>git add . // 将整个文件夹下代码加入缓冲区
-git commit -m &quot;注释&quot; // 代码添加注释
-git push // 项目提交
-</code></pre><p>查看 <strong>Github</strong> 仓库代码是否已提交完成</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/6.png" alt></p>
-<p>到此, 此电脑操作完毕</p>
-<h3 id="新电脑拉取分支"><a href="#新电脑拉取分支" class="headerlink" title="新电脑拉取分支"></a>新电脑拉取分支</h3><ul>
-<li>将source分支克隆到本地</li>
-</ul>
-<p>此处操作和上面一样</p>
-<ul>
-<li>安装依赖 运行测试</li>
-</ul>
-<p>将项目克隆下来之后需要安装依赖, 并运行代码进行测试, 看是否存在问题</p>
-<pre><code>npm install // 安装依赖包
-</code></pre><p>安装依赖包可能会存在报错, 我这可能是因为之前编译的npm版本不一样, 所以使用上面命令执行结束后让我使用命令 <code>npm audit fix</code>, 执行完就可以了</p>
-<pre><code>// 运行hexo代码
-hexo clean
-hexo g
-hexo s // 本地运行
-</code></pre><p>没有报错并且浏览器访问正常, 测试完成.</p>
-<h3 id="修改提交代码"><a href="#修改提交代码" class="headerlink" title="修改提交代码"></a>修改提交代码</h3><p>修改提交代码与第一次提交项目大致命令相同, 但是有一点需要注意, 如果你只提交部分代码 <code>git add .</code> 需要改为 <code>git add *</code>, 不然无法提交</p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><pre><code>git init // 初始化本地项目
-git clone xxx // xxx为项目地址  此操作将库中项目克隆到本地
-git add . 
-git commit -m &quot;注释&quot;
-git push // 提交代码到仓库
-git pull // 更新代码到本地
+#[unit]配置了服务的描述，规定了在network启动之后执行。
+#[service]配置服务的pid，服务的启动，停止，重启。
+#[install]配置了使用用户。
+[Unit]
+Description=Tomcat
+After=syslog.target network.target remote-fs.target nss-lookup.target
+[Service]
+Type=forking
+PIDFile=/home/lianshengcar/tomcat/apache-tomcat-8.0.38/tomcat.pid
+ExecStart=/home/lianshengcar/tomcat/apache-tomcat-8.0.38/bin/startup.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
+</code></pre></li>
+<li><p>设置tomcat开机启动</p>
+<pre><code>systemctl enable tomcat
+</code></pre></li>
+<li><p>启动tomcat测试</p>
+<pre><code>启动 systemctl start   tomcat.service （.service可以省略）
 
-git branch -a  // 显示仓库所有分支
-git checkout 分支名 // 在本地切换当前分支
+状态 systemctl status  tomcat
 
-git status // 查看当前项目代码状态
-git add * // 添加当前路径代码
-</code></pre>
+停止 systemctl stop   tomcat
+
+重启 systemctl restart tomcat
+</code></pre><p> 在启动的时候会再tomcat根目录生成tomcat.pid文件, 停止之后删除<br>多个tomcat可以配置在多个目录下, 互不影响, 同时tomcat在启动时候，执行start不会启动两个tomcat, 保证始终只有一个tomcat服务在运行</p>
+</li>
+</ol>
+
             </div>
             <hr>
 
@@ -452,7 +437,7 @@ git add * // 添加当前路径代码
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/01/20/Hexo多电脑编写以及相关Git命令/" class="b-link-green">Hexo多电脑编写以及相关Git命令</a>
+                    <a href="/2020/05/11/Centos7配置tomcat并设置开机启动-systemctl/" class="b-link-green">Centos7配置tomcat并设置开机启动(systemctl)</a>
                 </p>
             </div>
         </div>
@@ -734,79 +719,26 @@ git add * // 添加当前路径代码
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/02/Springboot关闭SpringSecurity扫描/">
+                <a href="/2020/05/11/Centos7配置tomcat并设置开机启动-systemctl/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Springboot关闭SpringSecurity扫描">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Centos7配置tomcat并设置开机启动(systemctl)">
                         
-                        <span class="card-title">Springboot关闭SpringSecurity扫描</span>
+                        <span class="card-title">Centos7配置tomcat并设置开机启动(systemctl)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">在springboot启动类中添加：
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
-</div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-02
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/Springboot/" target="_blank">
-                        <span class="chip bg-color">Springboot</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/01/15/Linux桥接模式下配置静态ip地址/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Linux桥接模式下配置静态ip地址">
-                        
-                        <span class="card-title">Linux桥接模式下配置静态ip地址</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">桥接模式下配置静态ip一、涉及三个文件的配置：
-/etc/sysconfig/network 
-/etc/sysconfig/network-scripts/ifcfg-eth0 
-/etc/resolv.conf
-
-二、具体配置过程
-ip</div>
+                    <div class="summary">一. 配置tomcat从官网下载压缩包:
+https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
+解压: 
+tar -</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-15
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-11
                             </span>
                         <span class="publish-author">
                             
@@ -820,11 +752,72 @@ ip</div>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Linux/" target="_blank">
                         <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/systemctl/" target="_blank">
+                        <span class="chip bg-color">systemctl</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/06/浏览器下载文件到本地/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="浏览器下载文件到本地">
+                        
+                        <span class="card-title">浏览器下载文件到本地</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">项目中使用到的文件下载方法, 简单记录
+后端主要方法@Override
+public void downloadFile(UploadFile file) { // UploadFile为软件的实体类
+    HttpServletResp</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
+                                </a>
+                            
+                            <a href="/categories/后端/前端/" class="post-category" target="_blank">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/" target="_blank">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/IO/" target="_blank">
+                        <span class="chip bg-color">IO</span>
                     </a>
                     
                 </div>
