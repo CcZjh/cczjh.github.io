@@ -4,11 +4,10 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Centos7配置tomcat并设置开机启动(systemctl), 米斯特周">
-    <meta name="description" content="一. 配置tomcat从官网下载压缩包:
-https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
-解压: 
-tar -">
+    <meta name="keywords" content="正则表达式匹配数字(整数,小数,正负号), 米斯特周">
+    <meta name="description" content="正则表达式匹配数字: 
+^-?(([0-9]{0,16}(\.[0-9]{1,2})$)|([0-9]+$))
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +15,7 @@ tar -">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Centos7配置tomcat并设置开机启动(systemctl) | 米斯特周</title>
+    <title>正则表达式匹配数字(整数,小数,正负号) | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -195,13 +194,13 @@ tar -">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Centos7配置tomcat并设置开机启动(systemctl)
+                        正则表达式匹配数字(整数,小数,正负号)
                     </div>
                 </div>
             </div>
@@ -312,12 +311,8 @@ tar -">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Linux/" target="_blank">
-                                <span class="chip bg-color">Linux</span>
-                            </a>
-                        
-                            <a href="/tags/systemctl/" target="_blank">
-                                <span class="chip bg-color">systemctl</span>
+                            <a href="/tags/表单/" target="_blank">
+                                <span class="chip bg-color">表单</span>
                             </a>
                         
                     </div>
@@ -328,8 +323,8 @@ tar -">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/运维/" class="post-category" target="_blank">
-                                运维
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                前端
                             </a>
                         
                     </div>
@@ -340,14 +335,14 @@ tar -">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-11
+                    2020-05-28
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        384
+                        19
                     </div>
                     
 
@@ -365,56 +360,9 @@ tar -">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="一-配置tomcat"><a href="#一-配置tomcat" class="headerlink" title="一. 配置tomcat"></a>一. 配置tomcat</h3><p>从官网下载压缩包:</p>
-<p><a href="https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz" title="tomcat9" target="_blank" rel="noopener">https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz</a></p>
-<p>解压: </p>
-<pre><code>tar -zxvf apache-tomcat-xxxx.tar.gz 
-</code></pre><p>此处tomcat默认依赖服务器系统配置jdk环境, 不进行配置</p>
-<h3 id="二-配置tomcat自启动"><a href="#二-配置tomcat自启动" class="headerlink" title="二. 配置tomcat自启动"></a>二. 配置tomcat自启动</h3><p>Centos 7 默认使用的是systemctl, 将tomcat配置到systemctl中</p>
-<ol>
-<li><p>在tomcat目录下新建tomcat.pid</p>
-<pre><code>touch tomcat.pid
-</code></pre></li>
-<li><p>在tomcat/bin目录下新建setenv.sh(catalina.sh调用)</p>
-<pre><code># $CATALINA_BASE为tomcat安装的目录路径,将tomcat.pid指给了CATALINA_PID
-CATALINA_PID=&quot;$CATALINA_BASE/tomcat.pid&quot;
-</code></pre></li>
-<li><p>增加systemctl的tomcat自定义服务, 该目录是systemctl的服务配置目录</p>
-<pre><code>cd /usr/lib/systemd/system
-</code></pre><p> 新增tomcat服务，写入如下内容:</p>
-<pre><code>vim /touch tomcat.service
-
-#[unit]配置了服务的描述，规定了在network启动之后执行。
-#[service]配置服务的pid，服务的启动，停止，重启。
-#[install]配置了使用用户。
-[Unit]
-Description=Tomcat
-After=syslog.target network.target remote-fs.target nss-lookup.target
-[Service]
-Type=forking
-PIDFile=/home/lianshengcar/tomcat/apache-tomcat-8.0.38/tomcat.pid
-ExecStart=/home/lianshengcar/tomcat/apache-tomcat-8.0.38/bin/startup.sh
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s QUIT $MAINPID
-PrivateTmp=true
-[Install]
-WantedBy=multi-user.target
-</code></pre></li>
-<li><p>设置tomcat开机启动</p>
-<pre><code>systemctl enable tomcat
-</code></pre></li>
-<li><p>启动tomcat测试</p>
-<pre><code>启动 systemctl start   tomcat.service （.service可以省略）
-
-状态 systemctl status  tomcat
-
-停止 systemctl stop   tomcat
-
-重启 systemctl restart tomcat
-</code></pre><p> 在启动的时候会再tomcat根目录生成tomcat.pid文件, 停止之后删除<br>多个tomcat可以配置在多个目录下, 互不影响, 同时tomcat在启动时候，执行start不会启动两个tomcat, 保证始终只有一个tomcat服务在运行</p>
-</li>
-</ol>
-
+                <p>正则表达式匹配数字: </p>
+<pre><code>^-?(([0-9]{0,16}(\.[0-9]{1,2})$)|([0-9]+$))
+</code></pre>
             </div>
             <hr>
 
@@ -437,7 +385,7 @@ WantedBy=multi-user.target
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/05/11/Centos7配置tomcat并设置开机启动-systemctl/" class="b-link-green">Centos7配置tomcat并设置开机启动(systemctl)</a>
+                    <a href="/2020/05/28/正则表达式匹配数字-整数-小数-正负号/" class="b-link-green">正则表达式匹配数字(整数,小数,正负号)</a>
                 </p>
             </div>
         </div>
@@ -719,7 +667,8 @@ WantedBy=multi-user.target
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/05/28/正则表达式匹配数字-整数-小数-正负号/">
                     <div class="card-image">
@@ -735,9 +684,9 @@ WantedBy=multi-user.target
 ^-?(([0-9]{0,16}(\.[0-9]{1,2})$)|([0-9]+$))
 </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -750,6 +699,7 @@ WantedBy=multi-user.target
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -768,34 +718,30 @@ WantedBy=multi-user.target
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/06/浏览器下载文件到本地/">
+                <a href="/2020/05/11/Centos7配置tomcat并设置开机启动-systemctl/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="浏览器下载文件到本地">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Centos7配置tomcat并设置开机启动(systemctl)">
                         
-                        <span class="card-title">浏览器下载文件到本地</span>
+                        <span class="card-title">Centos7配置tomcat并设置开机启动(systemctl)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">项目中使用到的文件下载方法, 简单记录
-后端主要方法@Override
-public void downloadFile(UploadFile file) { // UploadFile为软件的实体类
-    HttpServletResp</div>
+                    <div class="summary">一. 配置tomcat从官网下载压缩包:
+https://mirror.bit.edu.cn/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
+解压: 
+tar -</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-06
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
-                                </a>
-                            
-                            <a href="/categories/后端/前端/" class="post-category" target="_blank">
-                                    前端
+                            <a href="/categories/运维/" class="post-category" target="_blank">
+                                    运维
                                 </a>
                             
                             
@@ -805,12 +751,12 @@ public void downloadFile(UploadFile file) { // UploadFile为软件的实体类
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
-                    <a href="/tags/IO/" target="_blank">
-                        <span class="chip bg-color">IO</span>
+                    <a href="/tags/systemctl/" target="_blank">
+                        <span class="chip bg-color">systemctl</span>
                     </a>
                     
                 </div>
