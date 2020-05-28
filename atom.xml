@@ -363,9 +363,9 @@
     
       <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
     
-      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
-    
       <category term="线程池" scheme="https://cczjh.github.io/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+    
+      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
     
   </entry>
   
