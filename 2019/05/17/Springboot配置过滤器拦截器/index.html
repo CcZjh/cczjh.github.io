@@ -355,7 +355,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        346
+                        380
                     </div>
                     
 
@@ -406,10 +406,13 @@ public FilterRegistrationBean testFilterRegistration() {
     registration.setOrder(1); // 多个过滤器可控制执行顺序 数字越小优先级越高
     return registration;
 }
+</code></pre><h4 id="3-添加-ServletComponentScan注解"><a href="#3-添加-ServletComponentScan注解" class="headerlink" title="3. 添加@ServletComponentScan注解"></a>3. 添加@ServletComponentScan注解</h4><p>在Springboot启动类中添加@ServletComponentScan注解</p>
+<pre><code>Servlet可以直接通过@WebServlet注解自动注册
+Filter可以直接通过@WebFilter注解自动注册
+Listener可以直接通过@WebListener 注解自动注册
 </code></pre><h3 id="Springboot-配置-拦截器"><a href="#Springboot-配置-拦截器" class="headerlink" title="Springboot 配置 拦截器"></a>Springboot 配置 拦截器</h3><p>上代码:</p>
-<h4 id="1-首先自定义MyInterceptor-实现-WebMvcConfigurer"><a href="#1-首先自定义MyInterceptor-实现-WebMvcConfigurer" class="headerlink" title="1. 首先自定义MyInterceptor 实现 WebMvcConfigurer"></a>1. 首先自定义MyInterceptor 实现 WebMvcConfigurer</h4><p>我们需要实现做的就是编写doFIlter类实现过滤逻辑</p>
-<pre><code>@Configuration
-public class 首先自定义MyInterceptor implements WebMvcConfigurer {
+<h4 id="1-首先自定义MyInterceptor-实现-WebMvcConfigurer"><a href="#1-首先自定义MyInterceptor-实现-WebMvcConfigurer" class="headerlink" title="1. 首先自定义MyInterceptor 实现 WebMvcConfigurer"></a>1. 首先自定义MyInterceptor 实现 WebMvcConfigurer</h4><pre><code>@Configuration
+public class MyInterceptor implements WebMvcConfigurer {
 
     @Autowired
     private ResubmitInterceptor resubmitInterceptor;
@@ -951,7 +954,7 @@ threadPool:
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">12.4k</span>
+                <span class="white-color">13.5k</span>
             
 
             

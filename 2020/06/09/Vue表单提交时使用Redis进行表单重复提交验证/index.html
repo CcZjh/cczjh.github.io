@@ -4,9 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo上传的图片在网页上无法显示的解决办法, 米斯特周">
-    <meta name="description" content="转: https://blog.csdn.net/qq_38148394/article/details/79997971
-">
+    <meta name="keywords" content="Vue表单提交时使用Redis进行表单重复提交验证, 米斯特周">
+    <meta name="description" content="项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo
+想法根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hexo上传的图片在网页上无法显示的解决办法 | 米斯特周</title>
+    <title>Vue表单提交时使用Redis进行表单重复提交验证 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -193,13 +193,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hexo上传的图片在网页上无法显示的解决办法
+                        Vue表单提交时使用Redis进行表单重复提交验证
                     </div>
                 </div>
             </div>
@@ -310,8 +310,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Hexo/" target="_blank">
-                                <span class="chip bg-color">Hexo</span>
+                            <a href="/tags/Java/" target="_blank">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/Redis/" target="_blank">
+                                <span class="chip bg-color">Redis</span>
+                            </a>
+                        
+                            <a href="/tags/Vue/" target="_blank">
+                                <span class="chip bg-color">Vue</span>
                             </a>
                         
                     </div>
@@ -322,8 +330,12 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/个人/" class="post-category" target="_blank">
-                                个人
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                前端
+                            </a>
+                        
+                            <a href="/categories/前端/后端/" class="post-category" target="_blank">
+                                后端
                             </a>
                         
                     </div>
@@ -334,21 +346,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-05-06
+                    2020-06-09
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9
+                        1.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        5 分
                     </div>
                     
                 
@@ -359,7 +371,251 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>转: <a href="https://blog.csdn.net/qq_38148394/article/details/79997971" target="_blank" rel="noopener">https://blog.csdn.net/qq_38148394/article/details/79997971</a></p>
+                <p>项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo</p>
+<h3 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h3><p>根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单的时候redis进行判断并删除对应token, 因为redis是单线程执行, 所以不会存在在极短的时间内重复请求接口时redis判断有问题的情况</p>
+<h3 id="添加过滤器"><a href="#添加过滤器" class="headerlink" title="添加过滤器"></a>添加过滤器</h3><p>####说明:<br>正常来说是不需要添加这个过滤器的, 但是因为我需要拿到axios传递的JSON类型参数, 而JSON类型参数需要在request流中获取, 但是request.getInputStream() 与 request.getReader() 只能调用一次, 如果我在拦截器中获取了流, 那么在controller中使用@RequestBody注解获取参数时会报错, 所以对应需要将request处理一下</p>
+<pre><code>import com.sxis.common.security.config.MyHttpServletRequestWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @ClassName: InitFilter
+ * @Description:
+ * @Date: 2020/6/9 14:16
+ */
+@Component
+@Slf4j
+@WebFilter(urlPatterns = &quot;/*&quot;)
+public class InitFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        if (!(request instanceof MyHttpServletRequestWrapper)) {
+            request = new MyHttpServletRequestWrapper(request);
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+</code></pre><p>自定义类重写HttpServletRequestWrapper</p>
+<pre><code>import org.apache.commons.compress.utils.IOUtils;
+
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
+
+    private final byte[] body;
+
+    public MyHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
+        super(request);
+        body = IOUtils.toByteArray(super.getInputStream());
+    }
+
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return new BufferedReader(new InputStreamReader(getInputStream()));
+    }
+
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new RequestBodyCachingInputStream(body);
+    }
+
+    private class RequestBodyCachingInputStream extends ServletInputStream {
+        private byte[] body;
+        private int lastIndexRetrieved = -1;
+        private ReadListener listener;
+
+        public RequestBodyCachingInputStream(byte[] body) {
+            this.body = body;
+        }
+
+        @Override
+        public int read() throws IOException {
+            if (isFinished()) {
+                return -1;
+            }
+            int i = body[lastIndexRetrieved + 1];
+            lastIndexRetrieved++;
+            if (isFinished() &amp;&amp; listener != null) {
+                try {
+                    listener.onAllDataRead();
+                } catch (IOException e) {
+                    listener.onError(e);
+                    throw e;
+                }
+            }
+            return i;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return lastIndexRetrieved == body.length - 1;
+        }
+
+        @Override
+        public boolean isReady() {
+            return isFinished();
+        }
+
+        @Override
+        public void setReadListener(ReadListener listener) {
+            if (listener == null) {
+                throw new IllegalArgumentException(&quot;listener cann not be null&quot;);
+            }
+            if (this.listener != null) {
+                throw new IllegalArgumentException(&quot;listener has been set&quot;);
+            }
+            this.listener = listener;
+            if (!isFinished()) {
+                try {
+                    listener.onAllDataRead();
+                } catch (IOException e) {
+                    listener.onError(e);
+                }
+            } else {
+                try {
+                    listener.onAllDataRead();
+                } catch (IOException e) {
+                    listener.onError(e);
+                }
+            }
+        }
+
+        @Override
+        public int available() throws IOException {
+            return body.length - lastIndexRetrieved - 1;
+        }
+
+        @Override
+        public void close() throws IOException {
+            lastIndexRetrieved = body.length - 1;
+            body = null;
+        }
+    }
+
+
+}
+</code></pre><p>这样使用request时就能多次获取流而不会报错</p>
+<h3 id="添加拦截器"><a href="#添加拦截器" class="headerlink" title="添加拦截器"></a>添加拦截器</h3><p>拦截器的添加不做详细赘述</p>
+<p>这是表单提交之前调用的接口拦截器</p>
+<pre><code>import com.alibaba.fastjson.JSONObject;
+import com.sxis.common.redis.util.RedisUtil;
+import com.sxis.common.util.CommonUtil;
+import com.sxis.common.util.RequestStreamUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @ClassName: InPageInterceptor
+ * @Description:
+ * @Date: 2020/6/8 10:44
+ */
+@Slf4j
+@Component
+public class InPageInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info(&quot;添加token...&quot;);
+        JSONObject jsonObject = RequestStreamUtil.getJsonByStream(request);
+        String userId = jsonObject.getString(&quot;userId&quot;);
+        String resubmitTokenKey = userId + &quot;resubmitToken&quot;;
+        String resubmitTokenValue = userId + &quot;-&quot; + CommonUtil.createUUID();
+        redisUtil.set(resubmitTokenKey, resubmitTokenValue, 600);
+
+        return true;
+    }
+}
+</code></pre><p>这是表单提交时调用的接口</p>
+<pre><code>import com.alibaba.fastjson.JSONObject;
+import com.sxis.common.redis.util.RedisUtil;
+import com.sxis.common.util.RequestStreamUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @ClassName: ResubmitInterceptor
+ * @Description:
+ * @Date: 2020/6/5 9:53
+ */
+@Slf4j
+@Component
+public class ResubmitInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        log.info(&quot;释放token...&quot;);
+        JSONObject jsonObject = RequestStreamUtil.getJsonByStream(request);
+        String userId = jsonObject.getString(&quot;userId&quot;);
+        String resubmitTokenKey = userId + &quot;resubmitToken&quot;;
+
+        if (redisUtil.hasKey(resubmitTokenKey)) {
+            log.info(&quot;用户正常提交~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);
+            redisUtil.del(resubmitTokenKey);
+        } else {
+            log.info(&quot;请勿重复提交~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);
+            return false;
+        }
+        return true;
+    }
+}
+</code></pre><p>以下是RequestStreamUtil中的静态方法, 用于获取request流中json格式参数</p>
+<pre><code>/**
+ * @Param [request]
+ * @Return com.alibaba.fastjson.JSONObject
+ * @Date 2020/6/9 15:30
+ * @Description 获取前端传递的  Request Payload 中的json参数
+ * 由于request中的inputStream流只能被读取一次 所以此处传递的request是被处理过的request
+ */
+public static JSONObject getJsonByStream(HttpServletRequest request) {
+    StringBuilder sb = new StringBuilder();
+    try(BufferedReader reader = request.getReader();) {
+        char[]buff = new char[1024];
+        int len;
+        while((len = reader.read(buff)) != -1) {
+            sb.append(buff,0, len);
+        }
+    }catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    JSONObject jsonObject = JSON.parseObject(sb.toString());
+
+    return jsonObject;
+}
+</code></pre><p>以上就是简单的后端处理表单重复提交demo </p>
 
             </div>
             <hr>
@@ -383,7 +639,7 @@
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/05/06/Hexo上传的图片在网页上无法显示的解决办法/" class="b-link-green">Hexo上传的图片在网页上无法显示的解决办法</a>
+                    <a href="/2020/06/09/Vue表单提交时使用Redis进行表单重复提交验证/" class="b-link-green">Vue表单提交时使用Redis进行表单重复提交验证</a>
                 </p>
             </div>
         </div>
@@ -665,32 +921,34 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/05/08/Springboot配置日志输出/">
+                <a href="/2020/06/09/Vue表单提交时使用Redis进行表单重复提交验证/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Springboot配置日志输出">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Vue表单提交时使用Redis进行表单重复提交验证">
                         
-                        <span class="card-title">Springboot配置日志输出</span>
+                        <span class="card-title">Vue表单提交时使用Redis进行表单重复提交验证</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">一. Springboot配置日志输出LockBack的使用编写LockBack配置文件, 配置文件需要在application.yml(.properties)中配置
-# 配置日志输出
-# 日志输出
-logging:
-      conf</div>
+                    <div class="summary">项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo
+想法根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/后端/" class="post-category" target="_blank">
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                    前端
+                                </a>
+                            
+                            <a href="/categories/前端/后端/" class="post-category" target="_blank">
                                     后端
                                 </a>
                             
@@ -698,6 +956,7 @@ logging:
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -705,12 +964,12 @@ logging:
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/Springboot/" target="_blank">
-                        <span class="chip bg-color">Springboot</span>
+                    <a href="/tags/Redis/" target="_blank">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
-                    <a href="/tags/slf4j/" target="_blank">
-                        <span class="chip bg-color">slf4j</span>
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
                     </a>
                     
                 </div>
@@ -724,24 +983,22 @@ logging:
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/25/Vue和移动端App的交互/">
+                <a href="/2020/05/28/正则表达式匹配数字-整数-小数-正负号/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue和移动端App的交互">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="正则表达式匹配数字(整数,小数,正负号)">
                         
-                        <span class="card-title">Vue和移动端App的交互</span>
+                        <span class="card-title">正则表达式匹配数字(整数,小数,正负号)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
-以下为个人所做项目中的一些简单调用方法
-
-let utils = { //注册的全局函数
-  versions: function</div>
+                    <div class="summary">正则表达式匹配数字: 
+^-?(([0-9]{0,16}(\.[0-9]{1,2})$)|([0-9]+$))
+</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-25
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-28
                             </span>
                         <span class="publish-author">
                             
@@ -758,12 +1015,8 @@ let utils = { //注册的全局函数
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Vue/" target="_blank">
-                        <span class="chip bg-color">Vue</span>
-                    </a>
-                    
-                    <a href="/tags/Webapp/" target="_blank">
-                        <span class="chip bg-color">Webapp</span>
+                    <a href="/tags/form表单/" target="_blank">
+                        <span class="chip bg-color">form表单</span>
                     </a>
                     
                 </div>
