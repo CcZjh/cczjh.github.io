@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2020-06-09T08:23:35.870Z</updated>
+  <updated>2020-06-10T06:22:32.789Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Springboot集成Redis</title>
+    <link href="https://cczjh.github.io/2020/06/10/Springboot%E9%9B%86%E6%88%90Redis/"/>
+    <id>https://cczjh.github.io/2020/06/10/Springboot集成Redis/</id>
+    <published>2020-06-10T06:16:37.000Z</published>
+    <updated>2020-06-10T06:22:32.789Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="首先添加相关依赖"><a href="#首先添加相关依赖" class="headerlink" title="首先添加相关依赖"></a>首先添加相关依赖</h3><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;    &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;!-- jedis是Redis在java的客户端实现 --&gt;&lt;dependency&gt;    &lt;groupId&gt;redis.clients&lt;/groupId&gt;    &lt;artifactId&gt;jedis&lt;/artifactId&gt;    &lt;version&gt;2.9.0&lt;/version&gt;&lt;/dependency&gt;</code></pre><h3 id="配置文件参数"><a href="#配置文件参数" class="headerlink" title="配置文件参数"></a>配置文件参数</h3><pre><code># Redisredis:  hostName: &quot;172.172.21.32&quot;  port: &quot;6379&quot;  password: &apos;&apos;  timeout: 3600  maxIdle: 300  maxTotal: 1000  maxWaitMillis: 1000  minEvictableIdleTimeMillis: 300000  numTestsPerEvictionRun: 1024  timeBetweenEvictionRunsMillis: 30000  testOnBorrow: true  testWhileIdle: true</code></pre><h3 id="Redis单机版"><a href="#Redis单机版" class="headerlink" title="Redis单机版"></a>Redis单机版</h3><pre><code>@Configurationpublic class RedisConfig {    @Value(&quot;${redis.maxIdle}&quot;)    private Integer maxIdle;    @Value(&quot;${redis.maxTotal}&quot;)    private Integer maxTotal;    @Value(&quot;${redis.maxWaitMillis}&quot;)    private Integer maxWaitMillis;    @Value(&quot;${redis.minEvictableIdleTimeMillis}&quot;)    private Integer minEvictableIdleTimeMillis;    @Value(&quot;${redis.numTestsPerEvictionRun}&quot;)    private Integer numTestsPerEvictionRun;    @Value(&quot;${redis.timeBetweenEvictionRunsMillis}&quot;)    private long timeBetweenEvictionRunsMillis;    @Value(&quot;${redis.testOnBorrow}&quot;)    private boolean testOnBorrow;    @Value(&quot;${redis.testWhileIdle}&quot;)    private boolean testWhileIdle;    @Value(&quot;${redis.hostName}&quot;)    String hostName;    @Value(&quot;${redis.port}&quot;)    int port;    @Value(&quot;${redis.password}&quot;)    String password;    @Value(&quot;${redis.timeout}&quot;)    int timeout;    /**     * JedisPoolConfig 连接池     *     * @return     */    @Bean    public JedisPoolConfig jedisPoolConfig() {        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();        // 最大空闲数        jedisPoolConfig.setMaxIdle(maxIdle);        // 连接池的最大数据库连接数        jedisPoolConfig.setMaxTotal(maxTotal);        // 最大建立连接等待时间        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);        // 逐出连接的最小空闲时间 默认1800000毫秒(30分钟)        jedisPoolConfig.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);        // 每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3        jedisPoolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);        // 逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);        // 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个        jedisPoolConfig.setTestOnBorrow(testOnBorrow);        // 在空闲时检查有效性, 默认false        jedisPoolConfig.setTestWhileIdle(testWhileIdle);        return jedisPoolConfig;    }    /**     * 单机版配置     *     * @param @param  jedisPoolConfig     * @param @return     * @return JedisConnectionFactory     * @throws     * @Title: JedisConnectionFactory     */    @Bean    public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {        JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);        //连接池        JedisConnectionFactory.setPoolConfig(jedisPoolConfig);        //IP地址        JedisConnectionFactory.setHostName(hostName);        //端口号        JedisConnectionFactory.setPort(port);        //如果Redis设置有密码        JedisConnectionFactory.setPassword(password);        //客户端超时时间单位是毫秒        JedisConnectionFactory.setTimeout(timeout);        return JedisConnectionFactory;    }    /**     * RedisTemplate 模板类     */    @Bean    public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) {        RedisTemplate&lt;Object, Object&gt; template=new RedisTemplate&lt;&gt;();        template.setConnectionFactory(redisConnectionFactory);        // 使用Jackson2JsonRedisSerialize 替换默认序列化        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);        ObjectMapper mapper=new ObjectMapper();        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);        jackson2JsonRedisSerializer.setObjectMapper(mapper);        // 设置value的序列化规则和 key的序列化规则        template.setValueSerializer(jackson2JsonRedisSerializer);        template.setKeySerializer(new StringRedisSerializer());        template.setHashKeySerializer(new StringRedisSerializer());        template.afterPropertiesSet();        return  template;    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
+    
+      <category term="Redis" scheme="https://cczjh.github.io/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>Vue表单提交时使用Redis进行表单重复提交验证</title>
@@ -530,33 +557,6 @@
       <category term="Vue" scheme="https://cczjh.github.io/tags/Vue/"/>
     
       <category term="Webapp" scheme="https://cczjh.github.io/tags/Webapp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>axios 上传文件的坑</title>
-    <link href="https://cczjh.github.io/2019/04/12/axios-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%9D%91/"/>
-    <id>https://cczjh.github.io/2019/04/12/axios-上传文件的坑/</id>
-    <published>2019-04-12T06:38:27.000Z</published>
-    <updated>2020-01-20T07:29:17.214Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过<strong>Axios</strong>发送<strong>formData</strong>参数, <strong>Java</strong>后台报错:<br><img src="/2019/04/12/axios-上传文件的坑/error01.png" alt></p><p>于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后台的问题, 从springBoot框架自带的MultipartFile上传组件到最原始的servlet写法都试过了, 还是一样的问题, 所以专一找Vue的问题, 最后终于在茫茫文章的看到了曙光.</p><p>Vue在进行跨域请求时需要设置<strong>withCredentials：true</strong>,表示为是否需要使用凭证, 默认为false<br>完整代码如下: </p><hr><pre><code>// 上传头像到服务器uploadHeadToServer: function (file) {  let formData = new FormData()  formData.append(&quot;file&quot;, file)  let headers = {headers: {&quot;Content-Type&quot;: &quot;multipart/form-data&quot;}}  const instance=this.$axios.create({    withCredentials: false  })  instance.post(&apos;/api/uploadHead&apos;, formData, headers).then(response=&gt;{      console.log(response.data);    }) },</code></pre><hr><p>OK 这样一写, 后台不报原来的错的, 但是又出现了新的错误:<br><img src="/2019/04/12/axios-上传文件的坑/error02.png" alt></p><p>那就顺带记录一下吧, 毕竟小白, 好记性不如记下来</p><p>这是springBoot本身的问题</p><p>springBoot文档说明表示，每个文件的配置最大为1Mb，单次请求的文件的总数不能大于10Mb。要更改这个默认值需要在配置文件（如application.properties）中加入两个配置</p><hr><pre><code>multipart.maxFileSize = 10Mbmultipart.maxRequestSize=100Mb</code></pre><hr><p>Spring Boot2.0之后的版本配置修改为:</p><hr><pre><code>spring.servlet.multipart.max-file-size = 10MB  spring.servlet.multipart.max-request-size=100MB</code></pre><hr>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-      <category term="前端" scheme="https://cczjh.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="Vue" scheme="https://cczjh.github.io/tags/Vue/"/>
-    
-      <category term="Axios" scheme="https://cczjh.github.io/tags/Axios/"/>
     
   </entry>
   

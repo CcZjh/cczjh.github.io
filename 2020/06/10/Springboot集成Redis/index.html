@@ -4,8 +4,10 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo多电脑编写以及相关Git命令, 米斯特周">
-    <meta name="description" content="场景现实情况下我们会存在在公司一台电脑, 在家一台电脑的情况. 使用Hexo编写文章, 并将编译过后的页面放在Github库中可以直接访问很方便, 但是由于Hexo的配置等源文件都在电脑本地存放, 所以当想在另一台电脑进行编写文章就无法实现">
+    <meta name="keywords" content="Springboot集成Redis, 米斯特周">
+    <meta name="description" content="首先添加相关依赖&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;spring-boot">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hexo多电脑编写以及相关Git命令 | 米斯特周</title>
+    <title>Springboot集成Redis | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -192,13 +194,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hexo多电脑编写以及相关Git命令
+                        Springboot集成Redis
                     </div>
                 </div>
             </div>
@@ -309,12 +311,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Hexo/" target="_blank">
-                                <span class="chip bg-color">Hexo</span>
+                            <a href="/tags/Springboot/" target="_blank">
+                                <span class="chip bg-color">Springboot</span>
                             </a>
                         
-                            <a href="/tags/Git/" target="_blank">
-                                <span class="chip bg-color">Git</span>
+                            <a href="/tags/Redis/" target="_blank">
+                                <span class="chip bg-color">Redis</span>
                             </a>
                         
                     </div>
@@ -325,8 +327,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/个人/" class="post-category" target="_blank">
-                                个人
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                后端
                             </a>
                         
                     </div>
@@ -337,21 +339,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-01-20
+                    2020-06-10
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        891
+                        579
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        2 分
                     </div>
                     
                 
@@ -362,73 +364,133 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>现实情况下我们会存在在公司一台电脑, 在家一台电脑的情况. 使用Hexo编写文章, 并将编译过后的页面放在Github库中可以直接访问很方便, 但是由于Hexo的配置等源文件都在电脑本地存放, 所以当想在另一台电脑进行编写文章就无法实现, 在网上查询了一些资料, 挑选了将Hexo源文件也提交到Github库的方法, 并借此学习了一波Git的操作.</p>
-<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>Git: <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p>
-<p>Node: <a href="http://nodejs.cn/download/" target="_blank" rel="noopener">http://nodejs.cn/download/</a></p>
-<h3 id="Github仓库准备"><a href="#Github仓库准备" class="headerlink" title="Github仓库准备"></a>Github仓库准备</h3><ul>
-<li>创建分支</li>
-</ul>
-<p>正常情况下, <strong>Github</strong> 库有默认的分支 <strong>master</strong> 这个分支是用来存放 <strong>hexo</strong> 编写文章编译成的页面的. 我们要将 <strong>hexo</strong> 的源文件上传到同一个库中, 所以要先创建一个分支, 此分支用 <strong>source</strong> 命名, 如图, 我之前已经创建过 <strong>scource</strong> 分支</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/1.png" alt></p>
-<ul>
-<li>默认分支</li>
-</ul>
-<p><strong>master</strong> 分支是仓库默认分支, 我们要操作的是源文件, 所以需要将默认分支修改为 <strong>source</strong></p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/2.png" alt></p>
-<h3 id="准备带有Hexo环境的电脑"><a href="#准备带有Hexo环境的电脑" class="headerlink" title="准备带有Hexo环境的电脑"></a>准备带有Hexo环境的电脑</h3><ul>
-<li>将source分支克隆到本地</li>
-</ul>
-<p>首先复制 <strong>Github</strong> 库项目路径</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/3.png" alt></p>
-<p>然后在本地创建一个合适文件夹作为存放源文件的路径, 在此文件夹下右键点击 <strong>Git base here</strong> 打开 <strong>Git</strong> 命令行</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/4.png" alt></p>
-<p>复制好需要克隆的项目地址, 用如下命令克隆到本地</p>
-<pre><code>git clone https://github.com/xxx // 将项目路径改为你的项目路径
-</code></pre><ul>
-<li>复制源文件到分支文件夹下</li>
-</ul>
-<p>将 <strong>source</strong> 分支的本地文件夹下的所有文件删除只保留 <strong>.Git</strong> 然后将你平时用以写文章的源文件除了 <strong>.Git</strong> 都复制到 <strong>source</strong> 分支下</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/5.png" alt></p>
-<font style="color: red;">注: 如果你的 themes 主题使用的 Github 上的, 文件夹内的 .Git需要删除, git提交不能覆盖提交</font>
+                <h3 id="首先添加相关依赖"><a href="#首先添加相关依赖" class="headerlink" title="首先添加相关依赖"></a>首先添加相关依赖</h3><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+    &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- jedis是Redis在java的客户端实现 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+    &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+    &lt;version&gt;2.9.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="配置文件参数"><a href="#配置文件参数" class="headerlink" title="配置文件参数"></a>配置文件参数</h3><pre><code># Redis
+redis:
+  hostName: &quot;172.172.21.32&quot;
+  port: &quot;6379&quot;
+  password: &apos;&apos;
+  timeout: 3600
+  maxIdle: 300
+  maxTotal: 1000
+  maxWaitMillis: 1000
+  minEvictableIdleTimeMillis: 300000
+  numTestsPerEvictionRun: 1024
+  timeBetweenEvictionRunsMillis: 30000
+  testOnBorrow: true
+  testWhileIdle: true
+</code></pre><h3 id="Redis单机版"><a href="#Redis单机版" class="headerlink" title="Redis单机版"></a>Redis单机版</h3><pre><code>@Configuration
+public class RedisConfig {
 
-<ul>
-<li>分支提交</li>
-</ul>
-<p>复制好之后, 将分支进行提交</p>
-<pre><code>git add . // 将整个文件夹下代码加入缓冲区
-git commit -m &quot;注释&quot; // 代码添加注释
-git push // 项目提交
-</code></pre><p>查看 <strong>Github</strong> 仓库代码是否已提交完成</p>
-<p><img src="/2020/01/20/Hexo多电脑编写以及相关Git命令/6.png" alt></p>
-<p>到此, 此电脑操作完毕</p>
-<h3 id="新电脑拉取分支"><a href="#新电脑拉取分支" class="headerlink" title="新电脑拉取分支"></a>新电脑拉取分支</h3><ul>
-<li>将source分支克隆到本地</li>
-</ul>
-<p>此处操作和上面一样</p>
-<ul>
-<li>安装依赖 运行测试</li>
-</ul>
-<p>将项目克隆下来之后需要安装依赖, 并运行代码进行测试, 看是否存在问题</p>
-<pre><code>npm install // 安装依赖包
-</code></pre><p>安装依赖包可能会存在报错, 我这可能是因为之前编译的npm版本不一样, 所以使用上面命令执行结束后让我使用命令 <code>npm audit fix</code>, 执行完就可以了</p>
-<pre><code>// 运行hexo代码
-hexo clean
-hexo g
-hexo s // 本地运行
-</code></pre><p>没有报错并且浏览器访问正常, 测试完成.</p>
-<h3 id="修改提交代码"><a href="#修改提交代码" class="headerlink" title="修改提交代码"></a>修改提交代码</h3><p>修改提交代码与第一次提交项目大致命令相同, 但是有一点需要注意, 如果你只提交部分代码 <code>git add .</code> 需要改为 <code>git add *</code>, 不然无法提交</p>
-<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><pre><code>git init // 初始化本地项目
-git clone xxx // xxx为项目地址  此操作将库中项目克隆到本地
-git add . 
-git commit -m &quot;注释&quot;
-git push // 提交代码到仓库
-git pull // 更新代码到本地
+    @Value(&quot;${redis.maxIdle}&quot;)
+    private Integer maxIdle;
+    @Value(&quot;${redis.maxTotal}&quot;)
+    private Integer maxTotal;
+    @Value(&quot;${redis.maxWaitMillis}&quot;)
+    private Integer maxWaitMillis;
+    @Value(&quot;${redis.minEvictableIdleTimeMillis}&quot;)
+    private Integer minEvictableIdleTimeMillis;
+    @Value(&quot;${redis.numTestsPerEvictionRun}&quot;)
+    private Integer numTestsPerEvictionRun;
+    @Value(&quot;${redis.timeBetweenEvictionRunsMillis}&quot;)
+    private long timeBetweenEvictionRunsMillis;
+    @Value(&quot;${redis.testOnBorrow}&quot;)
+    private boolean testOnBorrow;
+    @Value(&quot;${redis.testWhileIdle}&quot;)
+    private boolean testWhileIdle;
+    @Value(&quot;${redis.hostName}&quot;)
+    String hostName;
+    @Value(&quot;${redis.port}&quot;)
+    int port;
+    @Value(&quot;${redis.password}&quot;)
+    String password;
+    @Value(&quot;${redis.timeout}&quot;)
+    int timeout;
 
-git branch -a  // 显示仓库所有分支
-git checkout 分支名 // 在本地切换当前分支
 
-git status // 查看当前项目代码状态
-git add * // 添加当前路径代码
+    /**
+     * JedisPoolConfig 连接池
+     *
+     * @return
+     */
+    @Bean
+    public JedisPoolConfig jedisPoolConfig() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        // 最大空闲数
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        // 连接池的最大数据库连接数
+        jedisPoolConfig.setMaxTotal(maxTotal);
+        // 最大建立连接等待时间
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+        // 逐出连接的最小空闲时间 默认1800000毫秒(30分钟)
+        jedisPoolConfig.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+        // 每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3
+        jedisPoolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);
+        // 逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
+        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        // 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+        jedisPoolConfig.setTestOnBorrow(testOnBorrow);
+        // 在空闲时检查有效性, 默认false
+        jedisPoolConfig.setTestWhileIdle(testWhileIdle);
+        return jedisPoolConfig;
+    }
+
+    /**
+     * 单机版配置
+     *
+     * @param @param  jedisPoolConfig
+     * @param @return
+     * @return JedisConnectionFactory
+     * @throws
+     * @Title: JedisConnectionFactory
+     */
+    @Bean
+    public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
+        JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+        //连接池
+        JedisConnectionFactory.setPoolConfig(jedisPoolConfig);
+        //IP地址
+        JedisConnectionFactory.setHostName(hostName);
+        //端口号
+        JedisConnectionFactory.setPort(port);
+        //如果Redis设置有密码
+        JedisConnectionFactory.setPassword(password);
+        //客户端超时时间单位是毫秒
+        JedisConnectionFactory.setTimeout(timeout);
+        return JedisConnectionFactory;
+    }
+
+    /**
+     * RedisTemplate 模板类
+     */
+    @Bean
+    public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate&lt;Object, Object&gt; template=new RedisTemplate&lt;&gt;();
+        template.setConnectionFactory(redisConnectionFactory);
+        // 使用Jackson2JsonRedisSerialize 替换默认序列化
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(mapper);
+        // 设置value的序列化规则和 key的序列化规则
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.afterPropertiesSet();
+        return  template;
+    }
+}
 </code></pre>
             </div>
             <hr>
@@ -452,7 +514,7 @@ git add * // 添加当前路径代码
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/01/20/Hexo多电脑编写以及相关Git命令/" class="b-link-green">Hexo多电脑编写以及相关Git命令</a>
+                    <a href="/2020/06/10/Springboot集成Redis/" class="b-link-green">Springboot集成Redis</a>
                 </p>
             </div>
         </div>
@@ -734,30 +796,86 @@ git add * // 添加当前路径代码
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/02/Springboot关闭SpringSecurity扫描/">
+                <a href="/2020/06/10/Springboot集成Redis/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Springboot关闭SpringSecurity扫描">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Springboot集成Redis">
                         
-                        <span class="card-title">Springboot关闭SpringSecurity扫描</span>
+                        <span class="card-title">Springboot集成Redis</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">在springboot启动类中添加：
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
-</div>
+                    <div class="summary">首先添加相关依赖&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Springboot/" target="_blank">
+                        <span class="chip bg-color">Springboot</span>
+                    </a>
+                    
+                    <a href="/tags/Redis/" target="_blank">
+                        <span class="chip bg-color">Redis</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/06/09/Vue表单提交时使用Redis进行表单重复提交验证/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Vue表单提交时使用Redis进行表单重复提交验证">
+                        
+                        <span class="card-title">Vue表单提交时使用Redis进行表单重复提交验证</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo
+想法根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/前端/" class="post-category" target="_blank">
+                                    前端
+                                </a>
+                            
+                            <a href="/categories/前端/后端/" class="post-category" target="_blank">
                                     后端
                                 </a>
                             
@@ -772,59 +890,12 @@ git add * // 添加当前路径代码
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/Springboot/" target="_blank">
-                        <span class="chip bg-color">Springboot</span>
+                    <a href="/tags/Redis/" target="_blank">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/01/15/Linux桥接模式下配置静态ip地址/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Linux桥接模式下配置静态ip地址">
-                        
-                        <span class="card-title">Linux桥接模式下配置静态ip地址</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">桥接模式下配置静态ip一、涉及三个文件的配置：
-/etc/sysconfig/network 
-/etc/sysconfig/network-scripts/ifcfg-eth0 
-/etc/resolv.conf
-
-二、具体配置过程
-ip</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-15
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/运维/" class="post-category" target="_blank">
-                                    运维
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
                     </a>
                     
                 </div>
