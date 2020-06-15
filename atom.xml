@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2020-06-10T06:22:32.789Z</updated>
+  <updated>2020-06-15T07:24:22.870Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java调用Mysql命令备份数据库</title>
+    <link href="https://cczjh.github.io/2020/06/15/Java%E8%B0%83%E7%94%A8Mysql%E5%91%BD%E4%BB%A4%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>https://cczjh.github.io/2020/06/15/Java调用Mysql命令备份数据库/</id>
+    <published>2020-06-15T07:19:59.000Z</published>
+    <updated>2020-06-15T07:24:22.870Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h3><pre><code>backupSql:  username: root  password: root  hostUrl: 127.0.0.1  database: frs  backupUrl: C:\Users\周大帅\Desktop\backupSql\</code></pre><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>项目中使用Springboot自带的定时器定时备份数据库</p><pre><code>import com.sxis.common.util.TimeUtil;import lombok.extern.slf4j.Slf4j;import org.springframework.beans.factory.annotation.Value;import org.springframework.scheduling.annotation.Async;import org.springframework.scheduling.annotation.Scheduled;import org.springframework.stereotype.Component;import java.io.File;import java.io.IOException;/** * @ClassName: MysqlScheduled * @Description: * @Date: 2020/6/15 13:40 */@Slf4j@Componentpublic class MysqlScheduled {    @Value(&quot;${backupSql.username}&quot;)    String username;    @Value(&quot;${backupSql.password}&quot;)    String password;    @Value(&quot;${backupSql.hostUrl}&quot;)    String hostUrl;    @Value(&quot;${backupSql.database}&quot;)    String database;    @Value(&quot;${backupSql.backupUrl}&quot;)    String backupUrl;    /**     * @Param []     * @Return void     * @Date 2020/6/15 13:41     * @Description  备份数据库     */    @Async(&quot;asyncExecutor&quot;)    @Scheduled(cron=&quot;0 0 5 * * ?&quot;) // 每天凌晨5点执行//    @Scheduled(fixedDelay=1000*120) // 每天凌晨5点执行    public void backupMysql() {        String nowDate = TimeUtil.getNowDate();        File filePath = new File(backupUrl);        if (!filePath.getParentFile().exists()) {            filePath.getParentFile().mkdirs();        }        if (!filePath.exists()) {            filePath.mkdir();        }        // 保存路径        File saveFilePath = new File(filePath.toString() + &quot;/&quot; + nowDate + &quot;frs.sql&quot;);        StringBuilder sqlOrder = new StringBuilder();        sqlOrder.append(&quot;mysqldump&quot;).append(&quot; --opt&quot;).append(&quot; -h&quot;).append(hostUrl);        sqlOrder.append(&quot; --user=&quot;).append(username).append(&quot; --password=&quot;).append(password)                .append(&quot; --lock-all-tables=true&quot;);        sqlOrder.append(&quot; --result-file=&quot;).append(saveFilePath).append(&quot; --default-character-set=utf8 &quot;)                .append(database);        try {            //调用外部执行exe文件的javaAPI            //也可在linux环境中执行            Process process = Runtime.getRuntime().exec(sqlOrder.toString());            if (process.waitFor() == 0) {// 0 表示线程正常终止。                log.info(&quot;备份数据库成功, 路径为: &quot;+saveFilePath);            }        } catch (IOException e) {            log.error(&quot;数据库备份失败~~~~&quot;);        } catch (InterruptedException e) {            log.error(&quot;数据库备份失败~~~~&quot;);        }    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="Mysql" scheme="https://cczjh.github.io/tags/Mysql/"/>
+    
+      <category term="数据库" scheme="https://cczjh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Springboot集成Redis</title>
     <link href="https://cczjh.github.io/2020/06/10/Springboot%E9%9B%86%E6%88%90Redis/"/>
     <id>https://cczjh.github.io/2020/06/10/Springboot集成Redis/</id>
     <published>2020-06-10T06:16:37.000Z</published>
-    <updated>2020-06-10T06:22:32.789Z</updated>
+    <updated>2020-06-15T07:25:03.622Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="首先添加相关依赖"><a href="#首先添加相关依赖" class="headerlink" title="首先添加相关依赖"></a>首先添加相关依赖</h3><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;    &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;!-- jedis是Redis在java的客户端实现 --&gt;&lt;dependency&gt;    &lt;groupId&gt;redis.clients&lt;/groupId&gt;    &lt;artifactId&gt;jedis&lt;/artifactId&gt;    &lt;version&gt;2.9.0&lt;/version&gt;&lt;/dependency&gt;</code></pre><h3 id="配置文件参数"><a href="#配置文件参数" class="headerlink" title="配置文件参数"></a>配置文件参数</h3><pre><code># Redisredis:  hostName: &quot;172.172.21.32&quot;  port: &quot;6379&quot;  password: &apos;&apos;  timeout: 3600  maxIdle: 300  maxTotal: 1000  maxWaitMillis: 1000  minEvictableIdleTimeMillis: 300000  numTestsPerEvictionRun: 1024  timeBetweenEvictionRunsMillis: 30000  testOnBorrow: true  testWhileIdle: true</code></pre><h3 id="Redis单机版"><a href="#Redis单机版" class="headerlink" title="Redis单机版"></a>Redis单机版</h3><pre><code>@Configurationpublic class RedisConfig {    @Value(&quot;${redis.maxIdle}&quot;)    private Integer maxIdle;    @Value(&quot;${redis.maxTotal}&quot;)    private Integer maxTotal;    @Value(&quot;${redis.maxWaitMillis}&quot;)    private Integer maxWaitMillis;    @Value(&quot;${redis.minEvictableIdleTimeMillis}&quot;)    private Integer minEvictableIdleTimeMillis;    @Value(&quot;${redis.numTestsPerEvictionRun}&quot;)    private Integer numTestsPerEvictionRun;    @Value(&quot;${redis.timeBetweenEvictionRunsMillis}&quot;)    private long timeBetweenEvictionRunsMillis;    @Value(&quot;${redis.testOnBorrow}&quot;)    private boolean testOnBorrow;    @Value(&quot;${redis.testWhileIdle}&quot;)    private boolean testWhileIdle;    @Value(&quot;${redis.hostName}&quot;)    String hostName;    @Value(&quot;${redis.port}&quot;)    int port;    @Value(&quot;${redis.password}&quot;)    String password;    @Value(&quot;${redis.timeout}&quot;)    int timeout;    /**     * JedisPoolConfig 连接池     *     * @return     */    @Bean    public JedisPoolConfig jedisPoolConfig() {        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();        // 最大空闲数        jedisPoolConfig.setMaxIdle(maxIdle);        // 连接池的最大数据库连接数        jedisPoolConfig.setMaxTotal(maxTotal);        // 最大建立连接等待时间        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);        // 逐出连接的最小空闲时间 默认1800000毫秒(30分钟)        jedisPoolConfig.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);        // 每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3        jedisPoolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);        // 逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);        // 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个        jedisPoolConfig.setTestOnBorrow(testOnBorrow);        // 在空闲时检查有效性, 默认false        jedisPoolConfig.setTestWhileIdle(testWhileIdle);        return jedisPoolConfig;    }    /**     * 单机版配置     *     * @param @param  jedisPoolConfig     * @param @return     * @return JedisConnectionFactory     * @throws     * @Title: JedisConnectionFactory     */    @Bean    public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {        JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);        //连接池        JedisConnectionFactory.setPoolConfig(jedisPoolConfig);        //IP地址        JedisConnectionFactory.setHostName(hostName);        //端口号        JedisConnectionFactory.setPort(port);        //如果Redis设置有密码        JedisConnectionFactory.setPassword(password);        //客户端超时时间单位是毫秒        JedisConnectionFactory.setTimeout(timeout);        return JedisConnectionFactory;    }    /**     * RedisTemplate 模板类     */    @Bean    public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) {        RedisTemplate&lt;Object, Object&gt; template=new RedisTemplate&lt;&gt;();        template.setConnectionFactory(redisConnectionFactory);        // 使用Jackson2JsonRedisSerialize 替换默认序列化        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);        ObjectMapper mapper=new ObjectMapper();        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);        jackson2JsonRedisSerializer.setObjectMapper(mapper);        // 设置value的序列化规则和 key的序列化规则        template.setValueSerializer(jackson2JsonRedisSerializer);        template.setKeySerializer(new StringRedisSerializer());        template.setHashKeySerializer(new StringRedisSerializer());        template.afterPropertiesSet();        return  template;    }}</code></pre>]]></content>
     
@@ -37,6 +66,8 @@
       <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
     
     
+      <category term="数据库" scheme="https://cczjh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
       <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
     
       <category term="Redis" scheme="https://cczjh.github.io/tags/Redis/"/>
@@ -48,7 +79,7 @@
     <link href="https://cczjh.github.io/2020/06/09/Vue%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E4%BD%BF%E7%94%A8Redis%E8%BF%9B%E8%A1%8C%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4%E9%AA%8C%E8%AF%81/"/>
     <id>https://cczjh.github.io/2020/06/09/Vue表单提交时使用Redis进行表单重复提交验证/</id>
     <published>2020-06-09T07:42:07.000Z</published>
-    <updated>2020-06-09T08:23:35.870Z</updated>
+    <updated>2020-06-15T07:25:18.994Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo</p><h3 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h3><p>根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单的时候redis进行判断并删除对应token, 因为redis是单线程执行, 所以不会存在在极短的时间内重复请求接口时redis判断有问题的情况</p><h3 id="添加过滤器"><a href="#添加过滤器" class="headerlink" title="添加过滤器"></a>添加过滤器</h3><p>####说明:<br>正常来说是不需要添加这个过滤器的, 但是因为我需要拿到axios传递的JSON类型参数, 而JSON类型参数需要在request流中获取, 但是request.getInputStream() 与 request.getReader() 只能调用一次, 如果我在拦截器中获取了流, 那么在controller中使用@RequestBody注解获取参数时会报错, 所以对应需要将request处理一下</p><pre><code>import com.sxis.common.security.config.MyHttpServletRequestWrapper;import lombok.extern.slf4j.Slf4j;import org.springframework.stereotype.Component;import javax.servlet.*;import javax.servlet.annotation.WebFilter;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletResponse;import java.io.IOException;/** * @ClassName: InitFilter * @Description: * @Date: 2020/6/9 14:16 */@Component@Slf4j@WebFilter(urlPatterns = &quot;/*&quot;)public class InitFilter implements Filter {    @Override    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {        HttpServletRequest request = (HttpServletRequest) servletRequest;        HttpServletResponse response = (HttpServletResponse) servletResponse;        if (!(request instanceof MyHttpServletRequestWrapper)) {            request = new MyHttpServletRequestWrapper(request);        }        filterChain.doFilter(request, response);    }}</code></pre><p>自定义类重写HttpServletRequestWrapper</p><pre><code>import org.apache.commons.compress.utils.IOUtils;import javax.servlet.ReadListener;import javax.servlet.ServletInputStream;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletRequestWrapper;import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {    private final byte[] body;    public MyHttpServletRequestWrapper(HttpServletRequest request) throws IOException {        super(request);        body = IOUtils.toByteArray(super.getInputStream());    }    @Override    public BufferedReader getReader() throws IOException {        return new BufferedReader(new InputStreamReader(getInputStream()));    }    @Override    public ServletInputStream getInputStream() throws IOException {        return new RequestBodyCachingInputStream(body);    }    private class RequestBodyCachingInputStream extends ServletInputStream {        private byte[] body;        private int lastIndexRetrieved = -1;        private ReadListener listener;        public RequestBodyCachingInputStream(byte[] body) {            this.body = body;        }        @Override        public int read() throws IOException {            if (isFinished()) {                return -1;            }            int i = body[lastIndexRetrieved + 1];            lastIndexRetrieved++;            if (isFinished() &amp;&amp; listener != null) {                try {                    listener.onAllDataRead();                } catch (IOException e) {                    listener.onError(e);                    throw e;                }            }            return i;        }        @Override        public boolean isFinished() {            return lastIndexRetrieved == body.length - 1;        }        @Override        public boolean isReady() {            return isFinished();        }        @Override        public void setReadListener(ReadListener listener) {            if (listener == null) {                throw new IllegalArgumentException(&quot;listener cann not be null&quot;);            }            if (this.listener != null) {                throw new IllegalArgumentException(&quot;listener has been set&quot;);            }            this.listener = listener;            if (!isFinished()) {                try {                    listener.onAllDataRead();                } catch (IOException e) {                    listener.onError(e);                }            } else {                try {                    listener.onAllDataRead();                } catch (IOException e) {                    listener.onError(e);                }            }        }        @Override        public int available() throws IOException {            return body.length - lastIndexRetrieved - 1;        }        @Override        public void close() throws IOException {            lastIndexRetrieved = body.length - 1;            body = null;        }    }}</code></pre><p>这样使用request时就能多次获取流而不会报错</p><h3 id="添加拦截器"><a href="#添加拦截器" class="headerlink" title="添加拦截器"></a>添加拦截器</h3><p>拦截器的添加不做详细赘述</p><p>这是表单提交之前调用的接口拦截器</p><pre><code>import com.alibaba.fastjson.JSONObject;import com.sxis.common.redis.util.RedisUtil;import com.sxis.common.util.CommonUtil;import com.sxis.common.util.RequestStreamUtil;import lombok.extern.slf4j.Slf4j;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Component;import org.springframework.web.servlet.HandlerInterceptor;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletResponse;/** * @ClassName: InPageInterceptor * @Description: * @Date: 2020/6/8 10:44 */@Slf4j@Componentpublic class InPageInterceptor implements HandlerInterceptor {    @Autowired    private RedisUtil redisUtil;    @Override    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {        log.info(&quot;添加token...&quot;);        JSONObject jsonObject = RequestStreamUtil.getJsonByStream(request);        String userId = jsonObject.getString(&quot;userId&quot;);        String resubmitTokenKey = userId + &quot;resubmitToken&quot;;        String resubmitTokenValue = userId + &quot;-&quot; + CommonUtil.createUUID();        redisUtil.set(resubmitTokenKey, resubmitTokenValue, 600);        return true;    }}</code></pre><p>这是表单提交时调用的接口</p><pre><code>import com.alibaba.fastjson.JSONObject;import com.sxis.common.redis.util.RedisUtil;import com.sxis.common.util.RequestStreamUtil;import lombok.extern.slf4j.Slf4j;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Component;import org.springframework.web.servlet.HandlerInterceptor;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletResponse;/** * @ClassName: ResubmitInterceptor * @Description: * @Date: 2020/6/5 9:53 */@Slf4j@Componentpublic class ResubmitInterceptor implements HandlerInterceptor {    @Autowired    private RedisUtil redisUtil;    @Override    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {        log.info(&quot;释放token...&quot;);        JSONObject jsonObject = RequestStreamUtil.getJsonByStream(request);        String userId = jsonObject.getString(&quot;userId&quot;);        String resubmitTokenKey = userId + &quot;resubmitToken&quot;;        if (redisUtil.hasKey(resubmitTokenKey)) {            log.info(&quot;用户正常提交~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);            redisUtil.del(resubmitTokenKey);        } else {            log.info(&quot;请勿重复提交~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);            return false;        }        return true;    }}</code></pre><p>以下是RequestStreamUtil中的静态方法, 用于获取request流中json格式参数</p><pre><code>/** * @Param [request] * @Return com.alibaba.fastjson.JSONObject * @Date 2020/6/9 15:30 * @Description 获取前端传递的  Request Payload 中的json参数 * 由于request中的inputStream流只能被读取一次 所以此处传递的request是被处理过的request */public static JSONObject getJsonByStream(HttpServletRequest request) {    StringBuilder sb = new StringBuilder();    try(BufferedReader reader = request.getReader();) {        char[]buff = new char[1024];        int len;        while((len = reader.read(buff)) != -1) {            sb.append(buff,0, len);        }    }catch (IOException e) {        e.printStackTrace();    }    JSONObject jsonObject = JSON.parseObject(sb.toString());    return jsonObject;}</code></pre><p>以上就是简单的后端处理表单重复提交demo </p>]]></content>
     
@@ -67,6 +98,8 @@
     
     
       <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="数据库" scheme="https://cczjh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="Redis" scheme="https://cczjh.github.io/tags/Redis/"/>
     
@@ -390,9 +423,9 @@
       <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
     
     
-      <category term="Redis" scheme="https://cczjh.github.io/tags/Redis/"/>
-    
       <category term="数据库" scheme="https://cczjh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="Redis" scheme="https://cczjh.github.io/tags/Redis/"/>
     
       <category term="缓存" scheme="https://cczjh.github.io/tags/%E7%BC%93%E5%AD%98/"/>
     
@@ -530,33 +563,6 @@
     
     
       <category term="Hexo" scheme="https://cczjh.github.io/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vue和移动端App的交互</title>
-    <link href="https://cczjh.github.io/2019/04/25/Vue%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%AB%AFApp%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
-    <id>https://cczjh.github.io/2019/04/25/Vue和移动端App的交互/</id>
-    <published>2019-04-25T08:28:35.000Z</published>
-    <updated>2020-01-20T07:29:17.213Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p><p>以下为个人所做项目中的一些简单调用方法</p><hr><pre><code>let utils = { //注册的全局函数  versions: function () { // 判断Android 和 IOS    var u = navigator.userAgent, app = navigator.appVersion;    return {      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,    };  }(),  isMobile: function () {    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;  },  getToken: function () {    if (utils.versions.android) {      return jsObj.readFile(); // 调用Android端方法    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(); // 调用IOS端方法    }    return &quot;&quot;;  },  getEmpCode: function () {    if (utils.versions.android) {      return jsObj.getEmpCode();    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {      return window.prompt(&quot;getUser&quot;);    }    return &quot;&quot;;  },}export default {  utils,}</code></pre><hr><h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p><hr><pre><code>mounted: function () {  let _this = this  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)    // _this.show1 = true    _this.recordComplete(time, fileId)  }},methods: {    recordComplete: function() {        ...    }}</code></pre><hr>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-      <category term="前端" scheme="https://cczjh.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="Vue" scheme="https://cczjh.github.io/tags/Vue/"/>
-    
-      <category term="Webapp" scheme="https://cczjh.github.io/tags/Webapp/"/>
     
   </entry>
   

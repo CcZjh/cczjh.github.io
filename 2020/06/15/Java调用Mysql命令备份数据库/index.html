@@ -4,12 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Vue和移动端App的交互, 米斯特周">
-    <meta name="description" content="一. Vue 调用 移动端Vue 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数
-以下为个人所做项目中的一些简单调用方法
-
-let utils = { //注册的全局函数
-  versions: function">
+    <meta name="keywords" content="Java调用Mysql命令备份数据库, 米斯特周">
+    <meta name="description" content="配置参数backupSql:
+  username: root
+  password: root
+  hostUrl: 127.0.0.1
+  database: frs
+  backupUrl: C:\Users\周大帅\Desktop\">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@ let utils = { //注册的全局函数
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Vue和移动端App的交互 | 米斯特周</title>
+    <title>Java调用Mysql命令备份数据库 | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -196,13 +197,13 @@ let utils = { //注册的全局函数
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Vue和移动端App的交互
+                        Java调用Mysql命令备份数据库
                     </div>
                 </div>
             </div>
@@ -313,12 +314,16 @@ let utils = { //注册的全局函数
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Vue/" target="_blank">
-                                <span class="chip bg-color">Vue</span>
+                            <a href="/tags/Java/" target="_blank">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
-                            <a href="/tags/Webapp/" target="_blank">
-                                <span class="chip bg-color">Webapp</span>
+                            <a href="/tags/Mysql/" target="_blank">
+                                <span class="chip bg-color">Mysql</span>
+                            </a>
+                        
+                            <a href="/tags/数据库/" target="_blank">
+                                <span class="chip bg-color">数据库</span>
                             </a>
                         
                     </div>
@@ -329,8 +334,8 @@ let utils = { //注册的全局函数
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                前端
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                后端
                             </a>
                         
                     </div>
@@ -341,14 +346,14 @@ let utils = { //注册的全局函数
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-25
+                    2020-06-15
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        292
+                        363
                     </div>
                     
 
@@ -366,62 +371,91 @@ let utils = { //注册的全局函数
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="一-Vue-调用-移动端"><a href="#一-Vue-调用-移动端" class="headerlink" title="一. Vue 调用 移动端"></a>一. Vue 调用 移动端</h3><p><strong>Vue</strong> 调用 移动端比较方便, 只需要注册全局函数就能成功调用移动端提供的方法函数</p>
-<p>以下为个人所做项目中的一些简单调用方法</p>
-<hr>
-<pre><code>let utils = { //注册的全局函数
-  versions: function () { // 判断Android 和 IOS
-    var u = navigator.userAgent, app = navigator.appVersion;
-    return {
-      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
-      android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1,
-      iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1,
-      iPad: u.indexOf(&apos;iPad&apos;) &gt; -1,
-    };
-  }(),
-  isMobile: function () {
-    return utils.versions.ios || utils.versions.iPhone || utils.versions.iPad || utils.versions.android;
-  },
+                <h3 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h3><pre><code>backupSql:
+  username: root
+  password: root
+  hostUrl: 127.0.0.1
+  database: frs
+  backupUrl: C:\Users\周大帅\Desktop\backupSql\
+</code></pre><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>项目中使用Springboot自带的定时器定时备份数据库</p>
+<pre><code>import com.sxis.common.util.TimeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-  getToken: function () {
-    if (utils.versions.android) {
-      return jsObj.readFile(); // 调用Android端方法
-    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {
-      return window.prompt(); // 调用IOS端方法
-    }
-    return &quot;&quot;;
-  },
-  getEmpCode: function () {
-    if (utils.versions.android) {
-      return jsObj.getEmpCode();
-    } else if (utils.versions.ios || utils.versions.iPhone || utils.versions.iPad) {
-      return window.prompt(&quot;getUser&quot;);
-    }
-    return &quot;&quot;;
-  },
-}
+import java.io.File;
+import java.io.IOException;
 
-export default {
-  utils,
-}
-</code></pre><hr>
-<h3 id="二-移动端-调用-Vue"><a href="#二-移动端-调用-Vue" class="headerlink" title="二. 移动端 调用 Vue"></a>二. 移动端 调用 Vue</h3><p>移动端想调用 <strong>Vue</strong>中的方法 需要Vue将被调用的方法挂载到 <strong>Windows</strong> 对象下面</p>
-<hr>
-<pre><code>mounted: function () {
-  let _this = this
-  window[&apos;recordComplete&apos;] = (time, fileId) =&gt; {
-    // console.log(&quot;recordComplete方法回调, 参数: tapeTime: &quot;+time+&quot;---fileId: &quot;+fileId)
-    // _this.show1 = true
-    _this.recordComplete(time, fileId)
-  }
-},
-methods: {
-    recordComplete: function() {
-        ...
+/**
+ * @ClassName: MysqlScheduled
+ * @Description:
+ * @Date: 2020/6/15 13:40
+ */
+@Slf4j
+@Component
+public class MysqlScheduled {
+
+    @Value(&quot;${backupSql.username}&quot;)
+    String username;
+    @Value(&quot;${backupSql.password}&quot;)
+    String password;
+    @Value(&quot;${backupSql.hostUrl}&quot;)
+    String hostUrl;
+    @Value(&quot;${backupSql.database}&quot;)
+    String database;
+    @Value(&quot;${backupSql.backupUrl}&quot;)
+    String backupUrl;
+
+    /**
+     * @Param []
+     * @Return void
+     * @Date 2020/6/15 13:41
+     * @Description  备份数据库
+     */
+    @Async(&quot;asyncExecutor&quot;)
+    @Scheduled(cron=&quot;0 0 5 * * ?&quot;) // 每天凌晨5点执行
+//    @Scheduled(fixedDelay=1000*120) // 每天凌晨5点执行
+    public void backupMysql() {
+
+        String nowDate = TimeUtil.getNowDate();
+
+        File filePath = new File(backupUrl);
+        if (!filePath.getParentFile().exists()) {
+            filePath.getParentFile().mkdirs();
+        }
+        if (!filePath.exists()) {
+            filePath.mkdir();
+        }
+
+        // 保存路径
+        File saveFilePath = new File(filePath.toString() + &quot;/&quot; + nowDate + &quot;frs.sql&quot;);
+
+        StringBuilder sqlOrder = new StringBuilder();
+        sqlOrder.append(&quot;mysqldump&quot;).append(&quot; --opt&quot;).append(&quot; -h&quot;).append(hostUrl);
+        sqlOrder.append(&quot; --user=&quot;).append(username).append(&quot; --password=&quot;).append(password)
+                .append(&quot; --lock-all-tables=true&quot;);
+        sqlOrder.append(&quot; --result-file=&quot;).append(saveFilePath).append(&quot; --default-character-set=utf8 &quot;)
+                .append(database);
+
+        try {
+            //调用外部执行exe文件的javaAPI
+            //也可在linux环境中执行
+            Process process = Runtime.getRuntime().exec(sqlOrder.toString());
+            if (process.waitFor() == 0) {// 0 表示线程正常终止。
+                log.info(&quot;备份数据库成功, 路径为: &quot;+saveFilePath);
+            }
+        } catch (IOException e) {
+            log.error(&quot;数据库备份失败~~~~&quot;);
+        } catch (InterruptedException e) {
+            log.error(&quot;数据库备份失败~~~~&quot;);
+        }
+
+
     }
 }
-</code></pre><hr>
-
+</code></pre>
             </div>
             <hr>
 
@@ -444,7 +478,7 @@ methods: {
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/25/Vue和移动端App的交互/" class="b-link-green">Vue和移动端App的交互</a>
+                    <a href="/2020/06/15/Java调用Mysql命令备份数据库/" class="b-link-green">Java调用Mysql命令备份数据库</a>
                 </p>
             </div>
         </div>
@@ -726,41 +760,55 @@ methods: {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/05/06/Hexo上传的图片在网页上无法显示的解决办法/">
+                <a href="/2020/06/15/Java调用Mysql命令备份数据库/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Hexo上传的图片在网页上无法显示的解决办法">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Java调用Mysql命令备份数据库">
                         
-                        <span class="card-title">Hexo上传的图片在网页上无法显示的解决办法</span>
+                        <span class="card-title">Java调用Mysql命令备份数据库</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">转: https://blog.csdn.net/qq_38148394/article/details/79997971
-</div>
+                    <div class="summary">配置参数backupSql:
+  username: root
+  password: root
+  hostUrl: 127.0.0.1
+  database: frs
+  backupUrl: C:\Users\周大帅\Desktop\</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/个人/" class="post-category" target="_blank">
-                                    个人
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Hexo/" target="_blank">
-                        <span class="chip bg-color">Hexo</span>
+                    <a href="/tags/Java/" target="_blank">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/Mysql/" target="_blank">
+                        <span class="chip bg-color">Mysql</span>
+                    </a>
+                    
+                    <a href="/tags/数据库/" target="_blank">
+                        <span class="chip bg-color">数据库</span>
                     </a>
                     
                 </div>
@@ -774,28 +822,29 @@ methods: {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/12/axios-上传文件的坑/">
+                <a href="/2020/06/10/Springboot集成Redis/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="axios 上传文件的坑">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Springboot集成Redis">
                         
-                        <span class="card-title">axios 上传文件的坑</span>
+                        <span class="card-title">Springboot集成Redis</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">最新做一个用Vue写的webApp, 里面需要上传头像文件, 发现通过Axios发送formData参数, Java后台报错:
-于是乎就麻烦度娘, 可是网上找的写法千篇一律, 写法不同但作用相同, 一直没发现问题到底出在哪, 然后就以为是后</div>
+                    <div class="summary">首先添加相关依赖&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-12
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                    前端
+                            <a href="/categories/后端/" class="post-category" target="_blank">
+                                    后端
                                 </a>
                             
                             
@@ -805,12 +854,16 @@ methods: {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Vue/" target="_blank">
-                        <span class="chip bg-color">Vue</span>
+                    <a href="/tags/数据库/" target="_blank">
+                        <span class="chip bg-color">数据库</span>
                     </a>
                     
-                    <a href="/tags/Axios/" target="_blank">
-                        <span class="chip bg-color">Axios</span>
+                    <a href="/tags/Springboot/" target="_blank">
+                        <span class="chip bg-color">Springboot</span>
+                    </a>
+                    
+                    <a href="/tags/Redis/" target="_blank">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>
