@@ -7,7 +7,7 @@
     <meta name="keywords" content="git项目管理, 米斯特周">
     <meta name="description" content="其实最基本的流程就是新建分支，在这个分支上改动代码，再提交上去，跟master分支合并。
 1. 新建分支首先，在你新建分支之前，你应该在master分支，并且要保证你当前的是最新代码，要不然就是找死，最后提交代码就会出问题。
-1. &amp;lt;">
+1. git ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -342,14 +342,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.1k
+                        1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        4 分
+                        3 分
                     </div>
                     
                 
@@ -362,29 +362,29 @@
             <div id="articleContent">
                 <p>其实最基本的流程就是新建分支，在这个分支上改动代码，再提交上去，跟master分支合并。</p>
 <h3 id="1-新建分支"><a href="#1-新建分支" class="headerlink" title="1. 新建分支"></a>1. 新建分支</h3><p>首先，在你新建分支之前，你应该在master分支，并且要保证你当前的是最新代码，要不然就是找死，最后提交代码就会出问题。</p>
-<pre><code>1. &lt;font color=#4ac3dfdb&gt;git pull origin master&lt;/font&gt; ，在master分支下，保证当前代码与线上同步，是最新的
-2. &lt;font color=#4ac3dfdb&gt;git branch &lt;分支名&gt;&lt;/font&gt; ，正儿八经的新建分支。
-3. &lt;font color=#4ac3dfdb&gt;git checkout &lt;分支名&gt;&lt;/font&gt; ，切换 到新建的分支上，再进行下一步。
-4. &lt;font color=#4ac3dfdb&gt;git push origin &lt;分支名&gt;&lt;/font&gt; ,把本地分支推到远端，让远端也有一个你的分支，用来后面提交你的代码。
-</code></pre><p>新建分支并切换到该分支：<font color="#4ac3dfdb">git checkout -b &lt;分支名&gt;</font></p>
+<pre><code>1. git pull origin master ，在master分支下，保证当前代码与线上同步，是最新的
+2. git branch &lt;分支名&gt; ，正儿八经的新建分支。
+3. git checkout &lt;分支名&gt; ，切换 到新建的分支上，再进行下一步。
+4. git push origin &lt;分支名&gt; ,把本地分支推到远端，让远端也有一个你的分支，用来后面提交你的代码。
+</code></pre><p>新建分支并切换到该分支：git checkout -b &lt;分支名&gt;</p>
 <h3 id="2-提交代码"><a href="#2-提交代码" class="headerlink" title="2. 提交代码"></a>2. 提交代码</h3><p>在新建的分支上写完代码之后，就可以提交代码了。此时应该在你新建的分支上</p>
-<pre><code>1. &lt;font color=#4ac3dfdb&gt;git status&lt;/font&gt; ,查看自己写了哪些东西。
-2. &lt;font color=#4ac3dfdb&gt;git add .&lt;/font&gt;
-3. &lt;font color=#4ac3dfdb&gt;git commit -m&lt;/font&gt; ‘本次提交的描述（写自己的话，不要抄我的，哼！）’
-4. &lt;font color=#4ac3dfdb&gt;git push origin &lt;分支名&gt;&lt;/font&gt; ,push是从本地向远端推代码，也就是把自己写的代码提交上去，像给老师交作业一样。
+<pre><code>1. git status ,查看自己写了哪些东西。
+2. git add .
+3. git commit -m ‘本次提交的描述（写自己的话，不要抄我的，哼！）’
+4. git push origin &lt;分支名&gt; ,push是从本地向远端推代码，也就是把自己写的代码提交上去，像给老师交作业一样。
 5. 执行完上一步，有可能报错，此时淡定，不认识英语的话在线翻译是干嘛的，大多数时候提示你，本地落后于远端，（意思就是远端比本地多了一些代码，为什么会出现这种情况呢，肯定是你跟别人共用一个分支，他提交了一段代码到远端，所以导致你的本地落后于远端）既然落后了，那就把他更新成最新的呗，
-   &lt;font color=#4ac3dfdb&gt;git pull --rebase origin 远程分支名&lt;/font&gt;
+   git pull --rebase origin 远程分支名
 6. 执行完之后，你的代码就跟远端又一样了。并且你的修改仍然在，此时再提交你的代码
-   &lt;font color=#4ac3dfdb&gt;git push origin &lt;分支名&gt;&lt;/font&gt;
+   git push origin &lt;分支名&gt;
 </code></pre><h3 id="3-rebase代码"><a href="#3-rebase代码" class="headerlink" title="3.rebase代码"></a>3.rebase代码</h3><p>提交完代码之后需要让测试人员进行测试，若测试没问题，就可以rebase代码，然后上线了。（这一步是保证你要上线的代码是基于最新的master）</p>
-<pre><code>1. &lt;font color=#4ac3dfdb&gt;git pull —rebase origin &lt;分支名&gt;&lt;/font&gt;
-2. &lt;font color=#4ac3dfdb&gt;git pull —rebase origin master&lt;/font&gt;
+<pre><code>1. git pull —rebase origin &lt;分支名&gt;
+2. git pull —rebase origin master
 </code></pre><p>执行这两步的时候都有可能发生冲突，此时你要做的就是解决冲突，再继续提交。</p>
-<pre><code>1. 解决完冲突之后，&lt;font color=#4ac3dfdb&gt;git add .&lt;/font&gt;
-2. &lt;font color=#4ac3dfdb&gt;git rebase —continue&lt;/font&gt;
+<pre><code>1. 解决完冲突之后，git add .
+2. git rebase —continue
 3. 若此时还有冲突，继续解决，解决完继续执行1，2步。
-4. 若此时没有报错，&lt;font color=#4ac3dfdb&gt;git push origin &lt;分支名&gt;&lt;/font&gt;；（这一步必须在git pull —rebase origin master成功之后执行）
-5. 此时若显示，当前分支落后于master分支，则需要强推，&lt;font color=#4ac3dfdb&gt;git push -f origin &lt;分支名&gt;&lt;/font&gt;，若不报错，则rebase成功。
+4. 若此时没有报错，git push origin &lt;分支名&gt;；（这一步必须在git pull —rebase origin master成功之后执行）
+5. 此时若显示，当前分支落后于master分支，则需要强推，git push -f origin &lt;分支名&gt;，若不报错，则rebase成功。
 </code></pre><p>以上就是一个完整的流程，以下是一些常用的git操作</p>
 <h3 id="4-删除分支"><a href="#4-删除分支" class="headerlink" title="4.删除分支"></a>4.删除分支</h3><p>删除本地分支 ( 切换到master分支之后再删除 )</p>
 <font color="#4ac3dfdb">git branch -d &lt;分支名&gt;</font>
@@ -720,7 +720,7 @@
                 <div class="card-content article-content">
                     <div class="summary">其实最基本的流程就是新建分支，在这个分支上改动代码，再提交上去，跟master分支合并。
 1. 新建分支首先，在你新建分支之前，你应该在master分支，并且要保证你当前的是最新代码，要不然就是找死，最后提交代码就会出问题。
-1. &lt;</div>
+1. git </div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2021-08-04
@@ -920,7 +920,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">15.5k</span>
+                <span class="white-color">15.4k</span>
             
 
             
