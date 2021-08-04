@@ -47,9 +47,9 @@
             
             <tag> Java </tag>
             
-            <tag> Mysql </tag>
-            
             <tag> 数据库 </tag>
+            
+            <tag> Mysql </tag>
             
         </tags>
       
@@ -74,9 +74,9 @@
       
         <tags>
             
-            <tag> 数据库 </tag>
-            
             <tag> Redis </tag>
+            
+            <tag> 数据库 </tag>
             
             <tag> Springboot </tag>
             
@@ -107,9 +107,9 @@
             
             <tag> Java </tag>
             
-            <tag> 数据库 </tag>
-            
             <tag> Redis </tag>
+            
+            <tag> 数据库 </tag>
             
             <tag> Vue </tag>
             
@@ -429,9 +429,9 @@
       
         <tags>
             
-            <tag> 数据库 </tag>
-            
             <tag> Redis </tag>
+            
+            <tag> 数据库 </tag>
             
             <tag> 缓存 </tag>
             
