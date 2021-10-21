@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>MySQL拾遗-DISTINCT的用法(上)</title>
+      <link href="/2021/10/21/MySQL%E6%8B%BE%E9%81%97-DISTINCT%E7%9A%84%E7%94%A8%E6%B3%95-%E4%B8%8A/"/>
+      <url>/2021/10/21/MySQL%E6%8B%BE%E9%81%97-DISTINCT%E7%9A%84%E7%94%A8%E6%B3%95-%E4%B8%8A/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="示例数据"><a href="#示例数据" class="headerlink" title="示例数据"></a>示例数据</h1><p>创建表和语句</p><pre><code>CREATE DATABASE IF NOT EXISTS test default character set utf8mb4 collate utf8mb4_unicode_ci;use test;CREATE TABLE IF NOT EXISTS `fruits`(   `id` INT UNSIGNED AUTO_INCREMENT,   `user` VARCHAR(64) NOT NULL,   `fruit` VARCHAR(128) NOT NULL,   `owns` INTEGER(11) NOT NULL,   PRIMARY KEY ( `id` ))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;INSERT INTO fruits(user,fruit,owns) VALUES (&apos;penglei&apos;,&apos;apple&apos;,3),(&apos;penglei&apos;,&apos;banana&apos;,5),(&apos;penglei&apos;,&apos;peach&apos;,3),(&apos;hero&apos;,&apos;apple&apos;,3),(&apos;hero&apos;,&apos;peach&apos;,3),(&apos;hero&apos;,&apos;pear&apos;,5);</code></pre><p>运行完语句后, frutis表显示的数据</p><pre><code>mysql&gt; SELECT * FROM fruits;+----+-------+--------+------+| id | user  | fruit  | owns |+----+-------+--------+------+|  1 | penglei | apple  |    3 ||  2 | penglei | banana |    5 ||  3 | penglei | peach  |    3 ||  4 | hero  | apple  |    3 ||  5 | hero  | peach  |    3 ||  6 | hero  | pear   |    5 |+----+-------+--------+------+</code></pre><h1 id="MySQL-DISTINCT的作用"><a href="#MySQL-DISTINCT的作用" class="headerlink" title="MySQL DISTINCT的作用"></a>MySQL DISTINCT的作用</h1><p>DISTINCT主要的作用其实就几个字 </p><p>[排除重复的列]</p><p>但是，就是因为字少，没有给个限定，如何排除重复的行呢 ？</p><p>答案是</p><p>「 根据参数所指定的列排除重复的行 」</p><p>1、 如果跟其它函数结合使用，那么只会使用小括号内的参数</p><p>2、 否则，那么 DISTINCT 关键字后的所有列都是参数</p><h1 id="MySQL-DISTINCT-的位置"><a href="#MySQL-DISTINCT-的位置" class="headerlink" title="MySQL DISTINCT 的位置"></a>MySQL DISTINCT 的位置</h1><h2 id="1-单独的-DISTINCT-关键字只能放在开头，放在其它位置会报错"><a href="#1-单独的-DISTINCT-关键字只能放在开头，放在其它位置会报错" class="headerlink" title="1.单独的 DISTINCT 关键字只能放在开头，放在其它位置会报错"></a>1.单独的 DISTINCT 关键字只能放在开头，放在其它位置会报错</h2><p>比如我们要根据 user 来获取不重复的行，如果像下面这样把 DISTINCT 放在中间是会报错的</p><pre><code>mysql&gt; SELECT id, DISTINCT ( user ),fruit,owns FROM fruits;ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;DISTINCT ( user ),fruit,owns FROM fruits&apos; at line 1</code></pre><p>但如果放在开头，则不会</p><pre><code>mysql&gt; SELECT DISTINCT ( user ),id,fruit,owns FROM fruits;+-------+----+--------+------+| user  | id | fruit  | owns |+-------+----+--------+------+| penglei |  1 | apple  |    3 || penglei |  2 | banana |    5 || penglei |  3 | peach  |    3 || hero  |  4 | apple  |    3 || hero  |  5 | peach  |    3 || hero  |  6 | pear   |    5 |+-------+----+--------+------+</code></pre><h2 id="2-但如果是配合其它的函数使用，比如-COUNT-则可以任意位置"><a href="#2-但如果是配合其它的函数使用，比如-COUNT-则可以任意位置" class="headerlink" title="2. 但如果是配合其它的函数使用，比如 COUNT() 则可以任意位置"></a>2. 但如果是配合其它的函数使用，比如 COUNT() 则可以任意位置</h2><p>其实这句话不严谨，应该是其它函数可以任意位置时，DISTINCT 也可以任意位置</p><pre><code>mysql&gt; SELECT COUNT(DISTINCT ( user )),fruit FROM fruits;+--------------------------+-------+| COUNT(DISTINCT ( user )) | fruit |+--------------------------+-------+|                        2 | apple |+--------------------------+-------+</code></pre><p>好诡异的结果！！！！</p><p>把 COUNT(DISTINCT ( user )) 放在末尾以一样</p><pre><code>mysql&gt; SELECT fruit, COUNT(DISTINCT ( user )) FROM fruits;+-------+--------------------------+| fruit | COUNT(DISTINCT ( user )) |+-------+--------------------------+| apple |                        2 |+-------+--------------------------+1 row in set (0.00 sec)</code></pre><p>这个结果简直诡异到怀疑人生？</p><p>至于为什么会这样，我们下一章节再来解释</p><p>转载自:<a href="https://tech.souyunku.com/?p=5681" target="_blank" rel="noopener">https://tech.souyunku.com/?p=5681</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> MySQL拾遗 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>git项目管理</title>
       <link href="/2021/08/04/git%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
       <url>/2021/08/04/git%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/</url>

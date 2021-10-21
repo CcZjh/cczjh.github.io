@@ -4,10 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Springboot集成Redis, 米斯特周">
-    <meta name="description" content="首先添加相关依赖&amp;lt;dependency&amp;gt;
-    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;
-    &amp;lt;artifactId&amp;gt;spring-boot">
+    <meta name="keywords" content="MySQL拾遗-DISTINCT的用法(上), 米斯特周">
+    <meta name="description" content="示例数据创建表和语句
+CREATE DATABASE IF NOT EXISTS test default character set utf8mb4 collate utf8mb4_unicode_ci;
+
+use test;
+
+CREA">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -15,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Springboot集成Redis | 米斯特周</title>
+    <title>MySQL拾遗-DISTINCT的用法(上) | 米斯特周</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -194,13 +197,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Springboot集成Redis
+                        MySQL拾遗-DISTINCT的用法(上)
                     </div>
                 </div>
             </div>
@@ -311,16 +314,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/数据库/" target="_blank">
-                                <span class="chip bg-color">数据库</span>
+                            <a href="/tags/Mysql/" target="_blank">
+                                <span class="chip bg-color">Mysql</span>
                             </a>
                         
-                            <a href="/tags/Springboot/" target="_blank">
-                                <span class="chip bg-color">Springboot</span>
-                            </a>
-                        
-                            <a href="/tags/Redis/" target="_blank">
-                                <span class="chip bg-color">Redis</span>
+                            <a href="/tags/MySQL拾遗/" target="_blank">
+                                <span class="chip bg-color">MySQL拾遗</span>
                             </a>
                         
                     </div>
@@ -343,14 +342,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-10
+                    2021-10-21
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        579
+                        565
                     </div>
                     
 
@@ -368,134 +367,79 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="首先添加相关依赖"><a href="#首先添加相关依赖" class="headerlink" title="首先添加相关依赖"></a>首先添加相关依赖</h3><pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-    &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- jedis是Redis在java的客户端实现 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;redis.clients&lt;/groupId&gt;
-    &lt;artifactId&gt;jedis&lt;/artifactId&gt;
-    &lt;version&gt;2.9.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><h3 id="配置文件参数"><a href="#配置文件参数" class="headerlink" title="配置文件参数"></a>配置文件参数</h3><pre><code># Redis
-redis:
-  hostName: &quot;172.172.21.32&quot;
-  port: &quot;6379&quot;
-  password: &apos;&apos;
-  timeout: 3600
-  maxIdle: 300
-  maxTotal: 1000
-  maxWaitMillis: 1000
-  minEvictableIdleTimeMillis: 300000
-  numTestsPerEvictionRun: 1024
-  timeBetweenEvictionRunsMillis: 30000
-  testOnBorrow: true
-  testWhileIdle: true
-</code></pre><h3 id="Redis单机版"><a href="#Redis单机版" class="headerlink" title="Redis单机版"></a>Redis单机版</h3><pre><code>@Configuration
-public class RedisConfig {
+                <h1 id="示例数据"><a href="#示例数据" class="headerlink" title="示例数据"></a>示例数据</h1><p>创建表和语句</p>
+<pre><code>CREATE DATABASE IF NOT EXISTS test default character set utf8mb4 collate utf8mb4_unicode_ci;
 
-    @Value(&quot;${redis.maxIdle}&quot;)
-    private Integer maxIdle;
-    @Value(&quot;${redis.maxTotal}&quot;)
-    private Integer maxTotal;
-    @Value(&quot;${redis.maxWaitMillis}&quot;)
-    private Integer maxWaitMillis;
-    @Value(&quot;${redis.minEvictableIdleTimeMillis}&quot;)
-    private Integer minEvictableIdleTimeMillis;
-    @Value(&quot;${redis.numTestsPerEvictionRun}&quot;)
-    private Integer numTestsPerEvictionRun;
-    @Value(&quot;${redis.timeBetweenEvictionRunsMillis}&quot;)
-    private long timeBetweenEvictionRunsMillis;
-    @Value(&quot;${redis.testOnBorrow}&quot;)
-    private boolean testOnBorrow;
-    @Value(&quot;${redis.testWhileIdle}&quot;)
-    private boolean testWhileIdle;
-    @Value(&quot;${redis.hostName}&quot;)
-    String hostName;
-    @Value(&quot;${redis.port}&quot;)
-    int port;
-    @Value(&quot;${redis.password}&quot;)
-    String password;
-    @Value(&quot;${redis.timeout}&quot;)
-    int timeout;
+use test;
 
+CREATE TABLE IF NOT EXISTS `fruits`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `user` VARCHAR(64) NOT NULL,
+   `fruit` VARCHAR(128) NOT NULL,
+   `owns` INTEGER(11) NOT NULL,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-    /**
-     * JedisPoolConfig 连接池
-     *
-     * @return
-     */
-    @Bean
-    public JedisPoolConfig jedisPoolConfig() {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        // 最大空闲数
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        // 连接池的最大数据库连接数
-        jedisPoolConfig.setMaxTotal(maxTotal);
-        // 最大建立连接等待时间
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        // 逐出连接的最小空闲时间 默认1800000毫秒(30分钟)
-        jedisPoolConfig.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        // 每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3
-        jedisPoolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);
-        // 逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
-        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        // 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
-        jedisPoolConfig.setTestOnBorrow(testOnBorrow);
-        // 在空闲时检查有效性, 默认false
-        jedisPoolConfig.setTestWhileIdle(testWhileIdle);
-        return jedisPoolConfig;
-    }
+INSERT INTO fruits(user,fruit,owns) VALUES (&apos;penglei&apos;,&apos;apple&apos;,3),
+(&apos;penglei&apos;,&apos;banana&apos;,5),
+(&apos;penglei&apos;,&apos;peach&apos;,3),
+(&apos;hero&apos;,&apos;apple&apos;,3),
+(&apos;hero&apos;,&apos;peach&apos;,3),
+(&apos;hero&apos;,&apos;pear&apos;,5);
+</code></pre><p>运行完语句后, frutis表显示的数据</p>
+<pre><code>mysql&gt; SELECT * FROM fruits;
++----+-------+--------+------+
+| id | user  | fruit  | owns |
++----+-------+--------+------+
+|  1 | penglei | apple  |    3 |
+|  2 | penglei | banana |    5 |
+|  3 | penglei | peach  |    3 |
+|  4 | hero  | apple  |    3 |
+|  5 | hero  | peach  |    3 |
+|  6 | hero  | pear   |    5 |
++----+-------+--------+------+
+</code></pre><h1 id="MySQL-DISTINCT的作用"><a href="#MySQL-DISTINCT的作用" class="headerlink" title="MySQL DISTINCT的作用"></a>MySQL DISTINCT的作用</h1><p>DISTINCT主要的作用其实就几个字 </p>
+<p>[排除重复的列]</p>
+<p>但是，就是因为字少，没有给个限定，如何排除重复的行呢 ？</p>
+<p>答案是</p>
+<p>「 根据参数所指定的列排除重复的行 」</p>
+<p>1、 如果跟其它函数结合使用，那么只会使用小括号内的参数</p>
+<p>2、 否则，那么 DISTINCT 关键字后的所有列都是参数</p>
+<h1 id="MySQL-DISTINCT-的位置"><a href="#MySQL-DISTINCT-的位置" class="headerlink" title="MySQL DISTINCT 的位置"></a>MySQL DISTINCT 的位置</h1><h2 id="1-单独的-DISTINCT-关键字只能放在开头，放在其它位置会报错"><a href="#1-单独的-DISTINCT-关键字只能放在开头，放在其它位置会报错" class="headerlink" title="1.单独的 DISTINCT 关键字只能放在开头，放在其它位置会报错"></a>1.单独的 DISTINCT 关键字只能放在开头，放在其它位置会报错</h2><p>比如我们要根据 user 来获取不重复的行，如果像下面这样把 DISTINCT 放在中间是会报错的</p>
+<pre><code>mysql&gt; SELECT id, DISTINCT ( user ),fruit,owns FROM fruits;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;DISTINCT ( user ),fruit,owns FROM fruits&apos; at line 1
+</code></pre><p>但如果放在开头，则不会</p>
+<pre><code>mysql&gt; SELECT DISTINCT ( user ),id,fruit,owns FROM fruits;
++-------+----+--------+------+
+| user  | id | fruit  | owns |
++-------+----+--------+------+
+| penglei |  1 | apple  |    3 |
+| penglei |  2 | banana |    5 |
+| penglei |  3 | peach  |    3 |
+| hero  |  4 | apple  |    3 |
+| hero  |  5 | peach  |    3 |
+| hero  |  6 | pear   |    5 |
++-------+----+--------+------+
+</code></pre><h2 id="2-但如果是配合其它的函数使用，比如-COUNT-则可以任意位置"><a href="#2-但如果是配合其它的函数使用，比如-COUNT-则可以任意位置" class="headerlink" title="2. 但如果是配合其它的函数使用，比如 COUNT() 则可以任意位置"></a>2. 但如果是配合其它的函数使用，比如 COUNT() 则可以任意位置</h2><p>其实这句话不严谨，应该是其它函数可以任意位置时，DISTINCT 也可以任意位置</p>
+<pre><code>mysql&gt; SELECT COUNT(DISTINCT ( user )),fruit FROM fruits;
++--------------------------+-------+
+| COUNT(DISTINCT ( user )) | fruit |
++--------------------------+-------+
+|                        2 | apple |
++--------------------------+-------+
+</code></pre><p>好诡异的结果！！！！</p>
+<p>把 COUNT(DISTINCT ( user )) 放在末尾以一样</p>
+<pre><code>mysql&gt; SELECT fruit, COUNT(DISTINCT ( user )) FROM fruits;
++-------+--------------------------+
+| fruit | COUNT(DISTINCT ( user )) |
++-------+--------------------------+
+| apple |                        2 |
++-------+--------------------------+
+1 row in set (0.00 sec)
+</code></pre><p>这个结果简直诡异到怀疑人生？</p>
+<p>至于为什么会这样，我们下一章节再来解释</p>
+<p>转载自:<a href="https://tech.souyunku.com/?p=5681" target="_blank" rel="noopener">https://tech.souyunku.com/?p=5681</a></p>
 
-    /**
-     * 单机版配置
-     *
-     * @param @param  jedisPoolConfig
-     * @param @return
-     * @return JedisConnectionFactory
-     * @throws
-     * @Title: JedisConnectionFactory
-     */
-    @Bean
-    public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
-        JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
-        //连接池
-        JedisConnectionFactory.setPoolConfig(jedisPoolConfig);
-        //IP地址
-        JedisConnectionFactory.setHostName(hostName);
-        //端口号
-        JedisConnectionFactory.setPort(port);
-        //如果Redis设置有密码
-        JedisConnectionFactory.setPassword(password);
-        //客户端超时时间单位是毫秒
-        JedisConnectionFactory.setTimeout(timeout);
-        return JedisConnectionFactory;
-    }
-
-    /**
-     * RedisTemplate 模板类
-     */
-    @Bean
-    public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate&lt;Object, Object&gt; template=new RedisTemplate&lt;&gt;();
-        template.setConnectionFactory(redisConnectionFactory);
-        // 使用Jackson2JsonRedisSerialize 替换默认序列化
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper mapper=new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(mapper);
-        // 设置value的序列化规则和 key的序列化规则
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.afterPropertiesSet();
-        return  template;
-    }
-}
-</code></pre>
             </div>
             <hr>
 
@@ -518,7 +462,7 @@ public class RedisConfig {
                     </span>
                     <a href="https://cczjh.github.io" class="b-link-green">米斯特周</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/06/10/Springboot集成Redis/" class="b-link-green">Springboot集成Redis</a>
+                    <a href="/2021/10/21/MySQL拾遗-DISTINCT的用法-上/" class="b-link-green">MySQL拾遗-DISTINCT的用法(上)</a>
                 </p>
             </div>
         </div>
@@ -800,28 +744,29 @@ public class RedisConfig {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/06/15/Java调用Mysql命令备份数据库/">
+                <a href="/2021/10/21/MySQL拾遗-DISTINCT的用法-上/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Java调用Mysql命令备份数据库">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="MySQL拾遗-DISTINCT的用法(上)">
                         
-                        <span class="card-title">Java调用Mysql命令备份数据库</span>
+                        <span class="card-title">MySQL拾遗-DISTINCT的用法(上)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">配置参数backupSql:
-  username: root
-  password: root
-  hostUrl: 127.0.0.1
-  database: frs
-  backupUrl: C:\Users\周大帅\Desktop\</div>
+                    <div class="summary">示例数据创建表和语句
+CREATE DATABASE IF NOT EXISTS test default character set utf8mb4 collate utf8mb4_unicode_ci;
+
+use test;
+
+CREA</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-10-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -834,19 +779,16 @@ public class RedisConfig {
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
-                    </a>
                     
                     <a href="/tags/Mysql/" target="_blank">
                         <span class="chip bg-color">Mysql</span>
                     </a>
                     
-                    <a href="/tags/数据库/" target="_blank">
-                        <span class="chip bg-color">数据库</span>
+                    <a href="/tags/MySQL拾遗/" target="_blank">
+                        <span class="chip bg-color">MySQL拾遗</span>
                     </a>
                     
                 </div>
@@ -860,32 +802,29 @@ public class RedisConfig {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/06/09/Vue表单提交时使用Redis进行表单重复提交验证/">
+                <a href="/2021/08/04/git项目管理/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Vue表单提交时使用Redis进行表单重复提交验证">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="git项目管理">
                         
-                        <span class="card-title">Vue表单提交时使用Redis进行表单重复提交验证</span>
+                        <span class="card-title">git项目管理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">项目中需要后端做一下防止表单重复点击提交功能, 在此简单记录一下demo
-想法根据网上的一些方案再结合自己项目的实际情况, 使用拦截器在表单提交之前, 在调用相应的接口时, 对应用户生成token值并将值存放进redis中, 然后在提交表单</div>
+                    <div class="summary">其实最基本的流程就是新建分支，在这个分支上改动代码，再提交上去，跟master分支合并。
+1. 新建分支首先，在你新建分支之前，你应该在master分支，并且要保证你当前的是最新代码，要不然就是找死，最后提交代码就会出问题。
+1. git </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-06-09
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-08-04
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                    前端
-                                </a>
-                            
-                            <a href="/categories/前端/后端/" class="post-category" target="_blank">
-                                    后端
+                            <a href="/categories/个人/" class="post-category" target="_blank">
+                                    个人
                                 </a>
                             
                             
@@ -895,20 +834,8 @@ public class RedisConfig {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/数据库/" target="_blank">
-                        <span class="chip bg-color">数据库</span>
-                    </a>
-                    
-                    <a href="/tags/Redis/" target="_blank">
-                        <span class="chip bg-color">Redis</span>
-                    </a>
-                    
-                    <a href="/tags/Vue/" target="_blank">
-                        <span class="chip bg-color">Vue</span>
+                    <a href="/tags/Git/" target="_blank">
+                        <span class="chip bg-color">Git</span>
                     </a>
                     
                 </div>
