@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2021-10-21T03:37:59.502Z</updated>
+  <updated>2021-10-29T02:01:15.649Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL拾遗-DISTINCT的用法-下</title>
+    <link href="https://cczjh.github.io/2021/10/29/MySQL%E6%8B%BE%E9%81%97-DISTINCT%E7%9A%84%E7%94%A8%E6%B3%95-%E4%B8%8B/"/>
+    <id>https://cczjh.github.io/2021/10/29/MySQL拾遗-DISTINCT的用法-下/</id>
+    <published>2021-10-29T01:40:02.000Z</published>
+    <updated>2021-10-29T02:01:15.649Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="DISTINCT-中的小括号"><a href="#DISTINCT-中的小括号" class="headerlink" title="DISTINCT 中的小括号 ()"></a>DISTINCT 中的小括号 ()</h2><p>「 SQL 解析器会忽略 DISTINCT 关键字后面的小括号，而把 DISTINCT 关键字后面的所有列都作为唯一条件 」</p><p>我们来看看几个实例</p><pre><code>mysql&gt; SELECT DISTINCT(user) FROM fruits;+-------+| user  |+-------+| penglei || hero  |+-------+2 rows in set (0.06 sec)</code></pre><p>当只有一列时有两条记录</p><pre><code>mysql&gt; SELECT DISTINCT(user),fruit FROM fruits;+-------+--------+| user  | fruit  |+-------+--------+| penglei | apple  || penglei | banana || penglei | peach  || hero  | apple  || hero  | peach  || hero  | pear   |+-------+--------+6 rows in set (0.00 sec)</code></pre><p>当带括号时，user 列放在括号内，fruit 放在括号外，会发现有五条记录，而 fruit 也参与了唯一条件检查</p><pre><code>mysql&gt; SELECT DISTINCT(fruit),owns FROM fruits;+--------+------+| fruit  | owns |+--------+------+| apple  |    3 || banana |    5 || peach  |    3 || pear   |    5 |+--------+------+4 rows in set (0.02 sec)</code></pre><p>当使用 fruit 时就会有 4 条记录 ，因为有两条 apple 3 。</p><p>但是，如果把 fruit 和 owns 都放在括号内，是会报错的</p><pre><code>mysql&gt; SELECT DISTINCT(fruit,owns) FROM fruits;ERROR 1241 (21000): Operand should contain 1 column(s)</code></pre><h2 id="SQL-DISTINCT-的基本用法"><a href="#SQL-DISTINCT-的基本用法" class="headerlink" title="SQL DISTINCT 的基本用法"></a>SQL DISTINCT 的基本用法</h2><p>1、单独获取某一列不重复的值</p><p>这种情况下，有无小括号的结果是一样的</p><pre><code>mysql&gt; SELECT DISTINCT user FROM fruits; +-------+ | user | +-------+ | penglei | | hero | +-------+mysql&gt; SELECT DISTINCT(user) FROM fruits; +-------+ | user | +-------+ | penglei | | hero | +-------+</code></pre><p>2、单独获取某一列不重复值的数量</p><pre><code>mysql&gt; SELECT COUNT(DISTINCT(user)) FROM fruits; +-----------------------+ | COUNT(DISTINCT(user)) | +-----------------------+ | 2 | +-----------------------+</code></pre><p>3、以多列作为条件获取不同的值</p><p>一定要记住，当你使用多列时，并不仅仅时使用小括号内的列，而是全部列</p><pre><code>mysql&gt; SELECT DISTINCT(user),fruit FROM fruits; +-------+--------+ | user | fruit | +-------+--------+ | penglei | apple | | penglei | banana | | penglei | peach | | hero | apple | | hero | peach | | hero | pear | +-------+--------+</code></pre><p>有可能你仅仅时想返回唯一的 user 列然后附带 fruit 列，比如你想要的结果是这样的</p><pre><code>+-------+--------+| user  | fruit  |+-------+--------+| penglei | apple  || hero  | apple  |+-------+--------+</code></pre><p>单独的 DISTINCT 关键字并不能实现这样的效果，而且也没有任何意义，因为每个 user 都有三条记录，为什么会单独返回 apple ?</p><p>如果你真需要这样的结果，有两种方法</p><p>1、附带 SQL WHERE 子句 子句</p><pre><code>mysql&gt; SELECT DISTINCT(user),fruit FROM fruits WHERE fruit=&apos;apple&apos;;+-------+-------+| user  | fruit |+-------+-------+| penglei | apple || hero  | apple |+-------+-------+</code></pre><p>在这种语句下，fruit 返回的值是固定的</p><p>2、使用 GROUP BY 子句</p><pre><code>mysql&gt; SELECT DISTINCT(user),fruit FROM fruits GROUP BY user;+-------+-------+| user  | fruit |+-------+-------+| hero  | apple || penglei | apple |+-------+-------+</code></pre><p>这种情况下返回的 fruit 是不固定的，虽然，有时候是按照 id 的顺序取值，但并不保障</p><h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>只能说，好诡异的 DISTINCT 关键字。使用的时候尽可能的保证列的简单，最好，只使用一列</p><p>转载自:<a href="https://tech.souyunku.com/?p=5681" target="_blank" rel="noopener">https://tech.souyunku.com/?p=5681</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Mysql" scheme="https://cczjh.github.io/tags/Mysql/"/>
+    
+      <category term="MySQL拾遗" scheme="https://cczjh.github.io/tags/MySQL%E6%8B%BE%E9%81%97/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL拾遗-DISTINCT的用法(上)</title>
@@ -538,27 +565,6 @@
       <category term="过滤器" scheme="https://cczjh.github.io/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/"/>
     
       <category term="拦截器" scheme="https://cczjh.github.io/tags/%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql主从复制</title>
-    <link href="https://cczjh.github.io/2019/05/14/Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/"/>
-    <id>https://cczjh.github.io/2019/05/14/Mysql主从复制/</id>
-    <published>2019-05-14T06:07:53.000Z</published>
-    <updated>2020-01-20T07:29:17.211Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
     
   </entry>
   
