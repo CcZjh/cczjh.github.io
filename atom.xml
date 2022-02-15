@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cczjh.github.io/"/>
-  <updated>2021-10-29T02:01:15.649Z</updated>
+  <updated>2022-02-15T07:29:32.241Z</updated>
   <id>https://cczjh.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>G1垃圾收集器-Young GC</title>
+    <link href="https://cczjh.github.io/2022/02/15/G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8-Young-GC/"/>
+    <id>https://cczjh.github.io/2022/02/15/G1垃圾收集器-Young-GC/</id>
+    <published>2022-02-15T07:16:53.000Z</published>
+    <updated>2022-02-15T07:29:32.241Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="G1的垃圾收集模式"><a href="#G1的垃圾收集模式" class="headerlink" title="G1的垃圾收集模式"></a>G1的垃圾收集模式</h3><p>G1中有两种回收模式：</p><p>1.完全年轻代GC（fully-young collection），也称年轻代垃圾回收（Young GC）2.部分年轻代GC（partially-young collection）又称混合垃圾回收（Mixed GC）</p><h3 id="年轻代垃圾回收（完全年轻代GC）"><a href="#年轻代垃圾回收（完全年轻代GC）" class="headerlink" title="年轻代垃圾回收（完全年轻代GC）"></a>年轻代垃圾回收（完全年轻代GC）</h3><p>完全年轻代GC是只选择年轻代区域（Eden/Survivor）进入回收集合（Collection Set，简称CSet）进行回收的模式。年轻代GC的过程和其他的分代回收器差不多，新创建的对象分配至Eden区域，然后将标记存活的对象移动至Survivor区，达到晋升年龄的就晋升到老年代区域，然后清空原区域（不过这里可没有年轻代复制算法中两个Survivor的交换过程）。</p><p>年轻代GC会选择所有的年轻代区域加入回收集合中，但是为了满足用户停顿时间的配置，在每次GC后会调整这个最大年轻代区域的数量，每次回收的区域数量可能是变化的</p><p>下面是一个完全年轻代GC过程的简单示意图：将选择的年轻代区域中所有存活的对象，移动至Survivor区域，然后清空原区域</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/1.png" alt></p><h3 id="年轻代垃圾回收过程"><a href="#年轻代垃圾回收过程" class="headerlink" title="年轻代垃圾回收过程"></a>年轻代垃圾回收过程</h3><p>当JVM无法将新对象分配到eden区域时，会触发年轻代的垃圾回收（年轻代垃圾回收是完全暂停的，虽然部分过程是并行，但暂停和并行并不冲突）。也会称为“evacuation pause”</p><p>步骤1. 选择收集集合（Choose CSet），G1会在遵循用户设置的GC暂停时间上限的基础上，选择一个最大年轻带区域数，将这个数量的所有年轻代区域作为收集集合。</p><p>如下图所示，此时A/B/C三个年轻代区域都已经作为收集集合，区域A中的A对象和区域B中的E对象，被ROOTS直接引用（图上为了简单，将RS直接引用到对象，实际上RS引用的是对象所在的CardPage）</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/2.png" alt></p><p>步骤2. 根处理（Root Scanning），接下来，需要从GC ROOTS遍历，查找从ROOTS直达到收集集合的对象，移动他们到Survivor区域的同时将他们的引用对象加入标记栈</p><p>如下图所示，在根处理阶段，被GC ROOTS直接引用的A/E两个对象直接被复制到了Survivor区域M，同时A/E两个对象所引用路线上的所有对象，都被加入了标记栈（Mark Stack），这里包括E-&gt;C-&gt;F，这个F对象也会被加入标记栈中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/3.png" alt></p><p>步骤3. RSet扫描（Scan RS），将RSet作为ROOTS遍历，查找可直达到收集集合的对象，移动他们到Survivor区域的同时将他们的引用对象加入标记栈</p><p>在RSet扫描之前，还有一步更新RSet（Update RS）的步骤，因为RSet是先写日志，再通过一个Refine线程进行处理日志来维护RSet数据的，这里的更新RSet就是为了保证RSet日志被处理完成，RSet数据完整才可以进行扫描</p><p>如下图所示，老年代区域C中引用年轻代A的这个引用关系，被记录在年轻代的RSet中，此时遍历这个RS，将老年代C区域中D对象引用的年轻代A中的B对象，添加到标记栈中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/4.png" alt></p><p>步骤4. 移动（Evacuation/Object Copy），遍历上面的标记栈，将栈内的所有所有的对象移动至Survivor区域（其实说是移动，本质上还是复制）</p><p>如下图所示，标记栈中记录的C/F/B对象被移动到Survivor区域中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/5.png" alt></p><p>当对象年龄超过晋升的阈值时，对象会直接移动到老年代区域，而不是Survivor区域。</p><p>收尾步骤. 剩下的就是一些收尾工作，Redirty（配合下面的并发标记），Clear CT（清理Card Table），Free CSet（清理回收集合），清空移动前的区域添加到空闲区等等，这些操作一般耗时都很短</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/6.png" alt></p><font face="微软雅黑" size="1" color="#898997">本文分享自微信公众号 - 落叶飞翔的蜗牛（A_GallopingSnail），作者：超神的蜗牛</font>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
+    
+      <category term="Jvm" scheme="https://cczjh.github.io/tags/Jvm/"/>
+    
+      <category term="垃圾收集器" scheme="https://cczjh.github.io/tags/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/"/>
+    
+      <category term="G1" scheme="https://cczjh.github.io/tags/G1/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL拾遗-DISTINCT的用法-下</title>
@@ -534,37 +565,6 @@
       <category term="线程池" scheme="https://cczjh.github.io/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
     
       <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Springboot配置过滤器拦截器</title>
-    <link href="https://cczjh.github.io/2019/05/17/Springboot%E9%85%8D%E7%BD%AE%E8%BF%87%E6%BB%A4%E5%99%A8%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
-    <id>https://cczjh.github.io/2019/05/17/Springboot配置过滤器拦截器/</id>
-    <published>2019-05-17T01:57:57.000Z</published>
-    <updated>2020-06-09T06:25:01.361Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Springboot-配置-Filter过滤器"><a href="#Springboot-配置-Filter过滤器" class="headerlink" title="Springboot 配置 Filter过滤器"></a>Springboot 配置 Filter过滤器</h3><p>上代码:</p><h4 id="1-首先自定义MyFilter-继承类-Filter"><a href="#1-首先自定义MyFilter-继承类-Filter" class="headerlink" title="1. 首先自定义MyFilter 继承类 Filter"></a>1. 首先自定义MyFilter 继承类 Filter</h4><p>我们需要实现做的就是编写doFIlter类实现过滤逻辑</p><pre><code>@Component@WebFilter(urlPatterns = &quot;/*&quot;, filterName = &quot;myFilter&quot;) // 这种是注解配置  下面有配置文件配置public class MyFilter implements Filter {    private static Logger log = LoggerFactory.getLogger(MyFilter.class);    @Override    public void init(FilterConfig filterConfig) throws ServletException {        log.info(&quot;MyFilter参数初始化: &quot;+filterConfig);    }    @Override    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {        filterChain.doFilter(servletRequest, servletResponse);    }    @Override    public void destroy() {        log.info(&quot;MyFilter开始销毁...&quot;);    }}</code></pre><h4 id="2-在Springboot-启动类中添加过滤器"><a href="#2-在Springboot-启动类中添加过滤器" class="headerlink" title="2. 在Springboot 启动类中添加过滤器"></a>2. 在Springboot 启动类中添加过滤器</h4><pre><code>// 配置文件配置@Beanpublic FilterRegistrationBean testFilterRegistration() {    FilterRegistrationBean registration = new FilterRegistrationBean(new MyFilter());    registration.addUrlPatterns(&quot;/*&quot;);    registration.addInitParameter(&quot;paramName&quot;, &quot;paramValue&quot;);    registration.setName(&quot;myFilter&quot;);    registration.setOrder(1); // 多个过滤器可控制执行顺序 数字越小优先级越高    return registration;}</code></pre><h4 id="3-添加-ServletComponentScan注解"><a href="#3-添加-ServletComponentScan注解" class="headerlink" title="3. 添加@ServletComponentScan注解"></a>3. 添加@ServletComponentScan注解</h4><p>在Springboot启动类中添加@ServletComponentScan注解</p><pre><code>Servlet可以直接通过@WebServlet注解自动注册Filter可以直接通过@WebFilter注解自动注册Listener可以直接通过@WebListener 注解自动注册</code></pre><h3 id="Springboot-配置-拦截器"><a href="#Springboot-配置-拦截器" class="headerlink" title="Springboot 配置 拦截器"></a>Springboot 配置 拦截器</h3><p>上代码:</p><h4 id="1-首先自定义MyInterceptor-实现-WebMvcConfigurer"><a href="#1-首先自定义MyInterceptor-实现-WebMvcConfigurer" class="headerlink" title="1. 首先自定义MyInterceptor 实现 WebMvcConfigurer"></a>1. 首先自定义MyInterceptor 实现 WebMvcConfigurer</h4><pre><code>@Configurationpublic class MyInterceptor implements WebMvcConfigurer {    @Autowired    private ResubmitInterceptor resubmitInterceptor;    /**     * 对所有接口添加/api前缀     */    @Override    public void configurePathMatch(PathMatchConfigurer configurer) {        configurer.addPathPrefix(&quot;/api&quot;,                c -&gt; c.isAnnotationPresent(RestController.class));    }    /**     * 请求验证拦截器     */    @Override    public void addInterceptors(InterceptorRegistry registry) {        /**         * addInterceptor 注册拦截器         * addPathPatterns 配置拦截规则         */        registry.addInterceptor(resubmitInterceptor)                .addPathPatterns(&quot;/**&quot;);    }}</code></pre><h4 id="2-创建拦截器"><a href="#2-创建拦截器" class="headerlink" title="2. 创建拦截器"></a>2. 创建拦截器</h4><pre><code>@Slf4j@Componentpublic class ResubmitInterceptor implements HandlerInterceptor {    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {        log.info(&quot;拦截器操作中~~~~~~~~~~~~~~~~~~~~~~&quot;);        return true;    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-      <category term="后端" scheme="https://cczjh.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
-    
-    
-      <category term="Java" scheme="https://cczjh.github.io/tags/Java/"/>
-    
-      <category term="Springboot" scheme="https://cczjh.github.io/tags/Springboot/"/>
-    
-      <category term="过滤器" scheme="https://cczjh.github.io/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/"/>
-    
-      <category term="拦截器" scheme="https://cczjh.github.io/tags/%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
     
   </entry>
   

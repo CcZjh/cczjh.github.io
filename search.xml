@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>G1垃圾收集器-Young GC</title>
+      <link href="/2022/02/15/G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8-Young-GC/"/>
+      <url>/2022/02/15/G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8-Young-GC/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="G1的垃圾收集模式"><a href="#G1的垃圾收集模式" class="headerlink" title="G1的垃圾收集模式"></a>G1的垃圾收集模式</h3><p>G1中有两种回收模式：</p><p>1.完全年轻代GC（fully-young collection），也称年轻代垃圾回收（Young GC）2.部分年轻代GC（partially-young collection）又称混合垃圾回收（Mixed GC）</p><h3 id="年轻代垃圾回收（完全年轻代GC）"><a href="#年轻代垃圾回收（完全年轻代GC）" class="headerlink" title="年轻代垃圾回收（完全年轻代GC）"></a>年轻代垃圾回收（完全年轻代GC）</h3><p>完全年轻代GC是只选择年轻代区域（Eden/Survivor）进入回收集合（Collection Set，简称CSet）进行回收的模式。年轻代GC的过程和其他的分代回收器差不多，新创建的对象分配至Eden区域，然后将标记存活的对象移动至Survivor区，达到晋升年龄的就晋升到老年代区域，然后清空原区域（不过这里可没有年轻代复制算法中两个Survivor的交换过程）。</p><p>年轻代GC会选择所有的年轻代区域加入回收集合中，但是为了满足用户停顿时间的配置，在每次GC后会调整这个最大年轻代区域的数量，每次回收的区域数量可能是变化的</p><p>下面是一个完全年轻代GC过程的简单示意图：将选择的年轻代区域中所有存活的对象，移动至Survivor区域，然后清空原区域</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/1.png" alt></p><h3 id="年轻代垃圾回收过程"><a href="#年轻代垃圾回收过程" class="headerlink" title="年轻代垃圾回收过程"></a>年轻代垃圾回收过程</h3><p>当JVM无法将新对象分配到eden区域时，会触发年轻代的垃圾回收（年轻代垃圾回收是完全暂停的，虽然部分过程是并行，但暂停和并行并不冲突）。也会称为“evacuation pause”</p><p>步骤1. 选择收集集合（Choose CSet），G1会在遵循用户设置的GC暂停时间上限的基础上，选择一个最大年轻带区域数，将这个数量的所有年轻代区域作为收集集合。</p><p>如下图所示，此时A/B/C三个年轻代区域都已经作为收集集合，区域A中的A对象和区域B中的E对象，被ROOTS直接引用（图上为了简单，将RS直接引用到对象，实际上RS引用的是对象所在的CardPage）</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/2.png" alt></p><p>步骤2. 根处理（Root Scanning），接下来，需要从GC ROOTS遍历，查找从ROOTS直达到收集集合的对象，移动他们到Survivor区域的同时将他们的引用对象加入标记栈</p><p>如下图所示，在根处理阶段，被GC ROOTS直接引用的A/E两个对象直接被复制到了Survivor区域M，同时A/E两个对象所引用路线上的所有对象，都被加入了标记栈（Mark Stack），这里包括E-&gt;C-&gt;F，这个F对象也会被加入标记栈中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/3.png" alt></p><p>步骤3. RSet扫描（Scan RS），将RSet作为ROOTS遍历，查找可直达到收集集合的对象，移动他们到Survivor区域的同时将他们的引用对象加入标记栈</p><p>在RSet扫描之前，还有一步更新RSet（Update RS）的步骤，因为RSet是先写日志，再通过一个Refine线程进行处理日志来维护RSet数据的，这里的更新RSet就是为了保证RSet日志被处理完成，RSet数据完整才可以进行扫描</p><p>如下图所示，老年代区域C中引用年轻代A的这个引用关系，被记录在年轻代的RSet中，此时遍历这个RS，将老年代C区域中D对象引用的年轻代A中的B对象，添加到标记栈中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/4.png" alt></p><p>步骤4. 移动（Evacuation/Object Copy），遍历上面的标记栈，将栈内的所有所有的对象移动至Survivor区域（其实说是移动，本质上还是复制）</p><p>如下图所示，标记栈中记录的C/F/B对象被移动到Survivor区域中</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/5.png" alt></p><p>当对象年龄超过晋升的阈值时，对象会直接移动到老年代区域，而不是Survivor区域。</p><p>收尾步骤. 剩下的就是一些收尾工作，Redirty（配合下面的并发标记），Clear CT（清理Card Table），Free CSet（清理回收集合），清空移动前的区域添加到空闲区等等，这些操作一般耗时都很短</p><p><img src="/2022/02/15/G1垃圾收集器-Young-GC/6.png" alt></p><font face="微软雅黑" size="1" color="#898997">本文分享自微信公众号 - 落叶飞翔的蜗牛（A_GallopingSnail），作者：超神的蜗牛</font>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Jvm </tag>
+            
+            <tag> 垃圾收集器 </tag>
+            
+            <tag> G1 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MySQL拾遗-DISTINCT的用法-下</title>
       <link href="/2021/10/29/MySQL%E6%8B%BE%E9%81%97-DISTINCT%E7%9A%84%E7%94%A8%E6%B3%95-%E4%B8%8B/"/>
       <url>/2021/10/29/MySQL%E6%8B%BE%E9%81%97-DISTINCT%E7%9A%84%E7%94%A8%E6%B3%95-%E4%B8%8B/</url>
